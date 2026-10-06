@@ -4,12 +4,11 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "node ../scripts/dev.mjs",
-    "build": "vite build && node scripts/build-standalone.mjs",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "api": "node ../scripts/dev.mjs --solo-api",
-    "dev:front": "node ../scripts/dev.mjs --solo-frontend"
+    "dev:front": "vite"
   },
   "dependencies": {
     "lucide-react": "^1.48.0",

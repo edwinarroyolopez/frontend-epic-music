@@ -71,9 +71,9 @@ export const en = {
     api: 'Please try again in a few seconds.',
     connectionTitle: 'Could not reach the API',
     connection: 'The API is not responding at {url}.',
-    connectionHint: 'Start the API in another terminal with:  npm run api   (check http://localhost:8000/health)',
+    connectionHint: 'Start the backend separately at http://localhost:7000 or configure its URL with VITE_API_URL.',
     connectionCors:
-      'If the API is already running, add this origin to CORS_ORIGINS in backend/.env.',
+      'If the API is already running, check that its CORS configuration allows the frontend origin.',
     deployedTitle: 'The API is not configured for this deployment',
     deployed:
       'This page is deployed, but VITE_API_URL points to {url}, which in a browser means "this computer".',

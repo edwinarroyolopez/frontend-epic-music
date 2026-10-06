@@ -1,57 +1,69 @@
 # MUSICA EPICA - Frontend
 
-Front-end en React (Vite) de la aplicación de recomendación musical.
-Vive en `Front/` y **no toca** el backend: `../main.py` y `../recomendador.py`
-se mantienen exactamente como están.
+Frontend independiente en React (Vite) de la aplicación de recomendación musical.
+Se ejecuta en **http://localhost:3000** y consume una API que se levanta por
+separado en **http://localhost:7000**.
 
 ## Puesta en marcha
 
-Hay dos formas de abrir la aplicación:
-
-**1. Ver la aplicación (sin terminal)**
-
-Abre **`Front/index.html`** en el navegador: doble clic o *Open with Live
-Server* desde el IDE. Es un build autónomo (HTML + CSS + JS dentro del mismo
-archivo) que no necesita Node, Vite ni servidor con transformaciones.
-
-**2. Desarrollar (recarga en caliente)**
+Requiere Node.js 22.12+ (o 20.19+) y npm. Desde este repositorio:
 
 ```bash
-cd Front
-npm install
-npm run dev       # API Python (:8000) + frontend (:5173), un solo comando
-npm run api       # solo la API
-npm run build     # regenera dist/ y el index.html autónomo
-npm run lint      # oxlint
-npm run preview   # sirve dist/
+npm ci
+npm run dev
 ```
 
-`npm run dev` levanta también la API Python, porque la aplicación necesita las
-recomendaciones reales de MySQL. Para usar *Open with Live Server* sobre
-`index.html` (puerto 5500) la API debe estar en marcha: `npm run dev` o
-`npm run api` en otra terminal.
+Abre **http://localhost:3000**. El frontend arranca incluso si la API está
+apagada; las funcionalidades que necesitan datos requieren que el backend esté
+disponible. Todos los scripts y dependencias necesarios están en este proyecto.
 
-Los mismos comandos existen en la raíz del proyecto. Ver `../README.md`.
+Vite mantiene el puerto 3000: si está ocupado, el comando falla en lugar de
+elegir otro puerto automáticamente. `npm run dev:front` es un alias de `npm run dev`.
 
-Los datos vienen de la API Python (`backend/api.py`), que consulta MySQL y
-calcula las recomendaciones con `recomendador_app.py`. No hay datos mock: si la
-API no está en marcha, la aplicación lo dice y ofrece reintentar. La URL se
-configura con `VITE_API_URL` en `.env` (ver `.env.example`). Detalles de
-puesta en marcha de ambos lados: `../README.md`.
+En desarrollo, las peticiones del navegador a `/api/*` pasan por el proxy de
+Vite hacia `http://localhost:7000/*`. Por ejemplo, `/api/songs` se reenvía a
+`http://localhost:7000/songs`. Esto permite consumir la API sin exigir CORS
+durante el desarrollo. La URL de destino se puede cambiar con `VITE_API_URL`
+en `.env` (ver `.env.example`); reinicia Vite después de cambiarla.
 
-## Archivos generados (no editar a mano)
+### Build y vista previa
+
+```bash
+npm run build     # genera dist/ con dev.html y los assets
+npm run lint      # oxlint
+npm run preview   # abre http://localhost:3000/dev.html
+```
+
+Para generar además el `index.html` autónomo, ejecuta después del build:
+
+```bash
+node scripts/build-standalone.mjs
+```
+
+Ese archivo contiene HTML, CSS y JavaScript en un solo archivo y se puede abrir
+con doble clic o *Open with Live Server*.
+
+El build (incluida la vista previa) llama directamente a `VITE_API_URL`, por
+defecto `http://localhost:7000`. La API debe permitir el origen del frontend
+mediante CORS. Para publicar el frontend, define la URL pública de la API antes
+de ejecutar `npm run build`.
+
+## Entrada HTML y archivos generados
 
 | Archivo | Qué es |
 | --- | --- |
-| `index.html` | Build autónomo. Lo regenera `npm run build` (`scripts/build-standalone.mjs` incrusta el CSS y el JS dentro del HTML). |
-| `dev.html` | Entrada que usa Vite. El servidor de desarrollo la sirve en `/` y en `/dev.html`. |
+| `dev.html` | Archivo fuente requerido por Vite para desarrollo y build. Se versiona y no se genera al compilar. El servidor de desarrollo lo sirve en `/` y en `/dev.html`. |
+| `index.html` | Build autónomo opcional generado; no editar a mano. Lo genera `node scripts/build-standalone.mjs` después de compilar, incrustando CSS y JS dentro del HTML. |
+| `dist/` | Salida generada por `npm run build`. |
 
-El código editable está todo en `src/`.
+El código de la aplicación está en `src/` y su entrada HTML es `dev.html`.
+Conserva `dev.html` al limpiar archivos generados: sin él, Vite falla con
+`UNRESOLVED_ENTRY: Cannot resolve entry module dev.html`.
 
 ## Estructura
 
 ```text
-Front/
+frontend-epic-music/
 ├── index.html                 build autónomo (se abre en el navegador)
 ├── dev.html                   entrada de Vite
 ├── scripts/
@@ -99,10 +111,10 @@ componentes no cambian nunca: usan `searchSongs()`, `getRecommendations()` y
 (`id`, `title`, `artist`, `genre`, `duration`, `year`, `popularity`,
 `similarity`). El JSON snake_case de la API se traduce ahí, en un solo sitio.
 
-Configuración (`.env`, una sola variable):
+Configuración opcional (`.env`; estos son los valores por defecto):
 
 ```text
-VITE_API_URL=http://localhost:8000
+VITE_API_URL=http://localhost:7000
 VITE_API_TIMEOUT=20000
 VITE_RECOMMENDATION_COUNT=5
 ```

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Genera Front/index.html: el build autonomo de la aplicacion.
+ * Genera index.html: el build autonomo de la aplicacion.
  *
  * Toma el HTML que produce Vite en dist/ e incrusta dentro los CSS y el JS,
  * de modo que index.html se abre directamente (doble clic, "Open with Live
@@ -78,8 +78,7 @@ html = html.replace(
 )
 
 writeFileSync(TARGET, html, 'utf8')
-// Copia tambien dentro de dist/, para que la API pueda servir la web completa
-// en http://127.0.0.1:8000 (montaje estatico de backend/api.py).
+// Copia tambien dentro de dist/ para servir la web con cualquier servidor estatico.
 writeFileSync(join(DIST, 'index.html'), html, 'utf8')
 
 const kb = (Buffer.byteLength(html) / 1024).toFixed(0)

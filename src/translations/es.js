@@ -73,9 +73,9 @@ export const es = {
     connectionTitle: 'No se pudo conectar con la API',
     connection: 'La API no responde en {url}.',
     connectionHint:
-      'Arranca la API en otra terminal con:  npm run api   (y comprueba http://localhost:8000/health)',
+      'Arranca el backend por separado en http://localhost:7000 o configura su URL con VITE_API_URL.',
     connectionCors:
-      'Si la API está arrancada y sigue fallando, añade este origen a CORS_ORIGINS en backend/.env.',
+      'Si la API está arrancada y sigue fallando, comprueba que su configuración CORS permite el origen del frontend.',
     deployedTitle: 'La API no está configurada en el despliegue',
     deployed:
       'Esta página está publicada, pero VITE_API_URL apunta a {url}, que en el navegador significa "este ordenador".',

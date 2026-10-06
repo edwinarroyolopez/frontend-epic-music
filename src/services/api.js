@@ -79,7 +79,7 @@ async function parse(response) {
 }
 
 async function request(path, { method = 'GET', params, body } = {}) {
-  const url = new URL(`${API_CONFIG.baseUrl}${path}`)
+  const url = new URL(`${API_CONFIG.baseUrl}${path}`, globalThis.location?.href)
   Object.entries(params ?? {}).forEach(([key, value]) => {
     if (value !== undefined && value !== null && value !== '') url.searchParams.set(key, value)
   })
