@@ -182,6 +182,45 @@ export const es = {
     errorGeneric: 'No se pudo iniciar la sesión.',
     demoMode: 'Entrar sin cuenta (demostración)',
     providersNote: 'Las cuentas se guardan en el backend. MySQL solo guarda el catálogo de canciones.',
+    loginSuccess:
+      "Sesión iniciada correctamente.",
+
+    registerSuccess:
+      "Cuenta creada correctamente. Tu sesión ya está activa.",
+
+    logoutSuccess:
+      "Sesión cerrada correctamente.",
+
+    errors: {
+
+      required:
+        "Completa todos los campos obligatorios.",
+
+      passwordLength:
+        "La contraseña debe tener al menos 8 caracteres.",
+
+      network:
+        "No se pudo conectar con el servidor.",
+
+      validation:
+        "Revisa los datos enviados.",
+
+      credentials:
+        "Correo o contraseña incorrectos.",
+
+      disabled:
+        "Esta cuenta está desactivada.",
+
+      exists:
+        "Ya existe una cuenta con esos datos.",
+
+      session:
+        "No se pudo crear la sesión.",
+
+      server:
+        "Ha ocurrido un error en el servidor. Inténtalo nuevamente."
+
+    }
   },
 
   settings: {

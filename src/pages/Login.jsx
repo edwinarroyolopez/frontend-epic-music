@@ -4,13 +4,17 @@ import { usePreferences } from '../context/PreferencesContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import {
   AuthError,
-  getAppleSignInUrl,
+  // getAppleSignInUrl,
   getProviders,
   loginWithEmail,
   readAppleReturn,
   registerWithEmail,
+  describeAuthError
 } from '../services/auth.js'
 import { AppleMusicIcon } from '../components/BrandIcons.jsx'
+
+
+import { useSnackbar } from "../context/SnackbarContext.jsx";
 
 /**
  * Pantalla de acceso.
@@ -25,10 +29,11 @@ import { AppleMusicIcon } from '../components/BrandIcons.jsx'
 export function Login({ onSignedIn }) {
   const { t } = usePreferences()
   const { signInDemo, adoptUser } = useUser()
+  const snackbar = useSnackbar();
 
   const [modo, setModo] = useState('login') // 'login' | 'registro'
   const [email, setEmail] = useState('')
-   const [phone, setPhone] = useState('')
+  const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
   const [username, setUsername] = useState('')
@@ -61,29 +66,179 @@ export function Login({ onSignedIn }) {
   }, [])
 
   const entrar = async (event) => {
-    event.preventDefault()
-    setEnviando(true)
-    setError(null)
-    try {
-      const usuario =
-        modo === 'registro'
-          ? await registerWithEmail({ email, password, displayName, username })
-          : await loginWithEmail({ email, password })
-      if (usuario) {
-        adoptUser(usuario)
-        onSignedIn()
-      }
-    } catch (fallo) {
-      setError(fallo instanceof AuthError ? fallo.message : t('login.errorGeneric'))
-    } finally {
-      setEnviando(false)
+
+    event.preventDefault();
+
+
+    // =============================================
+    // VALIDACIÓN FRONTEND
+    // =============================================
+
+    const cleanEmail =
+      email.trim().toLowerCase();
+
+
+    if (
+      !cleanEmail ||
+      !password
+    ) {
+
+      snackbar.error(
+        t(
+          "login.errors.required"
+        )
+      );
+
+      return;
     }
-  }
+
+
+    if (
+      modo === "registro" &&
+      (
+        !displayName.trim() ||
+        !username.trim() ||
+        !phone.trim()
+      )
+    ) {
+
+      snackbar.error(
+        t(
+          "login.errors.required"
+        )
+      );
+
+      return;
+    }
+
+
+    if (
+      modo === "registro" &&
+      password.length < 8
+    ) {
+
+      snackbar.error(
+        t(
+          "login.errors.passwordLength"
+        )
+      );
+
+      return;
+    }
+
+
+    setEnviando(true);
+
+
+    try {
+
+      let usuario;
+
+
+      if (modo === "registro") {
+
+        usuario =
+          await registerWithEmail({
+
+            email:
+              cleanEmail,
+
+            phone:
+              phone.trim(),
+
+            password,
+
+            displayName:
+              displayName.trim(),
+
+            username:
+              username
+                .trim()
+                .toLowerCase()
+
+          });
+
+
+        adoptUser(
+          usuario
+        );
+
+
+        snackbar.success(
+          t(
+            "login.registerSuccess"
+          )
+        );
+
+      } else {
+
+        usuario =
+          await loginWithEmail({
+
+            email:
+              cleanEmail,
+
+            password
+
+          });
+
+
+        adoptUser(
+          usuario
+        );
+
+
+        snackbar.success(
+          t(
+            "login.loginSuccess"
+          )
+        );
+
+      }
+
+
+      onSignedIn();
+
+
+    } catch (error) {
+
+      console.error(
+        "Auth error:",
+        error
+      );
+
+
+      const message =
+        error instanceof AuthError
+          ? describeAuthError(
+            error,
+            t
+          )
+          : t(
+            "login.errorGeneric"
+          );
+
+
+      snackbar.error(
+        message,
+        {
+          duration: 5000
+        }
+      );
+
+
+    } finally {
+
+      setEnviando(false);
+
+    }
+
+  };
 
   const entrarConApple = async () => {
     setError(null)
     try {
-      window.location.href = await getAppleSignInUrl()
+      //  window.location.href = await getAppleSignInUrl()
     } catch (fallo) {
       setError(fallo instanceof AuthError ? fallo.message : t('login.errorGeneric'))
     }
@@ -190,21 +345,34 @@ export function Login({ onSignedIn }) {
             />
           </div>
 
-                    <div className="field">
-            <label className="field__label" htmlFor="auth-phone">
-              {t('profile.phone')}
-            </label>
-            <input
-              id="auth-phone"
-              type="phone"
-              className="input"
-              value={phone}
-              required
-              autoComplete="phone"
-              onChange={(e) => setPhone(e.target.value)}
-              placeholder="3016443223"
-            />
-          </div>
+          {modo === "registro" && (
+
+            <div className="field">
+
+              <label
+                className="field__label"
+                htmlFor="auth-phone"
+              >
+                {t("profile.phone")}
+              </label>
+
+              <input
+                id="auth-phone"
+                type="tel"
+                className="input"
+                value={phone}
+                autoComplete="tel"
+                onChange={(event) =>
+                  setPhone(
+                    event.target.value
+                  )
+                }
+                placeholder="3016443223"
+              />
+
+            </div>
+
+          )}
 
           <div className="field">
             <label className="field__label" htmlFor="auth-password">

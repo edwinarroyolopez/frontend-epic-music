@@ -29,7 +29,10 @@ const PRIVATE_PATHS = ['/perfil', '/cuenta']
  */
 export function App() {
   const { t } = usePreferences()
-  const { isAuthenticated } = useUser()
+  const {
+    isAuthenticated,
+    sessionChecking
+  } = useUser();
   const [path, navigate] = useHashRoute()
   const mainRef = useRef(null)
   const firstRender = useRef(true)
@@ -43,8 +46,27 @@ export function App() {
   // Rutas privadas: sin sesion se vuelve a la pantalla de acceso.
   const needsAuth = Boolean(route) && PRIVATE_PATHS.includes(route.path)
   useEffect(() => {
-    if (needsAuth && !isAuthenticated) navigate('/login')
-  }, [needsAuth, isAuthenticated, navigate])
+
+    if (sessionChecking) {
+      return;
+    }
+
+    if (
+      needsAuth &&
+      !isAuthenticated
+    ) {
+
+      navigate(
+        "/login"
+      );
+    }
+
+  }, [
+    needsAuth,
+    isAuthenticated,
+    sessionChecking,
+    navigate
+  ]);
 
   useEffect(() => {
     if (firstRender.current) {

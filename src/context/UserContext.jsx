@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage.js'
 import { fetchMe, getToken, logout as logoutRemoto } from '../services/auth.js'
 
@@ -73,87 +73,304 @@ export async function readPhotoFile(file) {
  * autenticacion real y un endpoint de perfil, este mismo contexto es el punto
  * unico a sustituir.
  */
-export function UserProvider({ children }) {
-  const [user, setUser] = useLocalStorage('me:user', null)
+export function UserProvider({
+  children
+}) {
 
-  const signInDemo = useCallback(() => {
-    setUser({ ...DEFAULT_USER, isAuthenticated: true })
-  }, [setUser])
+  const [user, setUser] =
+    useLocalStorage(
+      "me:user",
+      null
+    );
 
-  /**
-   * Al arrancar, si hay token de la API, se recupera la cuenta real del
-   * servidor. La copia en localStorage solo sirve para pintar la interfaz al
-   * instante (y para el modo demostracion, que no tiene token).
-   */
+
+  const [sessionChecking, setSessionChecking] =
+    useState(
+      Boolean(getToken())
+    );
+
+
+  // ===============================================
+  // RESTAURAR SESIÓN AL CARGAR
+  // ===============================================
+
   useEffect(() => {
-    if (!getToken()) return undefined
-    let vivo = true
-    fetchMe()
-      .then((cuenta) => {
-        if (!vivo || !cuenta) return
-        setUser((actual) => ({ ...(actual ?? {}), ...cuenta, isAuthenticated: true }))
-      })
-      .catch(() => {})
-    return () => {
-      vivo = false
+
+    const token =
+      getToken();
+
+
+    // Sin JWT no existe una sesión real.
+    // Exceptuamos demo si quieres conservarlo.
+
+    if (!token) {
+
+      if (
+        user &&
+        user.provider !== "demo"
+      ) {
+
+        setUser(null);
+
+      }
+
+      setSessionChecking(false);
+
+      return;
+
     }
-  }, [setUser])
 
-  const signOut = useCallback(() => {
-    logoutRemoto() // descarta el token de sesion en el navegador
-    setUser(null)
-  }, [setUser])
 
-  const updateProfile = useCallback(
-    (changes) => {
-      setUser((current) => (current ? { ...current, ...changes } : current))
-    },
-    [setUser],
-  )
+    let mounted = true;
 
-  /**
-   * Sesion real: la cuenta viene de la API (correo o Apple). El token ya se
-   * guarda en services/auth.js; aqui solo se refleja en el estado.
-   */
-  const adoptUser = useCallback(
-    (cuenta) => {
-      setUser({ ...(cuenta ?? {}), isAuthenticated: true })
-    },
-    [setUser],
-  )
 
-  /**
-   * Guarda la foto de perfil. Al actualizar el estado, el avatar del header,
-   * el del menu de perfil y el de esta vista se actualizan a la vez porque leen
-   * los mismos datos.
-   */
-  const setPhoto = useCallback(
-    async (file) => {
-      const resultado = await readPhotoFile(file)
-      if (!resultado.ok) return resultado
-      updateProfile({ profilePicture: resultado.dataUrl })
-      return { ok: true }
-    },
-    [updateProfile],
-  )
+    const restoreSession =
+      async () => {
 
-  const removePhoto = useCallback(() => updateProfile({ profilePicture: null }), [updateProfile])
+        try {
 
-  const value = useMemo(
-    () => ({
-      user: readUser(user),
-      isAuthenticated: Boolean(user),
-      signInDemo,
-      signOut,
-      adoptUser,
-      updateProfile,
-      setPhoto,
-      removePhoto,
-    }),
-    [user, signInDemo, signOut, adoptUser, updateProfile, setPhoto, removePhoto],
-  )
+          const account =
+            await fetchMe();
 
-  return <UserContext.Provider value={value}>{children}</UserContext.Provider>
+
+          if (!mounted) {
+            return;
+          }
+
+
+          if (!account) {
+
+            setUser(null);
+
+            return;
+
+          }
+
+
+          setUser({
+            ...account,
+            isAuthenticated: true
+          });
+
+
+        } catch (error) {
+
+          console.error(
+            "Error restaurando sesión:",
+            error
+          );
+
+          if (mounted) {
+
+            logoutRemoto();
+
+            setUser(null);
+
+          }
+
+        } finally {
+
+          if (mounted) {
+
+            setSessionChecking(
+              false
+            );
+
+          }
+
+        }
+
+      };
+
+
+    restoreSession();
+
+
+    return () => {
+
+      mounted = false;
+
+    };
+
+  }, []);
+
+
+  // ===============================================
+  // LOGIN REAL
+  // ===============================================
+
+  const adoptUser =
+    useCallback(
+      (account) => {
+
+        if (!account) {
+          return;
+        }
+
+
+        setUser({
+
+          ...account,
+
+          isAuthenticated:
+            true
+
+        });
+
+      },
+      [setUser]
+    );
+
+
+  // ===============================================
+  // LOGOUT
+  // ===============================================
+
+  const signOut =
+    useCallback(() => {
+
+      logoutRemoto();
+
+      setUser(null);
+
+    }, [setUser]);
+
+
+  // ===============================================
+  // DEMO
+  // ===============================================
+
+  const signInDemo =
+    useCallback(() => {
+
+      setUser({
+        ...DEFAULT_USER,
+        isAuthenticated: true
+      });
+
+    }, [setUser]);
+
+
+  // ===============================================
+  // PERFIL
+  // ===============================================
+
+  const updateProfile =
+    useCallback(
+      (changes) => {
+
+        setUser(
+          (current) =>
+            current
+              ? {
+                ...current,
+                ...changes
+              }
+              : current
+        );
+
+      },
+      [setUser]
+    );
+
+
+  const setPhoto =
+    useCallback(
+      async (file) => {
+
+        const result =
+          await readPhotoFile(
+            file
+          );
+
+
+        if (!result.ok) {
+          return result;
+        }
+
+
+        updateProfile({
+          profilePicture:
+            result.dataUrl
+        });
+
+
+        return {
+          ok: true
+        };
+
+      },
+      [updateProfile]
+    );
+
+
+  const removePhoto =
+    useCallback(
+      () => {
+
+        updateProfile({
+          profilePicture: null
+        });
+
+      },
+      [updateProfile]
+    );
+
+
+  // ===============================================
+  // CONTEXT
+  // ===============================================
+
+  const value =
+    useMemo(
+      () => ({
+
+        user:
+          readUser(user),
+
+        isAuthenticated:
+          Boolean(user),
+
+        sessionChecking,
+
+        signInDemo,
+
+        signOut,
+
+        adoptUser,
+
+        updateProfile,
+
+        setPhoto,
+
+        removePhoto
+
+      }),
+      [
+        user,
+        sessionChecking,
+        signInDemo,
+        signOut,
+        adoptUser,
+        updateProfile,
+        setPhoto,
+        removePhoto
+      ]
+    );
+
+
+  return (
+
+    <UserContext.Provider
+      value={value}
+    >
+
+      {children}
+
+    </UserContext.Provider>
+
+  );
+
 }
 
 export function useUser() {

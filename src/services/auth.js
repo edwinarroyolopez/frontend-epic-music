@@ -1,124 +1,523 @@
-import { API_CONFIG } from './config.js'
+import { API_CONFIG } from "./config.js";
 
-/**
- * Acceso de usuarios contra la API Python.
- *
- * - Correo + contrasena: funciona (registro / login / sesion).
- * - Apple: flujo real de "Sign in with Apple". El boton se habilita solo si el
- *   backend tiene las credenciales (APPLE_* en backend/.env).
- * - Google y Spotify: preparados en el backend, pendientes de credenciales.
- *
- * El token de sesion se guarda en localStorage y se envia como
- * "Authorization: Bearer ...". MySQL no se toca: las cuentas viven en el
- * backend (backend/usuarios.json).
- */
+const TOKEN_KEY = "me:token";
 
-const TOKEN_KEY = 'me:token'
+
+// ======================================================
+// ERROR DE AUTENTICACIÓN
+// ======================================================
 
 export class AuthError extends Error {
-  constructor(message, code = 'AUTH_ERROR', status = 0) {
-    super(message)
-    this.name = 'AuthError'
-    this.code = code
-    this.status = status
+
+  constructor(
+    message,
+    {
+      code = "AUTH_ERROR",
+      status = 0,
+      detail = ""
+    } = {}
+  ) {
+
+    super(message);
+
+    this.name = "AuthError";
+    this.code = code;
+    this.status = status;
+    this.detail = detail;
   }
+
 }
+
+
+// ======================================================
+// TOKEN
+// ======================================================
 
 export function getToken() {
+
   try {
-    return window.localStorage.getItem(TOKEN_KEY) || null
+
+    return (
+      window.localStorage.getItem(TOKEN_KEY) ||
+      null
+    );
+
   } catch {
-    return null
+
+    return null;
+
   }
+
 }
+
 
 export function setToken(token) {
+
   try {
-    if (token) window.localStorage.setItem(TOKEN_KEY, token)
-    else window.localStorage.removeItem(TOKEN_KEY)
-  } catch {
-    /* sin almacenamiento: la sesion durara lo que la pestana */
-  }
-}
 
-async function pedir(ruta, { method = 'GET', body, auth = true } = {}) {
-  const cabeceras = { 'Content-Type': 'application/json' }
-  const token = getToken()
-  if (auth && token) cabeceras.Authorization = `Bearer ${token}`
+    if (token) {
 
-  let respuesta
-  try {
-    respuesta = await fetch(`${API_CONFIG.baseUrl}${ruta}`, {
-      method,
-      headers: cabeceras,
-      body: body ? JSON.stringify(body) : undefined,
-    })
-  } catch {
-    throw new AuthError('No se pudo contactar con la API', 'NETWORK_ERROR')
-  }
+      window.localStorage.setItem(
+        TOKEN_KEY,
+        token
+      );
 
-  const texto = await respuesta.text()
-  let datos = {}
-  try {
-    datos = texto ? JSON.parse(texto) : {}
-  } catch {
-    datos = {}
-  }
+    } else {
 
-  if (!respuesta.ok) {
-    throw new AuthError(datos.detail || `Error ${respuesta.status}`, 'API_ERROR', respuesta.status)
-  }
-  return datos
-}
+      window.localStorage.removeItem(
+        TOKEN_KEY
+      );
 
-/** Que metodos estan disponibles ahora mismo en el backend. */
-export async function getProviders() {
-  const datos = await pedir('/auth/providers', { auth: false })
-  return {
-    email: Boolean(datos.email),
-    apple: Boolean(datos.apple),
-    google: Boolean(datos.google),
-    spotify: Boolean(datos.spotify),
-  }
-}
-
-/** Crea una cuenta con correo y contrasena e inicia sesion. */
-export async function registerWithEmail({ email, password, displayName, username }) {
-  const datos = await pedir('/auth/registro', {
-    method: 'POST',
-    auth: false,
-    body: { email, password, displayName: displayName || '', username: username || '' },
-  })
-  setToken(datos.token)
-  return datos.usuario
-}
-
-/** Inicia sesion con correo y contrasena. */
-export async function loginWithEmail({ email, password }) {
-  const datos = await pedir('/auth/login', { method: 'POST', auth: false, body: { email, password } })
-  setToken(datos.token)
-  return datos.usuario
-}
-
-/** Recupera la cuenta de la sesion actual, o null si no hay. */
-export async function fetchMe() {
-  if (!getToken()) return null
-  try {
-    const datos = await pedir('/auth/me')
-    return datos.usuario
-  } catch (error) {
-    if (error.status === 401) {
-      setToken(null)
-      return null
     }
-    throw error
+
+  } catch {
+
+    // Si localStorage no está disponible,
+    // la sesión no se podrá persistir.
+
   }
+
 }
 
-/** Cierra sesion en el navegador (el token es sin estado, se descarta). */
-export function logout() {
-  setToken(null)
+
+// ======================================================
+// NORMALIZAR USUARIO BACKEND → FRONTEND
+// ======================================================
+
+function normalizeUser(user) {
+
+  if (!user) {
+    return null;
+  }
+
+  return {
+
+    id:
+      user.id ??
+      user._id ??
+      null,
+
+    displayName:
+      user.name ??
+      user.displayName ??
+      "",
+
+    username:
+      user.username ??
+      "",
+
+    email:
+      user.email ??
+      "",
+
+    phone:
+      user.phone ??
+      "",
+
+    active:
+      user.active !== false,
+
+    profilePicture:
+      user.profilePicture ??
+      null,
+
+    bio:
+      user.bio ??
+      "",
+
+    pronouns:
+      user.pronouns ??
+      "",
+
+    provider: "email",
+
+    createdAt:
+      user.createdAt ??
+      null,
+
+    isAuthenticated: true
+  };
+
 }
+
+
+// ======================================================
+// CÓDIGOS DE ERROR
+// ======================================================
+
+function errorCodeForStatus(status) {
+
+  switch (status) {
+
+    case 400:
+      return "VALIDATION_ERROR";
+
+    case 401:
+      return "INVALID_CREDENTIALS";
+
+    case 403:
+      return "ACCOUNT_DISABLED";
+
+    case 404:
+      return "NOT_FOUND";
+
+    case 409:
+      return "USER_ALREADY_EXISTS";
+
+    case 500:
+      return "SERVER_ERROR";
+
+    default:
+      return "API_ERROR";
+
+  }
+
+}
+
+
+// ======================================================
+// REQUEST
+// ======================================================
+
+async function request(
+  path,
+  {
+    method = "GET",
+    body,
+    auth = true
+  } = {}
+) {
+
+  const headers = {
+    "Content-Type": "application/json"
+  };
+
+
+  const token = getToken();
+
+
+  if (auth && token) {
+
+    headers.Authorization =
+      `Bearer ${token}`;
+
+  }
+
+
+  let response;
+
+
+  try {
+
+    response = await fetch(
+      `${API_CONFIG.baseUrl}${path}`,
+      {
+        method,
+        headers,
+
+        body:
+          body
+            ? JSON.stringify(body)
+            : undefined
+      }
+    );
+
+  } catch {
+
+    throw new AuthError(
+      "No se pudo conectar con el servidor",
+      {
+        code: "NETWORK_ERROR"
+      }
+    );
+
+  }
+
+
+  let data = {};
+
+
+  try {
+
+    const text =
+      await response.text();
+
+    data =
+      text
+        ? JSON.parse(text)
+        : {};
+
+  } catch {
+
+    data = {};
+
+  }
+
+
+  if (!response.ok) {
+
+    // Token inválido o expirado
+    if (
+      response.status === 401 &&
+      auth
+    ) {
+
+      setToken(null);
+
+    }
+
+
+    throw new AuthError(
+      data.message ||
+      data.error ||
+      "Error procesando la solicitud",
+      {
+        code:
+          errorCodeForStatus(
+            response.status
+          ),
+
+        status:
+          response.status,
+
+        detail:
+          data.message ||
+          data.error ||
+          data.detail ||
+          ""
+      }
+    );
+
+  }
+
+
+  return data;
+}
+
+
+// ======================================================
+// REGISTRO
+// ======================================================
+
+export async function registerWithEmail({
+  username,
+  email,
+  phone,
+  password,
+  displayName
+}) {
+
+  const data = await request(
+    "/auth/signup",
+    {
+      method: "POST",
+      auth: false,
+
+      body: {
+        username,
+        name: displayName,
+        phone,
+        email,
+        password
+      }
+    }
+  );
+
+
+  if (!data.token) {
+
+    throw new AuthError(
+      "El servidor no devolvió un token",
+      {
+        code: "TOKEN_MISSING"
+      }
+    );
+
+  }
+
+
+  setToken(data.token);
+
+
+  return normalizeUser(
+    data.user
+  );
+
+}
+
+
+// ======================================================
+// LOGIN
+// ======================================================
+
+export async function loginWithEmail({
+  email,
+  password
+}) {
+
+  const data = await request(
+    "/auth/login",
+    {
+      method: "POST",
+      auth: false,
+
+      body: {
+        email,
+        password
+      }
+    }
+  );
+
+
+  if (!data.token) {
+
+    throw new AuthError(
+      "El servidor no devolvió un token",
+      {
+        code: "TOKEN_MISSING"
+      }
+    );
+
+  }
+
+
+  setToken(data.token);
+
+
+  return normalizeUser(
+    data.user
+  );
+
+}
+
+
+// ======================================================
+// RESTAURAR SESIÓN
+// ======================================================
+
+export async function fetchMe() {
+
+  if (!getToken()) {
+    return null;
+  }
+
+
+  try {
+
+    const data =
+      await request(
+        "/auth/me"
+      );
+
+
+    return normalizeUser(
+      data.user
+    );
+
+
+  } catch (error) {
+
+    if (
+      error.status === 401 ||
+      error.status === 403
+    ) {
+
+      setToken(null);
+
+      return null;
+
+    }
+
+
+    throw error;
+
+  }
+
+}
+
+
+// ======================================================
+// LOGOUT
+// ======================================================
+
+export function logout() {
+
+  setToken(null);
+
+}
+
+
+// ======================================================
+// MENSAJE PARA EL USUARIO
+// ======================================================
+
+export function describeAuthError(
+  error,
+  t
+) {
+
+  switch (error?.code) {
+
+    case "NETWORK_ERROR":
+
+      return t(
+        "login.errors.network"
+      );
+
+
+    case "VALIDATION_ERROR":
+
+      return t(
+        "login.errors.validation"
+      );
+
+
+    case "INVALID_CREDENTIALS":
+
+      return t(
+        "login.errors.credentials"
+      );
+
+
+    case "ACCOUNT_DISABLED":
+
+      return t(
+        "login.errors.disabled"
+      );
+
+
+    case "USER_ALREADY_EXISTS":
+
+      return t(
+        "login.errors.exists"
+      );
+
+
+    case "TOKEN_MISSING":
+
+      return t(
+        "login.errors.session"
+      );
+
+
+    case "SERVER_ERROR":
+
+      return t(
+        "login.errors.server"
+      );
+
+
+    default:
+
+      return t(
+        "login.errorGeneric"
+      );
+
+  }
+
+}
+
+
 
 /** URL de inicio de sesion de Apple (redirige el navegador al proveedor). */
 export async function getAppleSignInUrl() {
@@ -147,4 +546,16 @@ export async function readAppleReturn() {
   if (error) return { error }
   setToken(token)
   return { token }
+}
+
+
+/** Que metodos estan disponibles ahora mismo en el backend. */
+export async function getProviders() {
+  const datos = await pedir('/auth/providers', { auth: false })
+  return {
+    email: Boolean(datos.email),
+    apple: Boolean(datos.apple),
+    google: Boolean(datos.google),
+    spotify: Boolean(datos.spotify),
+  }
 }

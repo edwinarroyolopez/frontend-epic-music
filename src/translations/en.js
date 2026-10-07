@@ -180,6 +180,45 @@ export const en = {
     errorGeneric: 'Could not sign in.',
     demoMode: 'Continue without an account (demo)',
     providersNote: 'Accounts are stored by the backend. MySQL only holds the song catalog.',
+    loginSuccess:
+      "Signed in successfully.",
+
+    registerSuccess:
+      "Account created successfully. Your session is now active.",
+
+    logoutSuccess:
+      "Signed out successfully.",
+
+    errors: {
+
+      required:
+        "Complete all required fields.",
+
+      passwordLength:
+        "The password must be at least 8 characters.",
+
+      network:
+        "Could not connect to the server.",
+
+      validation:
+        "Please review the information you entered.",
+
+      credentials:
+        "Incorrect email or password.",
+
+      disabled:
+        "This account is disabled.",
+
+      exists:
+        "An account with these details already exists.",
+
+      session:
+        "The session could not be created.",
+
+      server:
+        "A server error occurred. Please try again."
+
+    }
   },
 
   settings: {
