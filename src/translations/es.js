@@ -220,6 +220,8 @@ export const es = {
 
     errors: {
 
+      unavailable: 'El inicio de sesión no está disponible. Es necesario revisar la configuración JWT del servidor.',
+
       required:
         "Completa todos los campos obligatorios.",
 

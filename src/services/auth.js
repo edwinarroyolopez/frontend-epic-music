@@ -275,7 +275,7 @@ async function request(
       "Error procesando la solicitud",
       {
         code:
-          errorCodeForStatus(
+          data.code || data.error?.code || errorCodeForStatus(
             response.status
           ),
 
@@ -508,6 +508,9 @@ export function describeAuthError(
         "login.errors.server"
       );
 
+    case 'AUTH_UNAVAILABLE':
+      return t('login.errors.unavailable');
+
 
     default:
 
@@ -556,6 +559,7 @@ export async function getProviders() {
   const datos = await request('/auth/providers', { auth: false })
   return {
     email: Boolean(datos.email),
+    emailUnavailableReason: datos.emailUnavailableReason ?? null,
     apple: Boolean(datos.apple),
     google: Boolean(datos.google),
     spotify: Boolean(datos.spotify),

@@ -4,7 +4,7 @@ import { request, searchSongs } from '../src/services/api.js'
 import { playlistsApi, toSongInput } from '../src/services/playlists.js'
 import { es } from '../src/translations/es.js'
 import { en } from '../src/translations/en.js'
-import { getProviders, loginWithEmail } from '../src/services/auth.js'
+import { getProviders, loginWithEmail, describeAuthError } from '../src/services/auth.js'
 
 const originalFetch = globalThis.fetch
 const store = new Map()
@@ -29,6 +29,20 @@ test('public providers GET avoids JSON preflight; login still sends JSON and han
     return Response.json({ success: false, message: 'Database unavailable' }, { status: 503 })
   }
   await assert.rejects(loginWithEmail({ email: 'test@example.test', password: 'synthetic-test' }), { code: 'SERVER_ERROR', status: 503 })
+})
+
+test('auth configuration failures retain a translatable code and provider availability', async () => {
+  globalThis.fetch = async () => Response.json({ email: false, emailUnavailableReason: 'JWT_SECRET_MISSING' })
+  const providers = await getProviders()
+  assert.equal(providers.email, false)
+  assert.equal(providers.emailUnavailableReason, 'JWT_SECRET_MISSING')
+  globalThis.fetch = async () => Response.json({ success: false, code: 'AUTH_UNAVAILABLE', message: 'Unavailable' }, { status: 503 })
+  await assert.rejects(loginWithEmail({ email: 'test@example.test', password: 'synthetic-test' }), error => {
+    assert.equal(error.code, 'AUTH_UNAVAILABLE')
+    assert.equal(error.status, 503)
+    assert.equal(describeAuthError(error, key => key), 'login.errors.unavailable')
+    return true
+  })
 })
 
 test('exact POST body and actual search envelope; no fictitious metadata', async () => {

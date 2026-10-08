@@ -218,6 +218,8 @@ export const en = {
 
     errors: {
 
+      unavailable: 'Sign-in is unavailable. The server JWT configuration needs to be checked.',
+
       required:
         "Complete all required fields.",
 

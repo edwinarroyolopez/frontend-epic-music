@@ -97,6 +97,7 @@ export function Login({ onSignedIn }) {
         </div>
 
         <form className="login__form stack stack--3" onSubmit={entrar} noValidate>
+          {!proveedores.email && <p className="login__error" role="alert">{t('login.errors.unavailable')}</p>}
           <div className="row row--wrap login__tabs" role="group" aria-label={t('login.title')}>
             <Button variant="unstyled" icon={LogIn} aria-pressed={!isRegister}
               className={`login__tab${!isRegister ? ' is-active' : ''}`}
@@ -140,6 +141,7 @@ export function Login({ onSignedIn }) {
           {error && <p className="login__error" role="alert"><AlertCircle size={15} aria-hidden="true" />{error}</p>}
 
           <Button type="submit" variant="primary" block loading={enviando}
+            disabled={!proveedores.email}
             loadingLabel={t('login.working')} icon={ArrowRight} iconPosition="right">
             {isRegister ? t('login.createAccount') : t('login.tabLogin')}
           </Button>

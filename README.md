@@ -239,8 +239,10 @@ método de acceso y foto (como data URL, máx. 1 MB). Al cambiar la foto se
 actualiza el avatar del header y el del menú de perfil a la vez.
 
 El acceso con correo es real: `/auth/signup`, `/auth/login`, `/auth/me` y JWT
-guardado por auth.js. `/auth/providers` declara correo disponible y OAuth no
-disponible. Modo demo permite explorar; no permite leer ni persistir playlists.
+guardado por auth.js. `/auth/providers` declara si el backend puede emitir JWT.
+Cuando email:false, el formulario muestra un aviso de configuración y desactiva
+el envío; AUTH_UNAVAILABLE también tiene mensaje es/en. OAuth sigue no disponible.
+Modo demo permite explorar; no permite leer ni persistir playlists.
 Los cambios locales del perfil siguen teniendo su alcance original.
 
 ## Pruebas
