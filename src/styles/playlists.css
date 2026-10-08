@@ -1,0 +1,24 @@
+.discovery-form { display: grid; gap: var(--space-3); text-align: left; width: 100%; }
+.discovery-form label { display: grid; gap: var(--space-2); font-weight: 600; min-width: 0; }
+.discovery-form input, .discovery-form textarea, .discovery-form select {
+  width: 100%; min-width: 0; padding: 12px; border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); font: inherit;
+}
+.discovery-form textarea { resize: vertical; }
+.discovery-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3); }
+.selection-toolbar { display: grid; gap: var(--space-3); }
+.song-selection { display: flex; align-items: center; gap: 10px; padding: 12px 0; cursor: pointer; }
+.song-selection input { width: 20px; height: 20px; accent-color: var(--color-primary); }
+.song-reason { margin-block: 12px; line-height: 1.6; }
+.playlist-list, .playlist-songs { display: grid; gap: var(--space-4); list-style: none; padding: 0; }
+.playlist-list { grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); }
+.playlist-songs .song-card__body { display: grid; gap: var(--space-2); }
+.song-card__title, .song-card__artist, .playlist-list a { overflow-wrap: anywhere; white-space: normal; }
+.modal__body .discovery-form { margin-top: var(--space-4); }
+@media (max-width: 640px) {
+  .discovery-fields { grid-template-columns: 1fr; }
+  .header__inner { flex-wrap: wrap; gap: 8px; height: auto; padding-block: 8px; }
+  .header__nav { display: flex; order: 3; width: 100%; justify-content: center; }
+  .header { height: auto; }
+  .selection-toolbar .btn { width: 100%; white-space: normal; }
+}

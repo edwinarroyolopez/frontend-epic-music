@@ -103,22 +103,7 @@ export function UserProvider({
     // Sin JWT no existe una sesión real.
     // Exceptuamos demo si quieres conservarlo.
 
-    if (!token) {
-
-      if (
-        user &&
-        user.provider !== "demo"
-      ) {
-
-        setUser(null);
-
-      }
-
-      setSessionChecking(false);
-
-      return;
-
-    }
+    if (!token) return;
 
 
     let mounted = true;
@@ -133,7 +118,7 @@ export function UserProvider({
             await fetchMe();
 
 
-          if (!mounted) {
+          if (!mounted || getToken() !== token) {
             return;
           }
 
@@ -153,14 +138,9 @@ export function UserProvider({
           });
 
 
-        } catch (error) {
+        } catch {
 
-          console.error(
-            "Error restaurando sesión:",
-            error
-          );
-
-          if (mounted) {
+          if (mounted && getToken() === token) {
 
             logoutRemoto();
 
@@ -192,7 +172,20 @@ export function UserProvider({
 
     };
 
-  }, []);
+  }, [setUser]);
+
+  useEffect(() => {
+    const expired = () => setUser(null);
+    window.addEventListener('auth:expired', expired);
+    const storage = event => {
+      if (event.key === 'me:token') setUser(null);
+    };
+    window.addEventListener('storage', storage);
+    return () => {
+      window.removeEventListener('auth:expired', expired);
+      window.removeEventListener('storage', storage);
+    };
+  }, [setUser]);
 
 
   // ===============================================
@@ -242,7 +235,7 @@ export function UserProvider({
 
   const signInDemo =
     useCallback(() => {
-
+      logoutRemoto();
       setUser({
         ...DEFAULT_USER,
         isAuthenticated: true
@@ -329,7 +322,9 @@ export function UserProvider({
           readUser(user),
 
         isAuthenticated:
-          Boolean(user),
+          Boolean(user && (user.provider === 'demo' || getToken())),
+
+        canUsePlaylists: Boolean(user && user.provider !== 'demo' && user.active !== false && getToken() && !sessionChecking),
 
         sessionChecking,
 

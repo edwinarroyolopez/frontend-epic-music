@@ -521,7 +521,7 @@ export function describeAuthError(
 
 /** URL de inicio de sesion de Apple (redirige el navegador al proveedor). */
 export async function getAppleSignInUrl() {
-  const datos = await pedir('/auth/apple/start', { auth: false })
+  const datos = await request('/auth/apple/start', { auth: false })
   return datos.url
 }
 
@@ -551,7 +551,7 @@ export async function readAppleReturn() {
 
 /** Que metodos estan disponibles ahora mismo en el backend. */
 export async function getProviders() {
-  const datos = await pedir('/auth/providers', { auth: false })
+  const datos = await request('/auth/providers', { auth: false })
   return {
     email: Boolean(datos.email),
     apple: Boolean(datos.apple),

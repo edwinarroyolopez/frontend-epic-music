@@ -1,7 +1,34 @@
 export const es = {
+  discovery: {
+    lyrics: 'Fragmento de letra', hint: 'Pega entre 15 y 12000 caracteres. No guardamos la letra en tus playlists.',
+    artist: 'Artista (opcional)', genre: 'Género (opcional)', submit: 'Buscar canciones similares',
+    notice: 'Identificación y recomendaciones sugeridas por IA, no verificadas en un catálogo. El título o el artista pueden ser incorrectos.',
+    unverified: 'Sugerencia de IA · Sin verificación de catálogo', origin: 'Canción de origen identificada',
+    notFound: 'No se identificó la canción con evidencia suficiente. Prueba otro fragmento o añade pistas.',
+    partial: 'Respuesta parcial: no se recibieron las 11 recomendaciones. Solo se muestran los datos recibidos.',
+    select: 'Seleccionar', selectSong: 'Seleccionar {title} de {artist}', count: '{count} canciones seleccionadas',
+    all: 'Seleccionar todas las recomendaciones', clear: 'Limpiar selección',
+  },
+  playlists: {
+    title: 'Mis playlists', signIn: 'Inicia sesión para guardar playlists', saveSelection: 'Guardar selección',
+    create: 'Crear playlist', createWithSelection: 'Crear con selección', existing: 'Añadir a existente', choose: 'Elige una playlist', add: 'Añadir canciones',
+    name: 'Nombre de playlist', description: 'Descripción (opcional)', empty: 'Todavía no tienes playlists.', noSongs: 'Esta playlist está vacía.',
+    savedCounts: 'Guardado: {added} añadidas; {skipped} duplicadas omitidas.', songCount: '{count} canciones', updatedAt: 'Actualizada:',
+    edit: 'Editar playlist', save: 'Guardar cambios', updated: 'Playlist actualizada', delete: 'Eliminar playlist', deleted: 'Playlist eliminada',
+    confirmDelete: '¿Eliminar «{name}»? Esta acción no se puede deshacer.', confirm: 'Confirmar eliminación',
+    discover: 'Descubrir y añadir canciones', up: 'Subir', down: 'Bajar', remove: 'Quitar',
+    upSong: 'Subir {title}', downSong: 'Bajar {title}', removeSong: 'Quitar {title}',
+  },
+  apiErrors: {
+    VALIDATION_ERROR: 'Revisa los campos y sus límites.', UNAUTHORIZED: 'Inicia sesión para guardar playlists', ACCOUNT_DISABLED: 'La cuenta está desactivada. Inicia sesión con una cuenta activa.',
+    NOT_FOUND: 'El recurso no está disponible.', CONFLICT: 'La playlist cambió. Recarga su estado antes de repetir la operación.', LIMIT_REACHED: 'Se alcanzó el límite de playlists o canciones.',
+    RATE_LIMITED: 'Demasiadas solicitudes. Espera antes de volver a intentar.', PROVIDER_ERROR: 'La IA no pudo completar una respuesta válida. Puedes volver a buscar.',
+    UNAVAILABLE: 'El servicio no está disponible.', TIMEOUT: 'Se agotó el tiempo de espera. Si estabas guardando, consulta Mis playlists antes de repetir la operación.',
+    NETWORK_ERROR: 'No se pudo conectar con la API. Si estabas guardando, comprueba la playlist antes de repetir.', INVALID_RESPONSE: 'La API devolvió una respuesta inválida.', UNKNOWN: 'No se pudo completar la solicitud. Inténtalo más tarde.',
+  },
   app: {
     name: 'MUSICA EPICA',
-    tagline: 'Recomendaciones musicales a partir de una canción que te gusta.',
+    tagline: 'Descubre música a partir de un fragmento de letra.',
     crashText: 'Se ha producido un error inesperado en la interfaz. Recarga la aplicación para continuar.',
     crashReload: 'Recargar',
   },
@@ -84,7 +111,7 @@ export const es = {
     timeoutTitle: 'La API tardó demasiado',
     timeout: 'La consulta ha superado el tiempo de espera.',
     apiUnavailableTitle: 'La base de datos no está disponible',
-    apiUnavailable: 'El backend no puede leer MySQL en este momento.',
+    apiUnavailable: 'El backend no puede conectar con MongoDB en este momento.',
     songNotFoundTitle: 'Canción no encontrada',
     songNotFound: '«{title}» no está en la base de datos, así que no hay recomendaciones.',
   },
@@ -153,14 +180,14 @@ export const es = {
     active: 'Activa',
     memberSince: 'Miembro desde',
     sessions: 'Sesión iniciada mediante',
-    sessionsHint: 'La autenticación real todavía no está conectada.',
+    sessionsHint: 'Las playlists privadas requieren una sesión real con JWT.',
     apiNote:
-      'Esta sección está preparada para mostrar los datos que devolverá el servicio de autenticación.',
+      'La sesión de demostración permite explorar, pero no guardar playlists.',
   },
 
   login: {
     title: 'Entra en MUSICA EPICA',
-    subtitle: 'Crea tu cuenta con correo o entra con Apple. Tus datos se guardan en el servidor de la API.',
+    subtitle: 'Entra o crea tu cuenta con correo para guardar tus playlists.',
     tabLogin: 'Entrar',
     tabRegister: 'Crear cuenta',
     password: 'Contraseña',
@@ -181,7 +208,7 @@ export const es = {
     notReady: 'El inicio de sesión real todavía no está disponible. Puedes entrar en modo demostración.',
     errorGeneric: 'No se pudo iniciar la sesión.',
     demoMode: 'Entrar sin cuenta (demostración)',
-    providersNote: 'Las cuentas se guardan en el backend. MySQL solo guarda el catálogo de canciones.',
+    providersNote: 'Cuentas y playlists se guardan en MongoDB. La demostración no accede a playlists privadas.',
     loginSuccess:
       "Sesión iniciada correctamente.",
 
@@ -252,11 +279,11 @@ export const es = {
     accountLink: 'Configuración de cuenta',
     data: 'Datos',
     dataSource: 'Origen de los datos',
-    dataSourceApi: 'API Python conectada a MySQL',
+    dataSourceApi: 'API Node.js/Express, MongoDB e inferencia musical con IA',
     apiUrl: 'URL de la API',
     apiCheck: 'Comprobar conexión',
     apiChecking: 'Comprobando...',
-    apiOk: 'Conectada · {count} canciones en MySQL',
+    apiOk: 'API y MongoDB conectados (no comprueba proveedores IA)',
     apiLoading: 'La API está cargando el recomendador, prueba en un momento.',
     apiDown: 'Sin conexión con la API',
     apiSongs: '{count} canciones en la base de datos',
@@ -283,8 +310,8 @@ export const es = {
   },
 
   footer: {
-    note: 'Recomendaciones reales calculadas en Python sobre las canciones de MySQL.',
-    protected: 'La lógica de recomendación viene de recomendador_app.py; recomendador.py y main.py se conservan sin modificar.',
+    note: 'Descubrimiento musical con IA. Identificación y recomendaciones sin verificación de catálogo.',
+    protected: 'Tus playlists son privadas. No almacenamos fragmentos de letras en ellas.',
   },
 }
 

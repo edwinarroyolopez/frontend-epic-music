@@ -1,71 +1,32 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { searchSongs } from '../services/api.js'
-import { normalizeText } from '../utils/color.js'
+import { toSongInput } from '../services/playlists.js'
 
-const DEBOUNCE_MS = 220
-
-const IDLE = { term: '', status: 'idle', results: [], error: null }
-
-/**
- * Estado de la busqueda: consulta, resultados y fase actual.
- * Los estados ('idle' | 'loading' | 'ready' | 'empty' | 'error') son los
- * mismos que usara la API real, por lo que la interfaz no cambia al conectar.
- */
+/** Event-driven only. App owns this hook to preserve results/selection during login. */
 export function useSongSearch() {
-  const [query, setQuery] = useState('')
-  const [state, setState] = useState(IDLE)
-  // El contador permite reintentar la misma consulta sin tocar el texto.
-  const [attempt, setAttempt] = useState(0)
-  const requestId = useRef(0)
-
-  const hasTerm = Boolean(normalizeText(query))
-  // Mientras la respuesta no corresponde a la consulta actual, hay carga.
-  const isPending = hasTerm && state.term !== query
-
-  useEffect(() => {
-    if (!normalizeText(query)) return undefined
-
-    const currentRequest = requestId.current + 1
-    requestId.current = currentRequest
-
-    const timer = setTimeout(async () => {
-      try {
-        const found = await searchSongs(query)
-        // Ignora respuestas de peticiones anteriores (evita saltos de lista).
-        if (requestId.current !== currentRequest) return
-        setState({ term: query, status: found.length ? 'ready' : 'empty', results: found, error: null })
-      } catch (error) {
-        if (requestId.current !== currentRequest) return
-        setState({ term: query, status: 'error', results: [], error })
-      }
-    }, DEBOUNCE_MS)
-
-    return () => clearTimeout(timer)
-  }, [query, attempt])
-
-  const clear = useCallback(() => {
-    requestId.current += 1
-    setQuery('')
-    setState(IDLE)
+  const [state, setState] = useState({ status: 'idle', result: null, error: null, selected: [] })
+  const active = useRef(null)
+  useEffect(() => () => active.current?.abort(), [])
+  const run = useCallback(async body => {
+    if (active.current) return
+    const controller = new AbortController()
+    active.current = controller
+    setState({ status: 'loading', result: null, error: null, selected: [] })
+    try {
+      const result = await searchSongs(body, { signal: controller.signal })
+      if (active.current === controller) setState({ status: result.found ? 'ready' : 'empty', result, error: null, selected: [] })
+    } catch (error) {
+      if (active.current === controller && error.name !== 'AbortError') setState({ status: 'error', result: null, error, selected: [] })
+    } finally { if (active.current === controller) active.current = null }
   }, [])
-
-  // Reintenta la misma consulta: se marca el estado como pendiente para que
-  // aparezca la carga y vuelva a pegarse a la API (sin tocar el texto).
-  const retry = useCallback(() => {
-    requestId.current += 1
-    setState(IDLE)
-    setAttempt((value) => value + 1)
+  const cancel = useCallback(() => {
+    active.current?.abort()
+    active.current = null
+    setState({ status: 'idle', result: null, error: null, selected: [] })
   }, [])
-
-  if (!hasTerm) return { query, setQuery, clear, retry, results: [], status: 'idle', error: null }
-
-  return {
-    query,
-    setQuery,
-    clear,
-    retry,
-    results: isPending ? [] : state.results,
-    status: isPending ? 'loading' : state.status,
-    error: isPending ? null : state.error,
-  }
+  const toggle = index => setState(s => ({ ...s, selected: s.selected.includes(index) ? s.selected.filter(i => i !== index) : [...s.selected, index] }))
+  const selectAll = () => setState(s => ({ ...s, selected: [...(s.selected.includes(0) ? [0] : []), ...s.result.recommendations.map((_, i) => i + 1)] }))
+  const clear = () => setState(s => ({ ...s, selected: [] }))
+  const songs = state.result?.found ? [toSongInput(state.result.song, 'identified'), ...state.result.recommendations.map(song => toSongInput(song, 'recommendation'))] : []
+  return { ...state, songs, selection: songs.filter((_, i) => state.selected.includes(i)), run, cancel, toggle, selectAll, clear }
 }

@@ -43,7 +43,7 @@ export function Modal({ open, title, description, onClose, children, footer }) {
       if (event.key !== 'Tab') return
 
       const focusables = dialogRef.current?.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled])',
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled])',
       )
       if (!focusables?.length) return
       const first = focusables[0]

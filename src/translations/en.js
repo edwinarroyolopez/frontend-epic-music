@@ -1,7 +1,34 @@
 export const en = {
+  discovery: {
+    lyrics: 'Lyrics fragment', hint: 'Paste 15–12000 characters. Lyrics are not stored in your playlists.',
+    artist: 'Artist (optional)', genre: 'Genre (optional)', submit: 'Find similar songs',
+    notice: 'AI-suggested identification and recommendations, not verified against a catalog. Titles or artists may be incorrect.',
+    unverified: 'AI suggestion · Not catalog-verified', origin: 'Identified source song',
+    notFound: 'The song could not be identified with sufficient evidence. Try another fragment or add hints.',
+    partial: 'Partial response: fewer than 11 recommendations received. Only received data is shown.',
+    select: 'Select', selectSong: 'Select {title} by {artist}', count: '{count} songs selected',
+    all: 'Select all recommendations', clear: 'Clear selection',
+  },
+  playlists: {
+    title: 'My playlists', signIn: 'Sign in to save playlists', saveSelection: 'Save selection',
+    create: 'Create playlist', createWithSelection: 'Create with selection', existing: 'Add to existing', choose: 'Choose a playlist', add: 'Add songs',
+    name: 'Playlist name', description: 'Description (optional)', empty: 'You have no playlists yet.', noSongs: 'This playlist is empty.',
+    savedCounts: 'Saved: {added} added; {skipped} duplicates skipped.', songCount: '{count} songs', updatedAt: 'Updated:',
+    edit: 'Edit playlist', save: 'Save changes', updated: 'Playlist updated', delete: 'Delete playlist', deleted: 'Playlist deleted',
+    confirmDelete: 'Delete “{name}”? This cannot be undone.', confirm: 'Confirm deletion',
+    discover: 'Discover and add songs', up: 'Move up', down: 'Move down', remove: 'Remove',
+    upSong: 'Move {title} up', downSong: 'Move {title} down', removeSong: 'Remove {title}',
+  },
+  apiErrors: {
+    VALIDATION_ERROR: 'Check the fields and their limits.', UNAUTHORIZED: 'Sign in to save playlists', ACCOUNT_DISABLED: 'This account is disabled. Sign in with an active account.',
+    NOT_FOUND: 'This resource is unavailable.', CONFLICT: 'The playlist changed. Reload its state before repeating the operation.', LIMIT_REACHED: 'The playlist or song limit has been reached.',
+    RATE_LIMITED: 'Too many requests. Wait before trying again.', PROVIDER_ERROR: 'AI could not produce a valid response. You can search again.',
+    UNAVAILABLE: 'The service is unavailable.', TIMEOUT: 'The request timed out. If saving, check My playlists before repeating the operation.',
+    NETWORK_ERROR: 'Could not connect to the API. If saving, check the playlist before repeating.', INVALID_RESPONSE: 'The API returned an invalid response.', UNKNOWN: 'The request could not be completed. Try again later.',
+  },
   app: {
     name: 'MUSICA EPICA',
-    tagline: 'Music recommendations starting from a song you like.',
+    tagline: 'Discover music from a lyrics fragment.',
     crashText: 'Something went wrong in the interface. Reload the app to continue.',
     crashReload: 'Reload',
   },
@@ -82,7 +109,7 @@ export const en = {
     timeoutTitle: 'The API took too long',
     timeout: 'The request exceeded the timeout.',
     apiUnavailableTitle: 'The database is unavailable',
-    apiUnavailable: 'The backend cannot read MySQL right now.',
+    apiUnavailable: 'The backend cannot connect to MongoDB right now.',
     songNotFoundTitle: 'Song not found',
     songNotFound: '“{title}” is not in the database, so there are no recommendations.',
   },
@@ -151,14 +178,14 @@ export const en = {
     active: 'Active',
     memberSince: 'Member since',
     sessions: 'Signed in with',
-    sessionsHint: 'Real authentication is not connected yet.',
+    sessionsHint: 'Private playlists require a real JWT session.',
     apiNote:
-      'This section is ready to display the data returned by the authentication service.',
+      'Demo sessions let you explore but cannot save playlists.',
   },
 
   login: {
     title: 'Sign in to MUSICA EPICA',
-    subtitle: 'Create your account with email or sign in with Apple. Your data is stored by the API server.',
+    subtitle: 'Sign in or create an email account to save your playlists.',
     tabLogin: 'Sign in',
     tabRegister: 'Create account',
     password: 'Password',
@@ -179,7 +206,7 @@ export const en = {
     notReady: 'Real sign-in is not available yet. You can enter in demo mode.',
     errorGeneric: 'Could not sign in.',
     demoMode: 'Continue without an account (demo)',
-    providersNote: 'Accounts are stored by the backend. MySQL only holds the song catalog.',
+    providersNote: 'Accounts and playlists are stored in MongoDB. Demo sessions cannot access private playlists.',
     loginSuccess:
       "Signed in successfully.",
 
@@ -250,11 +277,11 @@ export const en = {
     accountLink: 'Account settings',
     data: 'Data',
     dataSource: 'Data source',
-    dataSourceApi: 'Python API connected to MySQL',
+    dataSourceApi: 'Node.js/Express API, MongoDB and AI music inference',
     apiUrl: 'API URL',
     apiCheck: 'Check connection',
     apiChecking: 'Checking...',
-    apiOk: 'Connected · {count} songs in MySQL',
+    apiOk: 'API and MongoDB connected (AI providers not checked)',
     apiLoading: 'The API is still loading the recommender, try again in a moment.',
     apiDown: 'No connection to the API',
     apiSongs: '{count} songs in the database',
@@ -281,8 +308,8 @@ export const en = {
   },
 
   footer: {
-    note: 'Real recommendations computed in Python from the songs stored in MySQL.',
-    protected: 'The recommendation logic comes from recomendador_app.py; recomendador.py and main.py stay untouched.',
+    note: 'AI music discovery. Identification and recommendations are not catalog-verified.',
+    protected: 'Your playlists are private. Lyrics fragments are not stored in them.',
   },
 }
 

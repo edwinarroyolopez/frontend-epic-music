@@ -20,11 +20,9 @@ disponible. Todos los scripts y dependencias necesarios están en este proyecto.
 Vite mantiene el puerto 3000: si está ocupado, el comando falla en lugar de
 elegir otro puerto automáticamente. `npm run dev:front` es un alias de `npm run dev`.
 
-En desarrollo, las peticiones del navegador a `/api/*` pasan por el proxy de
-Vite hacia `http://localhost:7000/*`. Por ejemplo, `/api/songs` se reenvía a
-`http://localhost:7000/songs`. Esto permite consumir la API sin exigir CORS
-durante el desarrollo. La URL de destino se puede cambiar con `VITE_API_URL`
-en `.env` (ver `.env.example`); reinicia Vite después de cambiarla.
+El navegador llama directamente a `VITE_API_URL` (por defecto localhost:7000).
+Express permite el origen local de Vite mediante CORS. Reinicia Vite al cambiar
+la configuración. El proxy `/api` existente es opcional; el cliente no lo usa por defecto.
 
 ### Build y vista previa
 
@@ -70,16 +68,16 @@ frontend-epic-music/
 │   └── build-standalone.mjs   genera index.html incrustando el build
 └── src/
     ├── main.jsx               punto de entrada (contextos + error boundary)
-    ├── App.jsx                rutas, cabecera, cancion seleccionada
+    ├── App.jsx                rutas, cabecera, resultado y selección en memoria
     ├── components/            Header, ProfileMenu, Avatar, Cover, Brand, BrandIcons,
     │                          SearchBar, SearchResults, SelectedSong, SongCard,
     │                          RecommendationList, ThemeSelector, LanguageSelector,
     │                          CustomThemeEditor, StateMessage, ErrorBoundary, Footer
-    ├── pages/                 Home, Profile, Account, Settings, Login
+    ├── pages/                 Home, Playlists, Profile, Account, Settings, Login
     ├── context/               PreferencesContext (idiema/tema), UserContext (sesion)
-    ├── hooks/                 useHashRoute, useSongSearch, useRecommendations,
+    ├── hooks/                 useHashRoute, useSongSearch, usePlaylists,
     │                          useLocalStorage
-    ├── services/              api.js (frontera de datos HTTP), config.js
+    ├── services/              api.js, playlists.js, auth.js, config.js
     ├── translations/          es.js, en.js, index.js
     ├── themes/                tokens.css, dark.css, light.css, custom.css
     ├── styles/                global.css, layout.css, discover.css, pages.css
@@ -98,25 +96,37 @@ frontend-epic-music/
   `<html>` y el resto se deriva con `color-mix()`.
 * **Estados explícitos**: `idle | loading | ready | empty | error` en búsqueda
   y recomendaciones, iguales a los que devolverá la API real.
-* **La canción seleccionada vive en `App`**: no se pierde al ir a Perfil,
-  Tu cuenta o Ajustes y volver al buscador.
+* **Resultado y selección viven en `App`**: se conservan al abrir login y volver.
+  Una nueva búsqueda limpia ambos. No se persisten letras ni selección en storage.
 * **Internacionalización**: todo el texto sale de `translations/`, con
   interpolación `{nombre}` y plurales (`clave` / `clave_other`).
 
 ## Conexión con el backend
 
-`src/services/api.js` es la única capa que hace peticiones HTTP. Los
-componentes no cambian nunca: usan `searchSongs()`, `getRecommendations()` y
-`checkApiHealth()`, que ya devuelven el shape que consume la interfaz
-(`id`, `title`, `artist`, `genre`, `duration`, `year`, `popularity`,
-`similarity`). El JSON snake_case de la API se traduce ahí, en un solo sitio.
+`src/services/api.js` gestiona descubrimiento, health y las llamadas del módulo
+`playlists.js`. `auth.js` mantiene signup/login/me. Los componentes no llaman fetch.
+
+El formulario envía **solo al pulsar buscar** `POST /search-songs` con
+`{lyrics,artist?,genre?}`. Consume `{success:true,data:{found,song,recommendations,...}}`.
+Una identificación completa contiene origen y 11 recomendaciones; found:false
+no crea tarjetas. Se muestran únicamente metadatos recibidos, sin porcentajes ni
+IDs de catálogo. La IA puede equivocarse: toda sugerencia se indica no verificada.
+
+`#/playlists` y `#/playlists/:id` requieren sesión real. Permiten crear vacías,
+ver detalle, editar nombre/descripción, quitar, mover y eliminar con confirmación.
+Desde resultados se selecciona origen/recomendaciones y se crea una playlist
+poblada en una sola petición, o se añade a una existente. Conteos añadido/omitido
+proceden del backend. Demo e invitados no hacen peticiones privadas.
+
+Contratos completos y límites: `../ai/02_CONTRACTS.md`. Mongo conserva el orden,
+deduplica título+artista y aísla por propietario JWT. Nunca almacena letras.
 
 Configuración opcional (`.env`; estos son los valores por defecto):
 
 ```text
 VITE_API_URL=http://localhost:7000
 VITE_API_TIMEOUT=20000
-VITE_RECOMMENDATION_COUNT=5
+VITE_AI_TIMEOUT=240000
 ```
 
 ### Estados de error
@@ -128,14 +138,15 @@ activo, de modo que la interfaz distingue los fallos reales:
 | --- | --- | --- |
 | `NETWORK_ERROR` | la API no está arrancada | "No se pudo conectar con la API" + URL |
 | `TIMEOUT` | la API tarda demasiado | "La API tardó demasiado" |
-| `NOT_FOUND` | 404: la canción no está en MySQL | "Canción no encontrada" |
-| `UNAVAILABLE` | 503: la API no puede leer MySQL | "La base de datos no está disponible" |
-| `HTTP_ERROR` | cualquier otro 4xx/5xx | "La API no respondió correctamente" |
+| `NOT_FOUND` | 404: recurso inexistente o ajeno | "El recurso no está disponible" |
+| `UNAVAILABLE` | 503: servicio o Mongo no disponible | "El servicio no está disponible" |
+| `UNKNOWN` | otro fallo no clasificado | "No se pudo completar la solicitud" |
 
-Además están los estados sin error: `loading` (búsqueda y recomendaciones) y
-`empty` (búsqueda sin coincidencias, o canción sin similares por debajo del
-umbral de similitud). Nada se simula: si el backend no responde, se muestra el
-error.
+Otros códigos traducidos: VALIDATION_ERROR, UNAUTHORIZED, ACCOUNT_DISABLED,
+CONFLICT, LIMIT_REACHED, RATE_LIMITED, PROVIDER_ERROR e INVALID_RESPONSE.
+Los 401/403 privados invalidan la sesión. AbortController cancela lecturas y
+descarta respuestas obsoletas. Un timeout de escritura puede ocurrir tras un
+guardado real: revisar Mis playlists antes de repetir (no hay reintento automático).
 
 ## Perfil de usuario
 
@@ -189,11 +200,23 @@ GET {VITE_API_URL}/profiles/username-available?username=sam_rivers
 método de acceso y foto (como data URL, máx. 1 MB). Al cambiar la foto se
 actualiza el avatar del header y el del menú de perfil a la vez.
 
-La pantalla de acceso es **interfaz solamente**: los botones de Google,
-Spotify, Apple Music y correo no envían ni valida credenciales, solo informan
-de que la integración está pendiente. El único flujo activo es "modo
-demostración". Cuando exista autenticación real, se sustituye `signInDemo()`
-en `src/context/UserContext.jsx` y el resto de la interfaz no cambia.
+El acceso con correo es real: `/auth/signup`, `/auth/login`, `/auth/me` y JWT
+guardado por auth.js. `/auth/providers` declara correo disponible y OAuth no
+disponible. Modo demo permite explorar; no permite leer ni persistir playlists.
+Los cambios locales del perfil siguen teniendo su alcance original.
+
+## Pruebas
+
+```bash
+npm test           # contrato HTTP, errores, timeout/cancelación y traducciones
+npm run lint
+npm run build
+```
+
+El recorrido completo se ejecuta desde `../backend-epic-music` con
+`npm run test:e2e`: Chromium + ambos proyectos reales + Mongo efímero. Solo se
+inyecta el proveedor IA con datos sintéticos; no se consultan proveedores pagados.
+Ver `../ai/06_ACCEPTANCE.md` para comandos y resultados.
 
 ## Robustez
 

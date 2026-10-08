@@ -11,6 +11,7 @@ import './styles/layout.css'
 import './styles/discover.css'
 import './styles/pages.css'
 import './components/ui/ui.css'
+import './styles/playlists.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

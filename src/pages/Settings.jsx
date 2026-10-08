@@ -104,9 +104,7 @@ export function Settings({ onNavigate, onOpenCustom }) {
           {health && (
             <span className={`badge ${health.conectada ? 'badge--success' : 'badge--danger'}`} role="status">
               {health.conectada
-                ? health.recomendadorCargado
-                  ? t('settings.apiOk', { count: health.canciones ?? 0 })
-                  : t('settings.apiLoading')
+                ? t('settings.apiOk')
                 : (health.error?.title ?? t('settings.apiDown'))}
             </span>
           )}

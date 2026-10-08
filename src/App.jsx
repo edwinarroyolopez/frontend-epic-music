@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { Footer } from './components/Footer.jsx'
 import { Header } from './components/Header.jsx'
 import { usePreferences } from './context/PreferencesContext.jsx'
@@ -9,6 +9,8 @@ import { Home } from './pages/Home.jsx'
 import { Login } from './pages/Login.jsx'
 import { Profile } from './pages/Profile.jsx'
 import { Settings } from './pages/Settings.jsx'
+import { Playlists } from './pages/Playlists.jsx'
+import { useSongSearch } from './hooks/useSongSearch.js'
 
 const ROUTES = [
   { path: '/', element: Home },
@@ -16,6 +18,7 @@ const ROUTES = [
   { path: '/cuenta', element: Account },
   { path: '/ajustes', element: Settings },
   { path: '/login', element: Login },
+  { path: '/playlists', element: Playlists },
 ]
 
 // Ajustes es publica (idioma y tema deben poder cambiarse antes de entrar);
@@ -38,9 +41,9 @@ export function App() {
   const firstRender = useRef(true)
   // Vive aqui (y no en Home) para que la cancion seleccionada no se pierda
   // al ir a Perfil, Tu cuenta o Ajustes y volver al buscador.
-  const [selectedSong, setSelectedSong] = useState(null)
+  const search = useSongSearch()
 
-  const route = matchRoute(path, ROUTES)
+  const route = path.startsWith('/playlists/') ? ROUTES.find(r => r.path === '/playlists') : matchRoute(path, ROUTES)
   const Page = route?.element ?? Home
 
   // Rutas privadas: sin sesion se vuelve a la pantalla de acceso.
@@ -102,8 +105,8 @@ export function App() {
           onNavigate={navigate}
           onOpenCustom={openCustomTheme}
           onSignedIn={goHome}
-          selectedSong={selectedSong}
-          onSelectSong={setSelectedSong}
+          search={search}
+          path={path}
         />
       </main>
 
