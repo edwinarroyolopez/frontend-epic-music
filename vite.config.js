@@ -7,13 +7,9 @@ const resolvePath = (path) => fileURLToPath(new URL(path, import.meta.url))
 // Frontend de MUSICA EPICA.
 // La API se ejecuta por separado y se configura con VITE_API_URL.
 //
-// Hay dos entradas a proposito:
-//   - dev.html  : entrada de Vite (desarrollo con recarga en caliente).
-//                 El servidor la sirve en "/" y en "/dev.html".
-//   - index.html: build autonomo de un solo archivo, generado por
-//                 "npm run build" (scripts/build-standalone.mjs). Se puede
-//                 abrir con doble clic, con "Open with Live Server" o
-//                 cualquier servidor estatico, sin Node ni Vite.
+// dev.html es la fuente. El build genera también dist/index.html para que
+// Netlify y otros servidores estáticos sirvan la raíz sin reglas especiales.
+// scripts/build-standalone.mjs sigue siendo un paso opcional independiente.
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, resolvePath('.'), 'VITE_')
   const apiUrl = env.VITE_API_URL || 'http://localhost:7000'
@@ -21,6 +17,16 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       react(),
+      {
+        name: 'musica-epica:static-index',
+        apply: 'build',
+        enforce: 'post',
+        generateBundle(_options, bundle) {
+          const entry = bundle['dev.html']
+          if (!entry || entry.type !== 'asset') this.error('No se generó dev.html para crear index.html')
+          this.emitFile({ type: 'asset', fileName: 'index.html', source: entry.source })
+        },
+      },
       {
         name: 'musica-epica:dev-entry',
         configureServer(server) {

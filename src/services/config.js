@@ -33,7 +33,7 @@ export const API_PUBLICADA_SIN_URL =
 
 
 export const API_CONFIG = {
-  // Vite reenvia las peticiones a VITE_API_URL durante el desarrollo.
+  // Llamadas directas a Express; Netlify inyecta la URL HTTPS de Railway al compilar.
   baseUrl: mismoOrigen ? '' : configurada,
   timeout: Number(env.VITE_API_TIMEOUT ?? 20000),
   aiTimeout: Number(env.VITE_AI_TIMEOUT ?? 240000),

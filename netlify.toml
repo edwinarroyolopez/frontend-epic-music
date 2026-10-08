@@ -1,0 +1,15 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Public build-time configuration, shared by production and deploy previews.
+[build.environment]
+  NODE_VERSION = "22"
+  VITE_API_URL = "https://backend-epic-music-production.up.railway.app"
+  VITE_API_TIMEOUT = "20000"
+  VITE_AI_TIMEOUT = "240000"
+
+[context.dev.environment]
+  VITE_API_URL = "http://localhost:7000"
+
+# Navigation uses hashes (#/playlists): no catch-all rewrite or API proxy needed.

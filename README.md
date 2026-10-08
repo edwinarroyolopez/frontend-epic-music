@@ -27,9 +27,9 @@ la configuración. El proxy `/api` existente es opcional; el cliente no lo usa p
 ### Build y vista previa
 
 ```bash
-npm run build     # genera dist/ con dev.html y los assets
+npm run build     # genera dist/index.html, dist/dev.html y los assets
 npm run lint      # oxlint
-npm run preview   # abre http://localhost:3000/dev.html
+npm run preview   # abre http://localhost:3000/
 ```
 
 Para generar además el `index.html` autónomo, ejecuta después del build:
@@ -52,11 +52,45 @@ de ejecutar `npm run build`.
 | --- | --- |
 | `dev.html` | Archivo fuente requerido por Vite para desarrollo y build. Se versiona y no se genera al compilar. El servidor de desarrollo lo sirve en `/` y en `/dev.html`. |
 | `index.html` | Build autónomo opcional generado; no editar a mano. Lo genera `node scripts/build-standalone.mjs` después de compilar, incrustando CSS y JS dentro del HTML. |
+| `dist/index.html` | Entrada estática generada automáticamente por Vite. Permite abrir `/` en Netlify sin ejecutar el generador standalone. |
 | `dist/` | Salida generada por `npm run build`. |
 
 El código de la aplicación está en `src/` y su entrada HTML es `dev.html`.
 Conserva `dev.html` al limpiar archivos generados: sin él, Vite falla con
 `UNRESOLVED_ENTRY: Cannot resolve entry module dev.html`.
+
+## Producción: Netlify + Railway
+
+`netlify.toml` configura automáticamente:
+
+- **Build command:** `npm run build`
+- **Publish directory:** `dist` (su contenido, no la carpeta del repositorio)
+- **Node:** 22
+- **VITE_API_URL:** `https://backend-epic-music-production.up.railway.app`
+- **VITE_API_TIMEOUT:** `20000`; **VITE_AI_TIMEOUT:** `240000`
+
+Con el repositorio independiente del frontend, Base directory debe quedar vacía
+(raíz del repo). Si Netlify se conecta a una raíz que contiene ambos proyectos,
+configurar Base directory `frontend-epic-music` para localizar este archivo.
+No configurar Publish directory como `.`: la raíz pública necesita `dist/index.html`.
+
+Los valores de netlify.toml prevalecen sobre los equivalentes de la UI. La URL
+del backend es pública, no un secreto. No definir credenciales de Gemini, JWT o
+Mongo como variables VITE: esas pertenecen exclusivamente a Railway.
+
+El cliente llama directamente a Railway por HTTPS, incluyendo consultas IA largas.
+El backend permite CORS para `https://musica-epica-ed.netlify.app` y sus URLs
+`https://<deploy-o-rama>--musica-epica-ed.netlify.app`. Los dominios propios se
+pueden añadir a `CORS_ORIGINS` en Railway (lista de orígenes exactos separados por coma).
+Las rutas son hash (`/#/playlists`), por lo que no necesitan un rewrite SPA global.
+
+Para aplicar cambios, publicar el backend con CORS actualizado y reconstruir el
+frontend en Netlify desde estos archivos. No basta con reabrir un deploy antiguo.
+El navegador debe cargar `/` y hacer requests a Railway, nunca a localhost.
+Comprobar `GET /health` y el preflight OPTIONS desde el origen del frontend.
+Si Railway responde **502 Application failed to respond**, revisar sus logs de
+arranque, `npm start`, conexión Mongo, variables privadas y el puerto de destino
+(Express usa `PORT` de Railway). Ese 502 debe resolverse en Railway.
 
 ## Estructura
 
