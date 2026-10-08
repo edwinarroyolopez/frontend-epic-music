@@ -88,6 +88,10 @@ Para aplicar cambios, publicar el backend con CORS actualizado y reconstruir el
 frontend en Netlify desde estos archivos. No basta con reabrir un deploy antiguo.
 El navegador debe cargar `/` y hacer requests a Railway, nunca a localhost.
 Comprobar `GET /health` y el preflight OPTIONS desde el origen del frontend.
+`GET /auth/providers` ya no agrega Content-Type JSON sin cuerpo, por lo que no
+provoca un preflight innecesario. Login y llamadas con JWT conservan las cabeceras
+necesarias. Si la respuesta es un 502 del gateway sin cabeceras CORS, el navegador
+puede etiquetarla como “CORS error” aunque el dominio esté en la allowlist.
 Si Railway responde **502 Application failed to respond**, revisar sus logs de
 arranque, `npm start`, conexión Mongo, variables privadas y el puerto de destino
 (Express usa `PORT` de Railway). Ese 502 debe resolverse en Railway.

@@ -4,12 +4,32 @@ import { request, searchSongs } from '../src/services/api.js'
 import { playlistsApi, toSongInput } from '../src/services/playlists.js'
 import { es } from '../src/translations/es.js'
 import { en } from '../src/translations/en.js'
+import { getProviders, loginWithEmail } from '../src/services/auth.js'
 
 const originalFetch = globalThis.fetch
 const store = new Map()
 globalThis.window = new EventTarget()
 window.localStorage = { getItem: key => store.get(key), setItem: (key, value) => store.set(key, value), removeItem: key => store.delete(key) }
 afterEach(() => { globalThis.fetch = originalFetch; store.clear() })
+
+test('public providers GET avoids JSON preflight; login still sends JSON and handles unavailable backend', async () => {
+  globalThis.fetch = async (url, options) => {
+    assert.ok(url.endsWith('/auth/providers'))
+    assert.equal(options.method, 'GET')
+    assert.deepEqual(options.headers, {})
+    assert.equal(options.body, undefined)
+    return Response.json({ email: true, apple: false, google: false, spotify: false })
+  }
+  assert.equal((await getProviders()).email, true)
+  globalThis.fetch = async (url, options) => {
+    assert.ok(url.endsWith('/auth/login'))
+    assert.equal(options.method, 'POST')
+    assert.equal(options.headers['Content-Type'], 'application/json')
+    assert.deepEqual(JSON.parse(options.body), { email: 'test@example.test', password: 'synthetic-test' })
+    return Response.json({ success: false, message: 'Database unavailable' }, { status: 503 })
+  }
+  await assert.rejects(loginWithEmail({ email: 'test@example.test', password: 'synthetic-test' }), { code: 'SERVER_ERROR', status: 503 })
+})
 
 test('exact POST body and actual search envelope; no fictitious metadata', async () => {
   const body = { lyrics: 'Synthetic fragment used only for tests', artist: 'Hint' }

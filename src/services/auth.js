@@ -165,6 +165,9 @@ function errorCodeForStatus(status) {
       return "USER_ALREADY_EXISTS";
 
     case 500:
+    case 502:
+    case 503:
+    case 504:
       return "SERVER_ERROR";
 
     default:
@@ -188,9 +191,8 @@ async function request(
   } = {}
 ) {
 
-  const headers = {
-    "Content-Type": "application/json"
-  };
+  // A public GET without a body must not trigger an unnecessary JSON preflight.
+  const headers = body === undefined ? {} : { "Content-Type": "application/json" };
 
 
   const token = getToken();
