@@ -278,6 +278,8 @@ export const es = {
     back: 'Volver',
     cancel: 'Cancelar',
     optional: 'opcional',
+    showPassword: 'Mostrar contraseña',
+    hidePassword: 'Ocultar contraseña',
   },
 
   footer: {

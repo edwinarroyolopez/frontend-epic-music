@@ -276,6 +276,8 @@ export const en = {
     back: 'Back',
     cancel: 'Cancel',
     optional: 'optional',
+    showPassword: 'Show password',
+    hidePassword: 'Hide password',
   },
 
   footer: {

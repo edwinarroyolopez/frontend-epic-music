@@ -1,0 +1,79 @@
+/* Se apoya en .field, .field__label, .field__hint, .field__error,
+   .input y .btn ya definidas por el proyecto. */
+.ui-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.ui-input-icon {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+    display: grid;
+    place-items: center;
+}
+
+.input.ui-input-has-icon {
+    padding-left: 44px;
+}
+
+.input.ui-input-has-action {
+    padding-right: 48px;
+}
+
+.ui-input-toggle {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+}
+
+.ui-input-toggle:hover:not(:disabled) {
+    background: var(--color-surface-3);
+    color: var(--color-text);
+}
+
+.ui-input-toggle:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.input.ui-input-invalid {
+    border-color: var(--color-danger);
+}
+
+.ui-button-spinner {
+    animation: ui-spin 800ms linear infinite;
+}
+
+@keyframes ui-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .ui-button-spinner {
+        animation-duration: 1.8s;
+    }
+}
+
+.ui-button-content {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.btn--provider .ui-button-content {
+    flex: 1;
+    justify-content: space-between;
+}

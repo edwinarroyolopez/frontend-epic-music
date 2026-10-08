@@ -1,37 +1,17 @@
 import { useEffect, useState } from 'react'
-import { AlertCircle, ArrowRight, Check, LogIn, Mail, ShieldAlert, UserPlus } from 'lucide-react'
+import { AlertCircle, ArrowRight, Check, KeyRound, LogIn, Mail, Phone, ShieldAlert, User, UserPlus, AtSign } from 'lucide-react'
 import { usePreferences } from '../context/PreferencesContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
-import {
-  AuthError,
-  // getAppleSignInUrl,
-  getProviders,
-  loginWithEmail,
-  readAppleReturn,
-  registerWithEmail,
-  describeAuthError
-} from '../services/auth.js'
+import { useSnackbar } from '../context/SnackbarContext.jsx'
+import { AuthError, getProviders, loginWithEmail, readAppleReturn, registerWithEmail, describeAuthError } from '../services/auth.js'
 import { AppleMusicIcon } from '../components/BrandIcons.jsx'
+import { Button, Input } from '../components/ui/index.js'
 
-
-import { useSnackbar } from "../context/SnackbarContext.jsx";
-
-/**
- * Pantalla de acceso.
- *
- * - Correo + contrasena: acceso real contra la API (registro o inicio de sesion).
- * - Apple: redireccion al flujo real de "Sign in with Apple" (se habilita solo
- *   si el backend tiene las credenciales).
- * - Google y Spotify: los botones se muestran, pero avisan de que estan
- *   pendientes de credenciales en lugar de fingir que funcionan.
- * - Modo demostracion: acceso local, sin cuenta, para probar la app.
- */
 export function Login({ onSignedIn }) {
-  const { t } = usePreferences()
+  const { t, language } = usePreferences()
   const { signInDemo, adoptUser } = useUser()
-  const snackbar = useSnackbar();
-
-  const [modo, setModo] = useState('login') // 'login' | 'registro'
+  const snackbar = useSnackbar()
+  const [modo, setModo] = useState('login')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
@@ -42,205 +22,53 @@ export function Login({ onSignedIn }) {
   const [pendiente, setPendiente] = useState(null)
   const [proveedores, setProveedores] = useState({ email: true, apple: false, google: false, spotify: false })
 
-  // Estado real de los proveedores: no se ofrece lo que no esta configurado.
   useEffect(() => {
     let vivo = true
     getProviders()
-      .then((estado) => vivo && setProveedores(estado))
-      .catch(() => vivo && setProveedores({ email: true, apple: false, google: false, spotify: false }))
-    return () => {
-      vivo = false
-    }
+      .then((estado) => { if (vivo) setProveedores(estado) })
+      .catch(() => { if (vivo) setProveedores({ email: true, apple: false, google: false, spotify: false }) })
+    return () => { vivo = false }
   }, [])
 
-  // Regreso de Apple: el token viene en la query del hash.
   useEffect(() => {
     let vivo = true
     readAppleReturn().then((resultado) => {
-      if (!vivo || !resultado.token) return
-      window.location.reload()
+      if (vivo && resultado.token) window.location.reload()
     })
-    return () => {
-      vivo = false
-    }
+    return () => { vivo = false }
   }, [])
 
   const entrar = async (event) => {
-
-    event.preventDefault();
-
-
-    // =============================================
-    // VALIDACIÓN FRONTEND
-    // =============================================
-
-    const cleanEmail =
-      email.trim().toLowerCase();
-
-
-    if (
-      !cleanEmail ||
-      !password
-    ) {
-
-      snackbar.error(
-        t(
-          "login.errors.required"
-        )
-      );
-
-      return;
+    event.preventDefault()
+    const cleanEmail = email.trim().toLowerCase()
+    if (!cleanEmail || !password || (modo === 'registro' && (!displayName.trim() || !username.trim() || !phone.trim()))) {
+      snackbar.error(t('login.errors.required'))
+      return
     }
-
-
-    if (
-      modo === "registro" &&
-      (
-        !displayName.trim() ||
-        !username.trim() ||
-        !phone.trim()
-      )
-    ) {
-
-      snackbar.error(
-        t(
-          "login.errors.required"
-        )
-      );
-
-      return;
+    if (modo === 'registro' && password.length < 8) {
+      snackbar.error(t('login.errors.passwordLength'))
+      return
     }
-
-
-    if (
-      modo === "registro" &&
-      password.length < 8
-    ) {
-
-      snackbar.error(
-        t(
-          "login.errors.passwordLength"
-        )
-      );
-
-      return;
-    }
-
-
-    setEnviando(true);
-
-
-    try {
-
-      let usuario;
-
-
-      if (modo === "registro") {
-
-        usuario =
-          await registerWithEmail({
-
-            email:
-              cleanEmail,
-
-            phone:
-              phone.trim(),
-
-            password,
-
-            displayName:
-              displayName.trim(),
-
-            username:
-              username
-                .trim()
-                .toLowerCase()
-
-          });
-
-
-        adoptUser(
-          usuario
-        );
-
-
-        snackbar.success(
-          t(
-            "login.registerSuccess"
-          )
-        );
-
-      } else {
-
-        usuario =
-          await loginWithEmail({
-
-            email:
-              cleanEmail,
-
-            password
-
-          });
-
-
-        adoptUser(
-          usuario
-        );
-
-
-        snackbar.success(
-          t(
-            "login.loginSuccess"
-          )
-        );
-
-      }
-
-
-      onSignedIn();
-
-
-    } catch (error) {
-
-      console.error(
-        "Auth error:",
-        error
-      );
-
-
-      const message =
-        error instanceof AuthError
-          ? describeAuthError(
-            error,
-            t
-          )
-          : t(
-            "login.errorGeneric"
-          );
-
-
-      snackbar.error(
-        message,
-        {
-          duration: 5000
-        }
-      );
-
-
-    } finally {
-
-      setEnviando(false);
-
-    }
-
-  };
-
-  const entrarConApple = async () => {
+    setEnviando(true)
     setError(null)
     try {
-      //  window.location.href = await getAppleSignInUrl()
+      const usuario = modo === 'registro'
+        ? await registerWithEmail({
+          email: cleanEmail,
+          phone: phone.trim(),
+          password,
+          displayName: displayName.trim(),
+          username: username.trim().toLowerCase(),
+        })
+        : await loginWithEmail({ email: cleanEmail, password })
+      adoptUser(usuario)
+      snackbar.success(t(modo === 'registro' ? 'login.registerSuccess' : 'login.loginSuccess'))
+      onSignedIn?.()
     } catch (fallo) {
-      setError(fallo instanceof AuthError ? fallo.message : t('login.errorGeneric'))
+      console.error('Auth error:', fallo)
+      snackbar.error(fallo instanceof AuthError ? describeAuthError(fallo, t) : t('login.errorGeneric'), { duration: 5000 })
+    } finally {
+      setEnviando(false)
     }
   }
 
@@ -251,213 +79,97 @@ export function Login({ onSignedIn }) {
 
   const demo = () => {
     signInDemo()
-    onSignedIn()
+    onSignedIn?.()
   }
+
+  const isRegister = modo === 'registro'
+  const visibilityLabels = language === 'en'
+    ? { showPasswordLabel: 'Show password', hidePasswordLabel: 'Hide password' }
+    : { showPasswordLabel: 'Mostrar contraseña', hidePasswordLabel: 'Ocultar contraseña' }
 
   return (
     <div className="login">
       <section className="login__card card card--padded">
         <div className="login__head">
-          <span className="login__mark" aria-hidden="true">
-            <span className="login__disc" />
-          </span>
+          <span className="login__mark" aria-hidden="true"><span className="login__disc" /></span>
           <h1 className="login__title">{t('login.title')}</h1>
           <p className="login__subtitle">{t('login.subtitle')}</p>
         </div>
 
-        {/* ------------------------------------------------- correo real */}
         <form className="login__form stack stack--3" onSubmit={entrar} noValidate>
-          <div className="row row--wrap login__tabs" role="tablist">
-            <button
-              type="button"
-              role="tab"
-              aria-selected={modo === 'login'}
-              className={`login__tab${modo === 'login' ? ' is-active' : ''}`}
-              onClick={() => {
-                setModo('login')
-                setError(null)
-              }}
-            >
-              <LogIn size={15} aria-hidden="true" />
+          <div className="row row--wrap login__tabs" role="group" aria-label={t('login.title')}>
+            <Button variant="unstyled" icon={LogIn} aria-pressed={!isRegister}
+              className={`login__tab${!isRegister ? ' is-active' : ''}`}
+              onClick={() => { setModo('login'); setError(null) }}>
               {t('login.tabLogin')}
-            </button>
-            <button
-              type="button"
-              role="tab"
-              aria-selected={modo === 'registro'}
-              className={`login__tab${modo === 'registro' ? ' is-active' : ''}`}
-              onClick={() => {
-                setModo('registro')
-                setError(null)
-              }}
-            >
-              <UserPlus size={15} aria-hidden="true" />
+            </Button>
+            <Button variant="unstyled" icon={UserPlus} aria-pressed={isRegister}
+              className={`login__tab${isRegister ? ' is-active' : ''}`}
+              onClick={() => { setModo('registro'); setError(null) }}>
               {t('login.tabRegister')}
-            </button>
+            </Button>
           </div>
 
-          {modo === 'registro' && (
+          {isRegister && (
             <>
-              <div className="field">
-                <label className="field__label" htmlFor="auth-name">
-                  {t('profile.displayName')}
-                </label>
-                <input
-                  id="auth-name"
-                  className="input"
-                  value={displayName}
-                  autoComplete="name"
-                  onChange={(e) => setDisplayName(e.target.value)}
-                  placeholder="Sam"
-                />
-              </div>
-              <div className="field">
-                <label className="field__label" htmlFor="auth-username">
-                  {t('profile.username')}
-                </label>
-                <input
-                  id="auth-username"
-                  className="input"
-                  value={username}
-                  autoComplete="username"
-                  autoCapitalize="none"
-                  spellCheck="false"
-                  onChange={(e) => setUsername(e.target.value.toLowerCase())}
-                  placeholder="sam_rivers"
-                />
-              </div>
+              <Input id="auth-name" label={t('profile.displayName')} icon={User}
+                value={displayName} required autoComplete="name" placeholder="Sam"
+                onChange={(e) => setDisplayName(e.target.value)} />
+              <Input id="auth-username" label={t('profile.username')} icon={AtSign}
+                value={username} required autoComplete="username" autoCapitalize="none" spellCheck={false}
+                placeholder="sam_rivers" onChange={(e) => setUsername(e.target.value.toLowerCase())} />
             </>
           )}
 
-          <div className="field">
-            <label className="field__label" htmlFor="auth-email">
-              {t('profile.email')}
-            </label>
-            <input
-              id="auth-email"
-              type="email"
-              className="input"
-              value={email}
-              required
-              autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="tu@correo.com"
-            />
-          </div>
+          <Input id="auth-email" label={t('profile.email')} type="email" icon={Mail}
+            value={email} required autoComplete="email" placeholder="tu@correo.com"
+            onChange={(e) => setEmail(e.target.value)} />
 
-          {modo === "registro" && (
-
-            <div className="field">
-
-              <label
-                className="field__label"
-                htmlFor="auth-phone"
-              >
-                {t("profile.phone")}
-              </label>
-
-              <input
-                id="auth-phone"
-                type="tel"
-                className="input"
-                value={phone}
-                autoComplete="tel"
-                onChange={(event) =>
-                  setPhone(
-                    event.target.value
-                  )
-                }
-                placeholder="3016443223"
-              />
-
-            </div>
-
+          {isRegister && (
+            <Input id="auth-phone" label={t('profile.phone')} icon={Phone}
+              type="tel" value={phone} required autoComplete="tel" placeholder="3016443223"
+              onChange={(e) => setPhone(e.target.value)} />
           )}
 
-          <div className="field">
-            <label className="field__label" htmlFor="auth-password">
-              {t('login.password')}
-            </label>
-            <input
-              id="auth-password"
-              type="password"
-              className="input"
-              value={password}
-              required
-              minLength={modo === 'registro' ? 8 : undefined}
-              autoComplete={modo === 'registro' ? 'new-password' : 'current-password'}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-            />
-            {modo === 'registro' && <p className="field__hint">{t('login.passwordHint')}</p>}
-          </div>
+          <Input id="auth-password" label={t('login.password')} type="password" icon={KeyRound}
+            value={password} required minLength={isRegister ? 8 : undefined}
+            autoComplete={isRegister ? 'new-password' : 'current-password'}
+            placeholder="••••••••" hint={isRegister ? t('login.passwordHint') : undefined}
+            onChange={(e) => setPassword(e.target.value)} {...visibilityLabels} />
 
-          {error && (
-            <p className="login__error" role="alert">
-              <AlertCircle size={15} aria-hidden="true" />
-              {error}
-            </p>
-          )}
+          {error && <p className="login__error" role="alert"><AlertCircle size={15} aria-hidden="true" />{error}</p>}
 
-          <button type="submit" className="btn btn--primary btn--block" disabled={enviando}>
-            {enviando ? t('login.working') : modo === 'registro' ? t('login.createAccount') : t('login.tabLogin')}
-            <ArrowRight size={16} aria-hidden="true" />
-          </button>
+          <Button type="submit" variant="primary" block loading={enviando}
+            loadingLabel={t('login.working')} icon={ArrowRight} iconPosition="right">
+            {isRegister ? t('login.createAccount') : t('login.tabLogin')}
+          </Button>
         </form>
 
-        <div className="login__divider" aria-hidden="true">
-          <span>{t('login.or')}</span>
-        </div>
-
-        {/* ----------------------------------------------- otros metodos */}
+        <div className="login__divider" aria-hidden="true"><span>{t('login.or')}</span></div>
         <div className="login__providers">
-          <button
-            type="button"
-            className="btn btn--provider"
-            onClick={entrarConApple}
-            disabled={!proveedores.apple}
-          >
-            <AppleMusicIcon />
-            <span>{t('login.withApple')}</span>
+          <Button variant="provider" icon={AppleMusicIcon} disabled={!proveedores.apple}
+            onClick={() => pendienteDe('Apple')}>
+            {t('login.withApple')}
             {proveedores.apple ? <Check size={15} className="login__ok" /> : <span className="login__tag">{t('login.pending')}</span>}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn--provider"
-            onClick={() => pendienteDe('Google')}
-            disabled={!proveedores.google}
-          >
-            <Mail size={17} aria-hidden="true" />
-            <span>{t('login.withGoogle')}</span>
+          </Button>
+          <Button variant="provider" icon={Mail} disabled={!proveedores.google}
+            onClick={() => pendienteDe('Google')}>
+            {t('login.withGoogle')}
             {proveedores.google ? <Check size={15} className="login__ok" /> : <span className="login__tag">{t('login.pending')}</span>}
-          </button>
-
-          <button
-            type="button"
-            className="btn btn--provider"
-            onClick={() => pendienteDe('Spotify')}
-            disabled={!proveedores.spotify}
-          >
-            <Mail size={17} aria-hidden="true" />
-            <span>{t('login.withSpotify')}</span>
+          </Button>
+          <Button variant="provider" icon={Mail} disabled={!proveedores.spotify}
+            onClick={() => pendienteDe('Spotify')}>
+            {t('login.withSpotify')}
             {proveedores.spotify ? <Check size={15} className="login__ok" /> : <span className="login__tag">{t('login.pending')}</span>}
-          </button>
+          </Button>
         </div>
 
-        {pendiente && (
-          <div className="login__notice login__notice--info" role="status">
-            <ShieldAlert size={15} aria-hidden="true" />
-            <span>{t(`login.pendiente_${pendiente}`)}</span>
-          </div>
-        )}
-
+        {pendiente && <div className="login__notice login__notice--info" role="status">
+          <ShieldAlert size={15} aria-hidden="true" />
+          <span>{t(`login.pendiente_${pendiente}`)}</span>
+        </div>}
         <div className="login__divider" aria-hidden="true" />
-
-        <button type="button" className="btn btn--ghost btn--block" onClick={demo}>
-          {t('login.demoMode')}
-        </button>
-
+        <Button variant="ghost" block onClick={demo}>{t('login.demoMode')}</Button>
         <p className="login__legal">{t('login.providersNote')}</p>
       </section>
     </div>
