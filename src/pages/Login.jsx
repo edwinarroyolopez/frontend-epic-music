@@ -148,7 +148,8 @@ export function Login({ onSignedIn }) {
         </form>
 
         <div className="login__divider" aria-hidden="true"><span>{t('login.or')}</span></div>
-        <div className="login__providers">
+        {!proveedores.apple && !proveedores.google && !proveedores.spotify ?
+          <p className="login__providers-note text-muted text-sm">Apple · Google · Spotify — {t('login.pending')}</p> : <div className="login__providers">
           <Button variant="provider" icon={AppleMusicIcon} disabled={!proveedores.apple}
             onClick={() => pendienteDe('Apple')}>
             {t('login.withApple')}
@@ -164,7 +165,7 @@ export function Login({ onSignedIn }) {
             {t('login.withSpotify')}
             {proveedores.spotify ? <Check size={15} className="login__ok" /> : <span className="login__tag">{t('login.pending')}</span>}
           </Button>
-        </div>
+        </div>}
 
         {pendiente && <div className="login__notice login__notice--info" role="status">
           <ShieldAlert size={15} aria-hidden="true" />

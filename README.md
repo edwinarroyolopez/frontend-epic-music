@@ -181,16 +181,36 @@ el guardado del artista, se muestra un aviso explícito junto al resultado music
   recomendaciones y canciones guardadas). Son búsquedas codificadas por título y
   artista; destinos derivados localmente, pestaña nueva con noopener/noreferrer.
 - `LyricsPanel.jsx`: «Ver letra completa» en canción identificada, también en su
-  ficha guardada. Consulta `GET /songs/lyrics` (LRCLIB) solo al abrir; loading,
-  no disponible/instrumental/error/retry y cancelación al cerrar. No persiste la
-  letra completa en localStorage, playlists o historial; puede no existir en la fuente.
+  ficha guardada. Resuelve por `songId` global (legacy por título/artista/edición).
+  `services/lyrics.js` comparte requests y cache en memoria (100 claves como máximo);
+  reapertura, idioma/tema y navegación reutilizan detalle sin GET si ya existe.
+  Refresh/nueva pestaña lee el backend; Mongo coordina trabajos y análisis.
+  Estados ES/EN: nunca consultada, pendiente, encontrada, no encontrada, instrumental,
+  error temporal y rights_restricted. La falta de permiso para guardar texto LRCLIB
+  ya no oculta un resultado encontrado: lyricsStorage=transient muestra letra y
+  emociones y explica la entrega temporal. El servidor conserva ese cuerpo sólo
+  en memoria acotada (5min/100 canciones); Mongo guarda metadata/hash/análisis.
+  Tras expirar/reiniciar/otra instancia puede ser necesaria otra descarga, pero
+  el análisis del mismo contenido se reutiliza. Los registros LRCLIB antiguos
+  rights_restricted se recuperan al abrir, sin refetch manual obligatorio.
+  Cerrar cancela sólo el visor; guard de identidad/sesión descarta respuestas viejas.
+  Polling acotado a6 GET cuando hay202, luego permite comprobación manual.
+  Nunca copia letras a localStorage, playlists o historial. La excepción histórica
+  de persistencia es exclusivamente Song del backend con procedencia autorizada.
+  «Volver a buscar letra y emociones» permite recuperar una consulta nunca iniciada,
+  fallida, no encontrada o restringida. Omite la caché en memoria sólo por esa acción;
+  envía `refetchLyrics=true` una vez, y el polling posterior es lectura ordinaria.
+  Un contador muestra cuándo se puede reintentar (cooldown servidor30s para
+  not_found/rights_restricted). Se reevalúa la procedencia sin eludir derechos.
 - `SongLyricsModal.jsx`: al pulsar una recomendación (tarjeta o título), consulta
   automáticamente su letra. Funciona también con canciones recomendadas guardadas;
   Enter/Space abre, Escape cierra y restaura foco. Los checks y enlaces tienen
   acciones independientes. Modal soporta capas anidadas de preview→letra.
 - `EmotionMetrics.jsx`: el mismo GET devuelve letra+3 emociones, mostradas con
   barras accesibles y porcentajes relativos (suma100), estimados por IA sobre texto,
-  no audio. Fallo de análisis no oculta letra y permite reintentar; sin evidencia
+  no audio. Fallo de análisis no oculta letra y retry envía `analysisOnly=true`,
+  respeta el cooldown del backend y reutiliza letra guardada o temporal en memoria.
+  Si el cuerpo transitorio caducó, el servidor necesita recuperarlo. Sin evidencia
   suficiente no se muestran métricas inventadas. Muestreo de letras largas indicado.
   `VITE_LYRICS_TIMEOUT` permite configurar la espera del request (default25000ms).
 - `DataTable.jsx`: misma tabla en Historial y Mis playlists; filtro que tolera

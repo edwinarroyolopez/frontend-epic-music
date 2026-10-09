@@ -1,6 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage.js'
 import { createTranslator, DEFAULT_LANGUAGE, isSupportedLanguage } from '../translations/index.js'
+import { contrastForeground } from '../utils/color.js'
 
 const PreferencesContext = createContext(null)
 
@@ -69,12 +70,18 @@ export function PreferencesProvider({ children }) {
       Object.entries(customColors).forEach(([token, value]) => {
         root.style.setProperty(`--color-${token}`, value)
       })
+      root.style.setProperty('--color-primary-contrast', contrastForeground(customColors.primary))
+      const lightBackground = contrastForeground(customColors.background) === '#000000'
+      root.style.setProperty('--color-success', lightBackground ? '#246548' : '#7dd6a5')
+      root.style.setProperty('--color-danger', lightBackground ? '#a32d27' : '#f38d83')
+      root.style.setProperty('--color-warning', lightBackground ? '#775016' : '#e0b77c')
       return
     }
 
     Object.keys(DEFAULT_CUSTOM_COLORS).forEach((token) => {
       root.style.removeProperty(`--color-${token}`)
     })
+    ;['primary-contrast', 'success', 'danger', 'warning'].forEach(token => root.style.removeProperty(`--color-${token}`))
   }, [theme, language, customColors])
 
   const { t, plural } = useMemo(() => createTranslator(language), [language])

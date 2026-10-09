@@ -34,6 +34,12 @@ body {
     color var(--dur) var(--ease);
 }
 
+html { scroll-padding-top: 80px; }
+button, input, select, textarea, summary, a { scroll-margin-block: 80px 16px; }
+button, a, summary { -webkit-tap-highlight-color: transparent; }
+summary::marker { color: var(--color-secondary); }
+.notice a { text-decoration: underline; text-underline-offset: 3px; }
+
 img,
 svg {
   display: block;
@@ -75,9 +81,13 @@ h4 {
   letter-spacing: -0.015em;
 }
 
+h1 { font-size: var(--fs-2xl); overflow-wrap: anywhere; }
+h2 { font-size: var(--fs-lg); }
+h3 { font-size: var(--fs-md); }
+
 :focus-visible {
   outline: 2px solid var(--color-secondary);
-  outline-offset: 2px;
+  outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
@@ -99,13 +109,13 @@ h4 {
   width: 100%;
   max-width: var(--content-max);
   margin: 0 auto;
-  padding: var(--space-6) var(--space-5) var(--space-8);
+  padding: var(--space-compact) var(--space-5) var(--space-5);
 }
 
 .page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-6);
+  gap: var(--space-4);
 }
 
 .page__header {
@@ -150,7 +160,7 @@ h4 {
 }
 
 .card--padded {
-  padding: var(--space-5);
+  padding: var(--space-4);
 }
 
 /* ------------------------------------------------------------- Botones */
@@ -161,7 +171,7 @@ h4 {
   justify-content: center;
   gap: var(--space-2);
   padding: 0 var(--space-4);
-  min-height: 42px;
+  min-height: 44px;
   border-radius: var(--radius-pill);
   border: 1px solid transparent;
   font-size: var(--fs-md);
@@ -249,7 +259,7 @@ h4 {
   min-height: 44px;
   padding: 0 var(--space-4);
   background: var(--color-surface-2);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-control-border);
   border-radius: var(--radius-md);
   color: var(--color-text);
   transition:
@@ -262,8 +272,9 @@ h4 {
 }
 
 .input:focus {
-  outline: none;
-  border-color: var(--color-primary);
+  outline: 2px solid var(--color-secondary);
+  outline-offset: 2px;
+  border-color: var(--color-secondary);
   background: var(--color-surface);
 }
 
@@ -347,16 +358,21 @@ h4 {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .song-card--clickable:hover { background: var(--color-surface-2); }
 }
 
 @media (max-width: 640px) {
   .app__main {
-    padding: var(--space-5) var(--space-4) var(--space-7);
+    padding: var(--space-4) var(--space-4) var(--space-5);
   }
 
   .page {
-    gap: var(--space-5);
+    gap: var(--space-4);
   }
 
   .page__title {
@@ -374,7 +390,7 @@ h4 {
   right: var(--space-5);
   bottom: var(--space-5);
 
-  z-index: calc(var(--z-overlay) + 20);
+  z-index: var(--z-menu);
 
   width: min(420px, calc(100vw - 32px));
 

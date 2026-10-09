@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-  padding: var(--space-6) 0 var(--space-2);
+  padding: 0;
 }
 
 .hero__eyebrow {
@@ -27,18 +27,15 @@
   gap: var(--space-2);
   font-size: var(--fs-xs);
   font-weight: 600;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-secondary);
 }
 
 .hero__title {
   font-size: var(--fs-3xl);
-  max-width: 20ch;
-  background: linear-gradient(120deg, var(--color-text) 20%, var(--color-secondary) 130%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  max-width: 44ch;
+  color: var(--color-text);
 }
 
 /* ------------------------------------------------------------ Buscador */
@@ -474,8 +471,8 @@
 
 .recommendations__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: var(--space-4);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: var(--space-3);
 }
 
 .song-card {
@@ -493,13 +490,12 @@
 }
 
 .song-card:hover {
-  transform: translateY(-3px);
   border-color: var(--color-border-strong);
-  box-shadow: var(--shadow-md);
 }
 
 .song-card.is-selected {
-  border-color: var(--color-primary);
+  border-color: var(--color-secondary);
+  box-shadow: inset 3px 0 var(--color-secondary);
 }
 
 .song-card__art {
@@ -539,7 +535,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-3) var(--space-4) var(--space-4);
+  padding: var(--space-3);
   flex: 1;
 }
 
@@ -627,7 +623,7 @@
 
 @media (max-width: 640px) {
   .hero {
-    padding-top: var(--space-4);
+    padding-top: 0;
   }
 
   .hero__title {
@@ -656,7 +652,7 @@
   }
 
   .recommendations__grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: 1fr;
     gap: var(--space-3);
   }
 }

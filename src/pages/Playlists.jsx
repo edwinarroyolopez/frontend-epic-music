@@ -36,7 +36,7 @@ function PlaylistView({ id, onNavigate }) {
     ;[ids[index], ids[index + delta]] = [ids[index + delta], ids[index]]
     action.run(() => playlistsApi.order(id, ids), done)
   }
-  return <div className="page stack stack--4">
+  return <div className="page playlist-page stack stack--4">
     <header className="page__header row row--wrap">
       <h1 className="page__title">{playlist?.name ?? t('playlists.title')}</h1>
       {id ? <button className="btn btn--secondary" onClick={() => onNavigate('/playlists')}>{t('common.back')}</button> :
@@ -53,11 +53,13 @@ function PlaylistView({ id, onNavigate }) {
         { key: 'updated', label: t('table.updated'), sortValue: item => Date.parse(item.updatedAt), render: item => <time dateTime={item.updatedAt}>{new Date(item.updatedAt).toLocaleString(language, { dateStyle: 'medium', timeStyle: 'short' })}</time> },
       ]} />}
     {playlist && <>
-      <p>{playlist.description}</p>
-      <p>{t('playlists.songCount', { count: playlist.songCount })}</p>
-      <div className="row row--wrap">
+      <div className="playlist-summary">
+        {playlist.description && <p>{playlist.description}</p>}
+        <p className="text-muted text-sm">{t('playlists.songCount', { count: playlist.songCount })}</p>
+      </div>
+      <div className="row row--wrap resource-toolbar">
         <button className="btn btn--secondary" disabled={action.busy} onClick={() => setModal('edit')}>{t('playlists.edit')}</button>
-        <button className="btn btn--secondary" disabled={action.busy} onClick={() => setDeleteTarget({ kind: 'playlist', id, name: playlist.name })}>{t('playlists.delete')}</button>
+        <button className="btn btn--danger" disabled={action.busy} onClick={() => setDeleteTarget({ kind: 'playlist', id, name: playlist.name })}>{t('playlists.delete')}</button>
         <button className="btn btn--primary" onClick={() => onNavigate('/')}>{t('playlists.discover')}</button>
       </div>
       <p className="text-muted">{t('discovery.notice')}</p>
@@ -91,8 +93,8 @@ function PlaylistSongs({ playlist, actions }) {
   return <>
     {!playlist.songs.length && <p>{t('playlists.noSongs')}</p>}
     <ol className="playlist-songs">{playlist.songs.map((song, index) => <li key={song.id}>
-      <SongCard song={song} showLyrics={song.originType === 'identified'} lyricsOnClick={song.originType === 'recommendation'}>
-        <p className="text-sm">{t(song.originType === 'identified' ? 'discovery.origin' : 'recommendations.title')}</p>
+      <SongCard song={song} showLyrics={song.originType === 'identified'} lyricsOnClick={song.originType === 'recommendation'}
+        context={`${String(index + 1).padStart(2, '0')} · ${t(song.originType === 'identified' ? 'discovery.origin' : 'recommendations.title')}`}>
         {actions?.(song, index)}
       </SongCard>
     </li>)}</ol>

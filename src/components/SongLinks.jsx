@@ -10,6 +10,5 @@ export function SongLinks({ song }) {
       <a key={key} href={links[key]} target="_blank" rel="noopener noreferrer" aria-label={t('musicLinks.search', { platform, title: song.title, artist: song.artist })}>
         <ExternalLink size={14} aria-hidden="true" />{platform}
       </a>)}
-    <small>{t('musicLinks.hint')}</small>
   </nav>
 }

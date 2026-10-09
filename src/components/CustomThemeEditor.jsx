@@ -1,6 +1,6 @@
 import { AlertTriangle, CheckCircle2, RotateCcw } from 'lucide-react'
 import { usePreferences } from '../context/PreferencesContext.jsx'
-import { hasAccessibleContrast } from '../utils/color.js'
+import { contrastForeground, customPaletteHasContrast } from '../utils/color.js'
 
 const COLOR_FIELDS = [
   { token: 'primary', label: 'settings.colorPrimary' },
@@ -13,7 +13,7 @@ const COLOR_FIELDS = [
 const PRESETS = [
   { name: 'Epica', colors: { primary: '#732248', background: '#1A141D', surface: '#221A27', text: '#F5EEF4', secondary: '#D5B979' } },
   { name: 'Vinilo', colors: { primary: '#2F5D50', background: '#12100E', surface: '#1D1A17', text: '#EDE7DC', secondary: '#C9A227' } },
-  { name: 'Ocre', colors: { primary: '#8C4A2F', background: '#FDFBF4', surface: '#FFFFFF', text: '#2A1C14', secondary: '#D5B979' } },
+  { name: 'Ocre', colors: { primary: '#8C4A2F', background: '#FDFBF4', surface: '#FFFFFF', text: '#2A1C14', secondary: '#684714' } },
   { name: 'Noche', colors: { primary: '#2D4A8A', background: '#0F1117', surface: '#181B24', text: '#E8ECF7', secondary: '#7FD1E0' } },
 ]
 
@@ -24,7 +24,7 @@ const PRESETS = [
  */
 export function CustomThemeEditor() {
   const { t, customColors, setCustomColor, resetCustomColors } = usePreferences()
-  const contrastOk = hasAccessibleContrast(customColors.text, customColors.background)
+  const contrastOk = customPaletteHasContrast(customColors)
 
   return (
     <div className="custom-theme">
@@ -72,6 +72,7 @@ export function CustomThemeEditor() {
         className="custom-theme__preview"
         style={{
           '--p-primary': customColors.primary,
+          '--p-primary-contrast': contrastForeground(customColors.primary),
           '--p-background': customColors.background,
           '--p-surface': customColors.surface,
           '--p-text': customColors.text,
@@ -90,7 +91,7 @@ export function CustomThemeEditor() {
         </div>
       </div>
 
-      <p className={`contrast-note${contrastOk ? ' is-ok' : ' is-warning'}`}>
+      <p role="status" className={`contrast-note${contrastOk ? ' is-ok' : ' is-warning'}`}>
         {contrastOk ? <CheckCircle2 size={15} aria-hidden="true" /> : <AlertTriangle size={15} aria-hidden="true" />}
         {contrastOk ? t('settings.contrastOk') : t('settings.contrastWarning')}
       </p>

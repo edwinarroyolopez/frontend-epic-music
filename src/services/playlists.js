@@ -13,6 +13,6 @@ export const playlistsApi = {
 }
 export function toSongInput(song, originType) {
   const value = { title: song.title, artist: song.artist, originType, catalogVerified: false }
-  for (const key of ['genre', 'album', 'releaseYear', 'reason']) if (song[key] != null) value[key] = song[key]
+  for (const key of ['genre', 'album', 'releaseYear', 'reason', 'songId', 'edition']) if (song[key] != null) value[key] = song[key]
   return value
 }

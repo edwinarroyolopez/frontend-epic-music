@@ -31,10 +31,10 @@ export function Home({ search, onNavigate }) {
       <div className="selection-toolbar card card--padded">
         <p role="status">{t('discovery.count', { count: search.selection.length })}</p>
         <div className="row row--wrap">
-          <button className="btn btn--secondary" onClick={search.selectAll}>{t('discovery.all')}</button>
-          <button className="btn btn--secondary" onClick={search.clear}>{t('discovery.clear')}</button>
-          <button className="btn btn--primary" disabled={!search.selection.length} onClick={() => canUsePlaylists ? setSaving(true) : onNavigate('/login')}>
-            {t(canUsePlaylists ? 'playlists.saveSelection' : 'playlists.signIn')}
+          <button className="btn btn--secondary" aria-label={t('discovery.all')} onClick={search.selectAll}>{t('discovery.allShort')}</button>
+          <button className="btn btn--secondary" aria-label={t('discovery.clear')} onClick={search.clear}>{t('discovery.clearShort')}</button>
+          <button className="btn btn--primary" aria-label={t(canUsePlaylists ? 'playlists.saveSelection' : 'playlists.signIn')} disabled={!search.selection.length} onClick={() => canUsePlaylists ? setSaving(true) : onNavigate('/login')}>
+            {t(canUsePlaylists ? 'playlists.saveSelection' : 'discovery.signInSave')}
           </button>
         </div>
       </div>

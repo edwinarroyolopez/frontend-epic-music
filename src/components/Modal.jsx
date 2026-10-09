@@ -70,9 +70,9 @@ export function Modal({ open, title, description, onClose, children, footer, siz
       }
       if (event.key !== 'Tab') return
 
-      const focusables = dialogRef.current?.querySelectorAll(
-        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled])',
-      )
+      const focusables = [...(dialogRef.current?.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), summary, [tabindex="0"]',
+      ) ?? [])].filter(element => element.getClientRects().length > 0 && !element.closest('[inert]'))
       if (!focusables?.length) { event.preventDefault(); dialog.focus(); return }
       const first = focusables[0]
       const last = focusables[focusables.length - 1]
@@ -95,7 +95,7 @@ export function Modal({ open, title, description, onClose, children, footer, siz
       syncModalStack()
       if (!wasTop) return
       const previous = previouslyFocused.current
-      if (previous?.isConnected && previous !== document.body && !previous.closest('[inert]')) previous.focus?.()
+      if (previous?.isConnected && previous !== document.body && !previous.closest('[inert]')) previous.focus?.({ preventScroll: true })
       else if (modalStack.length) modalStack.at(-1).dialog.focus()
       else document.getElementById('main')?.focus()
     }

@@ -27,12 +27,13 @@ function HistoryView({ local, id, onNavigate }) {
   const label = value => value.song ? `${value.song.title} — ${value.song.artist}` : t(`history.${value.status}`)
   const date = value => new Date(value).toLocaleString(language, { dateStyle: 'medium', timeStyle: 'short' })
   return <section className="page stack stack--4 history-page">
-    <header className="row row--wrap"><h1>{t('history.title')}</h1>
+    <header className="page__header"><h1 className="page__title">{t('history.title')}</h1>
+      <div className="row row--wrap">
       <button className="btn btn--secondary" disabled={query.loading} onClick={query.reload}>{t('history.refresh')}</button>
       {id && <button className="btn btn--secondary" onClick={() => onNavigate('/historial')}>{t('common.back')}</button>}
-    </header>
+      </div></header>
     <p className="notice">{t(local ? 'history.local' : 'history.synced')}</p>
-    <p className="text-muted text-sm">{t('history.privacy')}</p>
+    <details className="resource-privacy"><summary>{t('history.privacyTitle')}</summary><p className="text-muted text-sm">{t('history.privacy')}</p></details>
     <HistoryFeedback query={query} />
     {!id && !query.error && <DataTable className="history-table" caption={t('history.title')} rows={query.entries} loading={query.loading}
       emptyMessage={t('history.empty')} rowLabel={label} hasMore={Boolean(query.nextCursor)}

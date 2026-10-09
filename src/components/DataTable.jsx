@@ -29,7 +29,7 @@ export function DataTable({ caption, columns, rows, rowLabel, searchText, onView
           </button> : column.label}
         </th>)}<th role="columnheader" scope="col" className="data-table__actions-heading">{t('table.actions')}</th></tr></thead>
         <tbody role="rowgroup">{visible.map(row => <tr role="row" key={row.id} data-row-id={row.id}>
-          {columns.map(column => <td role="cell" key={column.key}><span className="data-table__mobile-label" aria-hidden="true">{column.label}</span><div>{column.render(row)}</div></td>)}
+          {columns.map(column => <td role="cell" key={column.key} data-column={column.key}><span className="data-table__mobile-label" aria-hidden="true">{column.label}</span><div>{column.render(row)}</div></td>)}
           <td role="cell" className="data-table__actions"><span className="data-table__mobile-label" aria-hidden="true">{t('table.actions')}</span><div>
             <button type="button" className="btn btn--secondary icon-action" disabled={loading} aria-label={t('table.view', { name: rowLabel(row) })} title={t('table.view', { name: rowLabel(row) })} onClick={() => onView(row)}><Eye size={18} aria-hidden="true" /></button>
             <button type="button" className="btn btn--secondary icon-action icon-action--danger" disabled={loading || deleteDisabled(row)} aria-label={t('table.delete', { name: rowLabel(row) })} title={t('table.delete', { name: rowLabel(row) })} onClick={() => onDelete(row)}><Trash2 size={18} aria-hidden="true" /></button>

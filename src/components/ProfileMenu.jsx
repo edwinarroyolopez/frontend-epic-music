@@ -36,10 +36,17 @@ export function ProfileMenu({ open, onClose, onNavigate, onSignOut }) {
         onCloseRef.current()
         return
       }
-      if (event.key !== 'Tab') return
-
       const focusable = menuRef.current?.querySelectorAll('button, a[href]')
       if (!focusable?.length) return
+      if (['ArrowDown', 'ArrowUp', 'Home', 'End'].includes(event.key)) {
+        event.preventDefault()
+        const index = [...focusable].indexOf(document.activeElement)
+        const next = event.key === 'Home' ? 0 : event.key === 'End' ? focusable.length - 1 :
+          (index + (event.key === 'ArrowDown' ? 1 : -1) + focusable.length) % focusable.length
+        focusable[next].focus()
+        return
+      }
+      if (event.key !== 'Tab') return
       const first = focusable[0]
       const last = focusable[focusable.length - 1]
 
@@ -93,11 +100,11 @@ export function ProfileMenu({ open, onClose, onNavigate, onSignOut }) {
           </div>
         </div>
 
-        <ul className="profile-menu__list">
+        <ul className="profile-menu__list" role="none">
           {items.map((item, index) => {
             const Icon = item.icon
             return (
-              <li key={item.key}>
+              <li key={item.key} role="none">
                 <button
                   ref={index === 0 ? firstItemRef : undefined}
                   type="button"

@@ -1,6 +1,7 @@
 import { Check, Languages } from 'lucide-react'
 import { usePreferences } from '../context/PreferencesContext.jsx'
 import { LANGUAGES } from '../translations/index.js'
+import { navigateRadioGroup } from '../utils/radio-navigation.js'
 
 const NAMES = { es: 'Español', en: 'English' }
 
@@ -9,7 +10,7 @@ export function LanguageSelector() {
   const { t, language, setLanguage } = usePreferences()
 
   return (
-    <div className="language-selector" role="radiogroup" aria-label={t('settings.language')}>
+    <div className="language-selector" role="radiogroup" aria-label={t('settings.language')} onKeyDown={navigateRadioGroup}>
       <span className="language-selector__icon" aria-hidden="true">
         <Languages size={16} />
       </span>
@@ -21,6 +22,7 @@ export function LanguageSelector() {
             type="button"
             role="radio"
             aria-checked={active}
+            tabIndex={active ? 0 : -1}
             className={`language-option${active ? ' is-active' : ''}`}
             onClick={() => setLanguage(code)}
           >

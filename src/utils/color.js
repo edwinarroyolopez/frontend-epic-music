@@ -80,3 +80,23 @@ export function contrastRatio(colorA, colorB) {
 export function hasAccessibleContrast(textColor, backgroundColor) {
   return contrastRatio(textColor, backgroundColor) >= 4.5
 }
+
+/** Choose button text independently of the user's page text color. */
+export function contrastForeground(background) {
+  return contrastRatio('#ffffff', background) >= contrastRatio('#000000', background) ? '#ffffff' : '#000000'
+}
+
+function mixHex(a, b, ratio) {
+  const first = parseColor(a), second = parseColor(b)
+  if (!first || !second) return '#000000'
+  return '#' + ['r', 'g', 'b'].map(key => Math.round(first[key] * ratio + second[key] * (1 - ratio)).toString(16).padStart(2, '0')).join('')
+}
+
+/** Mirrors the custom CSS surfaces; this is a palette check, not WCAG certification. */
+export function customPaletteHasContrast(colors) {
+  const { text, background, surface, secondary, primary } = colors
+  const surfaces = [background, surface, mixHex(surface, text, .88), mixHex(surface, text, .78)]
+  const muted = mixHex(text, background, .80)
+  return surfaces.every(bg => [text, muted, secondary].every(fg => hasAccessibleContrast(fg, bg))) &&
+    hasAccessibleContrast(contrastForeground(primary), primary)
+}

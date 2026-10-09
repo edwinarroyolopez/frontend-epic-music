@@ -194,7 +194,7 @@
 }
 
 .theme-option.is-active {
-  border-color: var(--color-primary);
+  border-color: var(--color-secondary);
   background: var(--color-primary-soft);
 }
 
@@ -233,7 +233,7 @@
 
 .theme-option__check {
   margin-left: auto;
-  color: var(--color-primary);
+  color: var(--color-secondary);
 }
 
 .theme-option__label {
@@ -442,7 +442,7 @@
 
 .preview__btn--primary {
   background: var(--p-primary);
-  color: var(--p-text);
+  color: var(--p-primary-contrast);
 }
 
 .preview__chip {
@@ -466,7 +466,10 @@
 }
 
 .contrast-note.is-warning {
-  color: var(--color-warning);
+  color: #493215;
+  background: #fff3cc;
+  padding: 12px;
+  border-radius: var(--radius-sm);
 }
 
 .custom-theme__reset {
@@ -478,16 +481,15 @@
 .login {
   display: flex;
   justify-content: center;
-  padding: var(--space-5) 0;
+  padding: 0;
 }
 
 .login__card {
-  width: min(430px, 100%);
+  width: min(460px, 100%);
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  padding: var(--space-6);
-  box-shadow: var(--shadow-md);
+  padding: var(--space-compact);
 }
 
 .login__head {
@@ -501,8 +503,8 @@
 .login__mark {
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-lg);
   background: var(--color-primary);
 }
@@ -650,11 +652,17 @@
   .theme-selector {
     grid-template-columns: 1fr;
   }
+  .theme-option { display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 4px 8px; padding: 10px; }
+  .theme-option__top { grid-row: 1 / span 2; position: relative; }
+  .theme-option__swatch { display: none; }
+  .theme-option__check { position: absolute; bottom: -2px; right: 0; background: var(--color-surface); border-radius: 50%; }
+  .theme-option__label { font-size: var(--fs-sm); }
 
   .data-list__row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
+    display: grid;
+    grid-template-columns: minmax(80px, .65fr) minmax(0, 1fr);
+    align-items: baseline;
+    gap: 8px;
   }
 
   .data-list dd {
@@ -665,6 +673,16 @@
     padding: var(--space-5) var(--space-4);
   }
 }
+
+@media (min-width: 900px) {
+  .settings, .account, .profile { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .settings > .page__header, .account > .page__header, .profile > .page__header { grid-column: 1 / -1; }
+  .settings > section:first-of-type { grid-column: 1 / -1; }
+  .account > section:nth-of-type(2), .profile > .profile__hero { grid-row: span 2; }
+}
+.profile__identity-text, .account__identity > div { min-width: 0; overflow-wrap: anywhere; }
+.form-grid { grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); }
+.login__providers-note { text-align: center; }
 
 /* ============================================================ Perfil ==== */
 
@@ -967,7 +985,7 @@
   display: flex;
   flex-direction: column;
   width: min(520px, 100%);
-  max-height: min(88vh, 780px);
+  max-height: min(calc(100dvh - 32px), 900px);
   overflow: hidden;
   padding: 0;
   box-shadow: var(--shadow-lg);
@@ -990,7 +1008,8 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-5) var(--space-5) 0;
+  padding: var(--space-4) var(--space-4) 0;
+  align-items: center;
 }
 
 .modal__title {
@@ -998,7 +1017,7 @@
 }
 
 .modal__description {
-  padding: var(--space-1) var(--space-5) 0;
+  padding: var(--space-1) var(--space-4) 0;
   font-size: var(--fs-sm);
   color: var(--color-text-muted);
 }
@@ -1025,14 +1044,15 @@
   flex: 1;
   min-height: 0;
   overflow-y: auto;
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-4);
+  overscroll-behavior: contain;
 }
 
 .modal__footer {
   display: flex;
   justify-content: flex-end;
   gap: var(--space-3);
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-3) var(--space-4);
   border-top: 1px solid var(--color-border);
   background: var(--color-surface);
 }

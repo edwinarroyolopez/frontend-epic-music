@@ -13,6 +13,8 @@ const safeInput = value => ({
   })), needsConfirmation: value?.needsConfirmation === true, directoryStatus: value?.directoryStatus === 'available' ? 'available' : 'unavailable',
 })
 const safeSong = value => value?.title && value?.artist ? {
+  ...(typeof value.songId === 'string' && /^[a-f\d]{24}$/i.test(value.songId) && { songId: value.songId }),
+  ...(typeof value.edition === 'string' && { edition: text(value.edition) }),
   title: text(value.title), artist: text(value.artist), genre: text(value.genre), album: text(value.album),
   reason: text(value.reason, 2000), releaseYear: Number.isInteger(value.releaseYear) ? value.releaseYear : null,
   catalogVerified: false,

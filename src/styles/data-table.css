@@ -3,7 +3,7 @@
 .data-table__toolbar { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: var(--space-3); padding: var(--space-4); }
 .data-table__filter { display: grid; gap: 6px; flex: 1; max-width: 28rem; min-width: 0; }
 .data-table__filter label { font-weight: 600; font-size: var(--fs-sm); }
-.data-table__filter > div { display: flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-sm); background: var(--color-surface-2); }
+.data-table__filter > div { display: flex; align-items: center; gap: 8px; padding: 0 10px; border: 1px solid var(--color-control-border); border-radius: var(--radius-sm); background: var(--color-surface-2); }
 .data-table__filter input { min-width: 0; width: 100%; background: transparent; color: var(--color-text); border: 0; padding: 10px 0; font: inherit; }
 .data-table > p { padding: 0 var(--space-4) var(--space-3); }
 .data-table__scroll { overflow-x: auto; }
@@ -24,26 +24,33 @@
 .modal__title { overflow-wrap: anywhere; min-width: 0; }
 .modal__close { min-width: 44px; min-height: 44px; }
 .modal__footer { flex-wrap: wrap; }
-.song-links { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 8px; }
-.song-links a { display: inline-flex; align-items: center; gap: 5px; padding: 6px 8px; min-height: 36px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: var(--fs-sm); }
+.song-links { display: flex; flex-wrap: wrap; gap: 4px; }
+.song-links a { display: inline-flex; align-items: center; justify-content: center; gap: 4px; padding: 6px; min-height: 44px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); font-size: var(--fs-xs); }
+.song-links svg { width: 12px; }
 .song-links a:hover { background: var(--color-surface-2); }
 .song-links small { flex-basis: 100%; color: var(--color-text-muted); }
 .song-card--clickable { position: relative; }
 .song-card__open { position: static; text-align: left; color: inherit; font: inherit; width: 100%; }
 .song-card__open::after { content: ''; position: absolute; inset: 0; z-index: 1; cursor: pointer; border-radius: var(--radius-lg); }
-.song-card__open:focus-visible::after { outline: 3px solid var(--color-primary); outline-offset: -4px; }
+.song-card__open:focus-visible::after { outline: 3px solid var(--color-secondary); outline-offset: -4px; }
 .song-card__open:hover { text-decoration: underline; }
 .song-card__lyrics-hint { display: block; font-size: var(--fs-xs); font-weight: 400; color: var(--color-text-muted); margin-top: 4px; }
 .song-card--clickable a, .song-card--clickable label, .song-card--clickable button:not(.song-card__open) { position: relative; z-index: 2; }
 .modal-layer { position: fixed; inset: 0; z-index: calc(var(--z-overlay) + var(--modal-depth, 0) * 2); }
 .lyrics-panel { min-width: 0; }
 .lyrics-panel > div { margin-top: var(--space-3); }
-.lyrics-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; max-height: 28rem; overflow-y: auto; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-2); }
+.lyrics-content { display: grid; gap: var(--space-4); align-items: start; }
+.lyrics-content__text { min-width: 0; }
+.lyrics-content__text a { text-decoration: underline; text-underline-offset: 3px; }
+.lyrics-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface-2); }
+@media (min-width: 768px) {
+  .modal__dialog--wide .lyrics-content { grid-template-columns: minmax(0, 1fr) minmax(240px, .65fr); }
+}
 .emotion-metrics { padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
 .emotion-metrics__list { display: grid; gap: 12px; list-style: none; padding: 0; }
 .emotion-metrics__label { display: flex; justify-content: space-between; gap: 12px; }
 .emotion-metrics__meter { height: 8px; margin-top: 5px; border-radius: var(--radius-pill); background: var(--color-surface-3); overflow: hidden; }
-.emotion-metrics__meter > span { display: block; height: 100%; background: var(--color-primary); border-radius: inherit; }
+.emotion-metrics__meter > span { display: block; height: 100%; background: var(--color-secondary); border-radius: inherit; }
 @media (max-width: 640px) {
   .data-table__toolbar { align-items: stretch; flex-direction: column; }
   .data-table__filter { max-width: none; }
@@ -51,11 +58,18 @@
   .data-table thead { display: block; }
   .data-table thead tr { display: flex; flex-wrap: wrap; gap: 4px; }
   .data-table th { padding: 2px 8px; border: 0; border-radius: var(--radius-sm); }
-  .data-table__actions-heading { display: none; }
-  .data-table tr { display: grid; padding: var(--space-3); border-top: 1px solid var(--color-border-strong); gap: 8px; }
-  .data-table td { display: grid; grid-template-columns: minmax(80px, 30%) minmax(0, 1fr); gap: 8px; border: 0; padding: 4px; }
-  .data-table__mobile-label { display: block; font-size: var(--fs-sm); font-weight: 600; color: var(--color-text-muted); }
+  .data-table__actions-heading { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .data-table tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) auto; padding: var(--space-3); border-top: 1px solid var(--color-border-strong); gap: 4px 12px; }
+  .data-table td { display: block; grid-column: 1; border: 0; padding: 0; font-size: var(--fs-sm); }
+  .data-table td:first-child { grid-column: 1 / -1; padding-bottom: 4px; font-size: var(--fs-md); }
+  .data-table td:first-child > div > a { display: inline-flex; align-items: center; min-height: 44px; }
+  .data-table__mobile-label { display: inline; margin-right: 6px; font-size: var(--fs-xs); color: var(--color-text-muted); }
+  .data-table__mobile-label::after { content: ':'; }
+  .data-table td:first-child .data-table__mobile-label, .data-table__actions .data-table__mobile-label { display: none; }
+  .data-table td:not(:first-child):not(.data-table__actions) > div { display: inline; }
+  .data-table td.data-table__actions { grid-column: 2; grid-row: 2 / span 3; align-self: center; }
+  .data-table__actions > div { flex-direction: column; gap: 4px; }
   .data-table__actions > div { justify-content: flex-end; }
-  .modal { padding: 10px; }
-  .modal__dialog { max-height: 92dvh; }
+  .modal { padding: max(8px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right)) max(8px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left)); }
+  .modal__dialog { max-height: calc(100dvh - 24px); }
 }

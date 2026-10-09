@@ -16,7 +16,7 @@
   --color-secondary: #d5b979;
 
   /* Derivados */
-  --color-primary-strong: color-mix(in srgb, var(--color-primary) 85%, var(--color-text) 15%);
+  --color-primary-strong: var(--color-primary);
   --color-primary-soft: color-mix(in srgb, var(--color-primary) 28%, transparent);
   --color-primary-contrast: var(--color-text);
 
@@ -25,7 +25,7 @@
   --color-surface-3: color-mix(in srgb, var(--color-surface) 78%, var(--color-text) 22%);
 
   --color-text-soft: color-mix(in srgb, var(--color-text) 82%, var(--color-background) 18%);
-  --color-text-muted: color-mix(in srgb, var(--color-text) 62%, var(--color-background) 38%);
+  --color-text-muted: color-mix(in srgb, var(--color-text) 80%, var(--color-background) 20%);
 
   --color-secondary-soft: color-mix(in srgb, var(--color-secondary) 18%, transparent);
 

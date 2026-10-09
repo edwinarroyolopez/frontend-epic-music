@@ -1,5 +1,6 @@
 import { Check, Moon, Palette, Sun } from 'lucide-react'
 import { usePreferences } from '../context/PreferencesContext.jsx'
+import { navigateRadioGroup } from '../utils/radio-navigation.js'
 
 const THEME_OPTIONS = [
   { key: 'dark', icon: Moon, label: 'settings.themeDark', hint: 'settings.themeDarkHint', swatch: ['#732248', '#1A141D'] },
@@ -12,7 +13,7 @@ export function ThemeSelector({ onOpenCustom }) {
   const { t, theme, setTheme } = usePreferences()
 
   return (
-    <div className="theme-selector" role="radiogroup" aria-label={t('settings.theme')}>
+    <div className="theme-selector" role="radiogroup" aria-label={t('settings.theme')} onKeyDown={navigateRadioGroup}>
       {THEME_OPTIONS.map((option) => {
         const Icon = option.icon
         const active = theme === option.key
@@ -22,6 +23,7 @@ export function ThemeSelector({ onOpenCustom }) {
             type="button"
             role="radio"
             aria-checked={active}
+            tabIndex={active ? 0 : -1}
             className={`theme-option${active ? ' is-active' : ''}`}
             onClick={() => {
               setTheme(option.key)

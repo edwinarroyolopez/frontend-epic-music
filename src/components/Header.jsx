@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { LogIn, Search } from 'lucide-react'
+import { LogIn, Search, Settings } from 'lucide-react'
 import { usePreferences } from '../context/PreferencesContext.jsx'
 import { useUser } from '../context/UserContext.jsx'
 import { Brand } from './Brand.jsx'
@@ -35,20 +35,22 @@ export function Header({ path, onNavigate, onSearchClick }) {
         <Brand onClick={() => onNavigate('/')} />
 
         <nav className="header__nav" aria-label={t('app.name')}>
-          <button type="button" className={`header__link${path === '/historial' ? ' is-active' : ''}`} aria-current={path === '/historial' ? 'page' : undefined} onClick={() => onNavigate('/historial')}>{t('history.title')}</button>
-          <button type="button" className={`header__link${path === '/playlists' ? ' is-active' : ''}`} aria-current={path === '/playlists' ? 'page' : undefined} onClick={() => onNavigate('/playlists')}>{t('playlists.title')}</button>
           <button
             type="button"
             className={`header__link${path === '/' ? ' is-active' : ''}`}
             onClick={onSearchClick}
             aria-current={path === '/' ? 'page' : undefined}
+            aria-label={t('nav.home')} title={t('nav.home')}
           >
             <Search size={15} aria-hidden="true" />
-            {t('nav.home')}
+            <span className="header__search-label">{t('nav.home')}</span>
           </button>
+          <button type="button" className={`header__link${path === '/historial' ? ' is-active' : ''}`} aria-current={path === '/historial' ? 'page' : undefined} onClick={() => onNavigate('/historial')}>{t('history.title')}</button>
+          <button type="button" className={`header__link${path === '/playlists' ? ' is-active' : ''}`} aria-label={t('playlists.title')} aria-current={path === '/playlists' ? 'page' : undefined} onClick={() => onNavigate('/playlists')}>Playlists</button>
         </nav>
 
         <div className="header__actions">
+          <button type="button" className={`header__settings header__link${path === '/ajustes' ? ' is-active' : ''}`} aria-label={t('settings.title')} title={t('settings.title')} aria-current={path === '/ajustes' ? 'page' : undefined} onClick={() => onNavigate('/ajustes')}><Settings size={18} aria-hidden="true" /></button>
           {isAuthenticated ? (
             <ProfileMenuTrigger
               user={user}
@@ -59,9 +61,9 @@ export function Header({ path, onNavigate, onSearchClick }) {
               onSignOut={signOut}
             />
           ) : (
-            <button type="button" className="btn btn--primary header__login" onClick={() => onNavigate('/login')}>
+            <button type="button" className="btn btn--primary header__login" aria-label={t('nav.login')} title={t('nav.login')} onClick={() => onNavigate('/login')}>
               <LogIn size={16} aria-hidden="true" />
-              {t('nav.login')}
+              <span>{t('nav.login')}</span>
             </button>
           )}
         </div>

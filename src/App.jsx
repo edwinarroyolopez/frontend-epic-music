@@ -80,7 +80,7 @@ export function App() {
       return
     }
     mainRef.current?.focus({ preventScroll: true })
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }, [path])
 
   const goHome = useCallback(() => navigate('/'), [navigate])
@@ -91,13 +91,17 @@ export function App() {
       return
     }
     requestAnimationFrame(() => {
-      document.getElementById('settings-custom')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      document.getElementById('settings-custom')?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'nearest' })
     })
   }, [path, navigate])
 
   return (
     <div className="app">
-      <a className="skip-link" href="#main">
+      <a className="skip-link" href="#main" onClick={event => {
+        event.preventDefault()
+        mainRef.current?.focus({ preventScroll: true })
+        window.scrollTo({ top: 0, behavior: 'instant' })
+      }}>
         {t('nav.skipToContent')}
       </a>
 
