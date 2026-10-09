@@ -1,0 +1,178 @@
+[
+  {
+    "preset": "mobile",
+    "fetchTime": "2026-10-09T23:50:31.505Z",
+    "lighthouseVersion": "12.8.2",
+    "formFactor": "mobile",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "seo": 1
+    },
+    "audits": {
+      "first-contentful-paint": {
+        "score": 0.96,
+        "numericValue": 1506.2243,
+        "displayValue": "1.5 s"
+      },
+      "largest-contentful-paint": {
+        "score": 0.98,
+        "numericValue": 1806.2243,
+        "displayValue": "1.8 s"
+      },
+      "total-blocking-time": {
+        "score": 1,
+        "numericValue": 0,
+        "displayValue": "0 ms"
+      },
+      "cumulative-layout-shift": {
+        "score": 1,
+        "numericValue": 0,
+        "displayValue": "0"
+      },
+      "speed-index": {
+        "score": 1,
+        "numericValue": 1506.2243,
+        "displayValue": "1.5 s"
+      },
+      "total-byte-weight": {
+        "score": 1,
+        "numericValue": 149491,
+        "displayValue": "Total size was 146 KiB"
+      },
+      "render-blocking-resources": {
+        "score": 0,
+        "numericValue": 150,
+        "displayValue": "Est savings of 150 ms"
+      },
+      "unused-javascript": {
+        "score": 0,
+        "numericValue": 300,
+        "displayValue": "Est savings of 67 KiB"
+      },
+      "font-display": {
+        "score": 1
+      }
+    },
+    "failedAudits": [
+      {
+        "id": "first-contentful-paint",
+        "title": "First Contentful Paint",
+        "score": 0.96,
+        "displayValue": "1.5 s"
+      },
+      {
+        "id": "largest-contentful-paint",
+        "title": "Largest Contentful Paint",
+        "score": 0.98,
+        "displayValue": "1.8 s"
+      },
+      {
+        "id": "render-blocking-resources",
+        "title": "Eliminate render-blocking resources",
+        "score": 0,
+        "displayValue": "Est savings of 150 ms"
+      },
+      {
+        "id": "unused-javascript",
+        "title": "Reduce unused JavaScript",
+        "score": 0,
+        "displayValue": "Est savings of 67 KiB"
+      },
+      {
+        "id": "network-dependency-tree-insight",
+        "title": "Network dependency tree",
+        "score": 0
+      },
+      {
+        "id": "render-blocking-insight",
+        "title": "Render blocking requests",
+        "score": 0,
+        "displayValue": "Est savings of 150 ms"
+      }
+    ],
+    "warnings": [],
+    "scope": "Single local lab run, not field Core Web Vitals; no INP claim."
+  },
+  {
+    "preset": "desktop",
+    "fetchTime": "2026-10-09T23:50:37.485Z",
+    "lighthouseVersion": "12.8.2",
+    "formFactor": "desktop",
+    "scores": {
+      "performance": 1,
+      "accessibility": 1,
+      "seo": 1
+    },
+    "audits": {
+      "first-contentful-paint": {
+        "score": 1,
+        "numericValue": 363.3916,
+        "displayValue": "0.4 s"
+      },
+      "largest-contentful-paint": {
+        "score": 1,
+        "numericValue": 403.3916,
+        "displayValue": "0.4 s"
+      },
+      "total-blocking-time": {
+        "score": 1,
+        "numericValue": 0,
+        "displayValue": "0 ms"
+      },
+      "cumulative-layout-shift": {
+        "score": 1,
+        "numericValue": 0,
+        "displayValue": "0"
+      },
+      "speed-index": {
+        "score": 1,
+        "numericValue": 363.3916,
+        "displayValue": "0.4 s"
+      },
+      "total-byte-weight": {
+        "score": 1,
+        "numericValue": 149491,
+        "displayValue": "Total size was 146 KiB"
+      },
+      "render-blocking-resources": {
+        "score": 1,
+        "numericValue": 0
+      },
+      "unused-javascript": {
+        "score": 0,
+        "numericValue": 40,
+        "displayValue": "Est savings of 67 KiB"
+      },
+      "font-display": {
+        "score": 1
+      }
+    },
+    "failedAudits": [
+      {
+        "id": "unused-css-rules",
+        "title": "Reduce unused CSS",
+        "score": 0.5,
+        "displayValue": "Est savings of 11 KiB"
+      },
+      {
+        "id": "unused-javascript",
+        "title": "Reduce unused JavaScript",
+        "score": 0,
+        "displayValue": "Est savings of 67 KiB"
+      },
+      {
+        "id": "network-dependency-tree-insight",
+        "title": "Network dependency tree",
+        "score": 0
+      },
+      {
+        "id": "render-blocking-insight",
+        "title": "Render blocking requests",
+        "score": 0.5
+      }
+    ],
+    "warnings": [],
+    "scope": "Single local lab run, not field Core Web Vitals; no INP claim."
+  }
+]

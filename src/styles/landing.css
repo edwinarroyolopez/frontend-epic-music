@@ -1,5 +1,14 @@
 /* An editorial entrance: the existing plum / wine / gold palette, with air. */
 .landing { --landing-gold: var(--color-secondary); padding-bottom: 56px; }
+.landing-nojs { padding: 16px; margin-top: 20px; border: 1px solid var(--color-border); border-radius: 12px; color: var(--color-text-soft); line-height: 1.7; }
+.landing-faq { padding-bottom: 48px; }
+.landing .landing-faq h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+.landing-faq > p { max-width: 80ch; margin-top: 16px; color: var(--color-text-soft); font-size: .9375rem; line-height: 1.8; }
+.landing-faq__questions { margin-top: 24px; border-top: 1px solid var(--color-border); }
+.landing-faq details { border-bottom: 1px solid var(--color-border); }
+.landing-faq summary { padding: 16px 0; min-height: 48px; cursor: pointer; font-size: .9375rem; font-weight: 500; }
+.landing-faq summary::marker { color: var(--color-secondary); }
+.landing-faq details p { max-width: 85ch; padding: 0 0 20px 18px; color: var(--color-text-soft); font-size: .875rem; line-height: 1.8; }
 .landing button, .landing a { -webkit-tap-highlight-color: transparent; }
 .landing [hidden] { display: none; }
 .landing-eyebrow { display: flex; align-items: center; gap: 12px; color: var(--landing-gold); font-size: .6875rem; font-weight: 550; letter-spacing: .19em; text-transform: uppercase; }

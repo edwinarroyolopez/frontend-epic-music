@@ -1,0 +1,24 @@
+{
+  "dev.html": {
+    "viewport": "width=device-width, initial-scale=1.0",
+    "description": "¿Recuerdas parte de una canción? Encuéntrala con ayuda de IA, descubre recomendaciones y guarda tus hallazgos en playlists con Música Épica.",
+    "theme-color": "#1A141D",
+    "robots": "index, follow, max-image-preview:large",
+    "og:type": "website",
+    "og:site_name": "Música Épica",
+    "og:title": "Música Épica | Recuerda una letra. Descubre la canción.",
+    "og:description": "Recuerda una letra. Descubre la canción. Explora nuevas afinidades musicales con Música Épica.",
+    "og:url": "https://musica-epica-ed.netlify.app/",
+    "og:image": "https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png",
+    "og:image:secure_url": "https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png",
+    "og:image:type": "image/png",
+    "og:image:width": "1731",
+    "og:image:height": "909",
+    "og:image:alt": "Música Épica: vinilo y tarjetas ilustrativas de búsqueda por letra, descubrimientos y playlists en tonos vino y dorado.",
+    "twitter:card": "summary_large_image",
+    "twitter:title": "Música Épica | Recuerda una letra. Descubre la canción.",
+    "twitter:description": "Recuerda una letra. Descubre la canción. Explora nuevas afinidades musicales con Música Épica.",
+    "twitter:image": "https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png",
+    "twitter:image:alt": "Música Épica: vinilo y tarjetas ilustrativas de búsqueda por letra, descubrimientos y playlists en tonos vino y dorado."
+  }
+}

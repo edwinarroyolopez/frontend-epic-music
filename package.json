@@ -8,6 +8,8 @@
     "build": "vite build",
     "lint": "oxlint",
     "test": "node --test test/*.test.js",
+    "test:seo": "npm run build && node scripts/build-standalone.mjs && python3 scripts/check-seo.py --head-only dev.html && python3 scripts/check-seo.py && python3 scripts/test-seo.py",
+    "test:seo:browser": "node scripts/check-seo-browser.mjs",
     "preview": "vite preview",
     "dev:front": "vite"
   },

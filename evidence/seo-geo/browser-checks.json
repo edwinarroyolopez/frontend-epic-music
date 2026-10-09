@@ -1,0 +1,307 @@
+{
+  "browser": "147.0.7727.116",
+  "http": [
+    {
+      "url": "http://127.0.0.1:4173/",
+      "status": 200,
+      "type": "text/html",
+      "bytes": 23496
+    },
+    {
+      "url": "http://127.0.0.1:4173/robots.txt",
+      "status": 200,
+      "type": "text/plain",
+      "bytes": 117
+    },
+    {
+      "url": "http://127.0.0.1:4173/sitemap.xml",
+      "status": 200,
+      "type": "text/xml",
+      "bytes": 171
+    },
+    {
+      "url": "http://127.0.0.1:4173/seo-unknown-path",
+      "status": 404,
+      "type": null,
+      "bytes": 0
+    },
+    {
+      "url": "http://127.0.0.1:4173/playlists",
+      "status": 404,
+      "type": null,
+      "bytes": 0
+    },
+    {
+      "agent": "facebookexternalhit/1.1",
+      "status": 200,
+      "sameHTML": true
+    },
+    {
+      "agent": "Twitterbot/1.0",
+      "status": 200,
+      "sameHTML": true
+    },
+    {
+      "agent": "OAI-SearchBot/1.4",
+      "status": 200,
+      "sameHTML": true
+    },
+    {
+      "agent": "Googlebot",
+      "status": 200,
+      "sameHTML": true
+    },
+    {
+      "agent": "bingbot",
+      "status": 200,
+      "sameHTML": true
+    }
+  ],
+  "views": [
+    {
+      "name": "nojs-es-320",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": null,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "nojs-es-390",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": null,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "nojs-es-768",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": null,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "nojs-es-1366",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": null,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "nojs-es-1440",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": null,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-es-320",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-es-390",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": true,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-es-768",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-es-1366",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": true,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-es-1440",
+      "h1": "Hay canciones\nque te encuentran.",
+      "axeRun": false,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-en-320",
+      "h1": "Some songs\nfind their way to you.",
+      "axeRun": false,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-en-390",
+      "h1": "Some songs\nfind their way to you.",
+      "axeRun": true,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-en-768",
+      "h1": "Some songs\nfind their way to you.",
+      "axeRun": false,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-en-1366",
+      "h1": "Some songs\nfind their way to you.",
+      "axeRun": true,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    },
+    {
+      "name": "js-en-1440",
+      "h1": "Some songs\nfind their way to you.",
+      "axeRun": false,
+      "violations": [],
+      "cls": 0,
+      "errors": [],
+      "failed": [],
+      "socialImageDownloaded": false
+    }
+  ],
+  "flows": [
+    {
+      "registration": "PASS (fixture API)",
+      "login": "PASS (fixture API)",
+      "reentry": "PASS (fixture API)",
+      "logout": "PASS",
+      "guards": 5,
+      "analysisDisabled": true,
+      "calls": [
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/signup",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/me",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/providers",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/login",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/me",
+          "method": "GET"
+        }
+      ],
+      "errors": [],
+      "failed": []
+    },
+    {
+      "languageSwitchAndReload": "PASS",
+      "lightTheme": "PASS",
+      "illustrationAndPause": "PASS"
+    },
+    {
+      "url": "http://127.0.0.1:4174/",
+      "landing": "PASS",
+      "errors": []
+    },
+    {
+      "url": "http://127.0.0.1:4175/",
+      "landing": "PASS",
+      "errors": []
+    }
+  ],
+  "scope": "Local build; authentication API responses are fixtures, not a live account.",
+  "status": "PASS"
+}

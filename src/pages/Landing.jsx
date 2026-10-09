@@ -6,7 +6,7 @@ import '../styles/landing.css'
 const steps = ['remember', 'discover', 'keep']
 const icons = [Search, Sparkles, ListMusic]
 
-export function Landing() {
+export function Landing({ staticView = false }) {
   const { t } = usePreferences()
   const [step, setStep] = useState(0)
   const [paused, setPaused] = useState(false)
@@ -23,7 +23,7 @@ export function Landing() {
         <p className="landing-hero__description">{t('landing.description')}</p>
         <div className="landing-hero__actions">
           <a href="#/registro" className="btn btn--primary landing-cta">{t('landing.start')}<ArrowUpRight size={18} aria-hidden="true" /></a>
-          <button type="button" className="landing-text-link" onClick={explore}>{t('landing.explore')}<ArrowDown size={15} aria-hidden="true" /></button>
+          <button type="button" disabled={staticView} className="landing-text-link" onClick={explore}>{t('landing.explore')}<ArrowDown size={15} aria-hidden="true" /></button>
         </div>
         <p className="landing-hero__note"><Headphones size={15} aria-hidden="true" />{t('landing.heroNote')}</p>
       </div>
@@ -31,7 +31,7 @@ export function Landing() {
       <div className={`landing-studio${paused ? ' is-paused' : ''}`}>
         <div className="landing-studio__top">
           <span><AudioLines size={16} aria-hidden="true" />{t('landing.studioLabel')}</span>
-          <button type="button" className="landing-motion" aria-label={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} title={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} onClick={() => setPaused(value => !value)}>
+          <button type="button" disabled={staticView} className="landing-motion" aria-label={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} title={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} onClick={() => setPaused(value => !value)}>
             {paused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
           </button>
         </div>
@@ -61,7 +61,7 @@ export function Landing() {
           </div>
         </div>
         <div className="landing-studio__steps" role="group" aria-label={t('landing.previewControls')}>
-          {steps.map((name, index) => <button key={name} type="button" aria-pressed={step === index} onClick={() => setStep(index)}><span>0{index + 1}</span>{t(`landing.${name}`)}</button>)}
+          {steps.map((name, index) => <button key={name} type="button" disabled={staticView} aria-pressed={step === index} onClick={() => setStep(index)}><span>0{index + 1}</span>{t(`landing.${name}`)}</button>)}
         </div>
         <p className="landing-studio__caption">{t('landing.previewNote')}</p>
       </div>
@@ -84,10 +84,23 @@ export function Landing() {
         {steps.map((name, index) => {
           const Icon = icons[index]
           return <div key={name} className={`landing-feature${step === index ? ' is-active' : ''}`}>
-            <h3><button type="button" aria-expanded={step === index} aria-controls={`landing-feature-${name}`} onClick={() => setStep(index)}><span className="landing-feature__number">0{index + 1}</span><span>{t(`landing.${name}Title`)}</span>{step === index ? <Minus size={17} aria-hidden="true" /> : <Plus size={17} aria-hidden="true" />}</button></h3>
+            <h3><button type="button" disabled={staticView} aria-expanded={staticView || step === index} aria-controls={`landing-feature-${name}`} onClick={() => setStep(index)}><span className="landing-feature__number">0{index + 1}</span><span>{t(`landing.${name}Title`)}</span>{step === index ? <Minus size={17} aria-hidden="true" /> : <Plus size={17} aria-hidden="true" />}</button></h3>
             <div id={`landing-feature-${name}`} hidden={step !== index} className="landing-feature__body"><p>{t(`landing.${name}Description`)}</p><span className="landing-feature__detail"><Icon size={15} aria-hidden="true" />{t(`landing.${name}Detail`)}</span></div>
           </div>
         })}
+      </div>
+    </section>
+
+    <section className="landing-faq" aria-labelledby="landing-faq-title">
+      <h2 id="landing-faq-title">{t('landing.faqTitle')}</h2>
+      <p>{t('landing.faqIntro')}</p>
+      <div className="landing-faq__questions">
+        {['Phrase', 'Identify', 'Related', 'Analysis', 'Personality', 'Save', 'Links'].map(topic =>
+          <details key={topic}>
+            <summary>{t(`landing.faq${topic}Q`)}</summary>
+            <p>{t(`landing.faq${topic}A`)}</p>
+          </details>,
+        )}
       </div>
     </section>
 

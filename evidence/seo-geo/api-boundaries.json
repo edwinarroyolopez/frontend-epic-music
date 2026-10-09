@@ -1,0 +1,70 @@
+[
+  {
+    "url": "https://backend-epic-music-production.up.railway.app/auth/providers",
+    "status": 200,
+    "date": "Fri, 09 Oct 2026 23:48:23 GMT",
+    "allowOrigin": "https://musica-epica-ed.netlify.app",
+    "capabilities": {
+      "email": true,
+      "apple": false,
+      "google": false,
+      "spotify": false
+    }
+  },
+  {
+    "url": "https://backend-epic-music-production.up.railway.app/playlist-personality/providers",
+    "status": 200,
+    "date": "Fri, 09 Oct 2026 23:48:23 GMT",
+    "allowOrigin": "https://musica-epica-ed.netlify.app",
+    "capabilities": {
+      "manual": {
+        "status": "available",
+        "metadata_access": null,
+        "import": null,
+        "analysis": true
+      },
+      "internal": {
+        "status": "available",
+        "metadata_access": null,
+        "import": null,
+        "analysis": true
+      },
+      "spotify": {
+        "status": "configuration_required",
+        "metadata_access": "not_configured",
+        "import": false,
+        "analysis": false
+      },
+      "youtube": {
+        "status": "configuration_required",
+        "metadata_access": "not_configured",
+        "import": false,
+        "analysis": false
+      }
+    }
+  },
+  {
+    "url": "https://backend-epic-music-production.up.railway.app/auth/me",
+    "status": 401,
+    "date": "Fri, 09 Oct 2026 23:48:24 GMT",
+    "allowOrigin": "https://musica-epica-ed.netlify.app"
+  },
+  {
+    "url": "https://backend-epic-music-production.up.railway.app/playlists",
+    "status": 401,
+    "date": "Fri, 09 Oct 2026 23:48:25 GMT",
+    "allowOrigin": "https://musica-epica-ed.netlify.app"
+  },
+  {
+    "url": "https://backend-epic-music-production.up.railway.app/search-history",
+    "status": 401,
+    "date": "Fri, 09 Oct 2026 23:48:25 GMT",
+    "allowOrigin": "https://musica-epica-ed.netlify.app"
+  },
+  {
+    "url": "https://backend-epic-music-production.up.railway.app/playlist-personality/history",
+    "status": 401,
+    "date": "Fri, 09 Oct 2026 23:48:26 GMT",
+    "allowOrigin": "https://musica-epica-ed.netlify.app"
+  }
+]

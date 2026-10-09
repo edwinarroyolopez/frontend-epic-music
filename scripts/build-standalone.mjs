@@ -7,10 +7,10 @@
  * Server", cualquier servidor estatico) sin necesidad de Node, Vite ni un
  * servidor con transformaciones.
  *
- * Se ejecuta automaticamente con "npm run build".
+ * Paso opcional: node scripts/build-standalone.mjs (después de npm run build).
  */
 
-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -23,9 +23,9 @@ if (!existsSync(DIST)) {
   process.exit(1)
 }
 
-const distHtml = readdirSync(DIST).find((file) => file.endsWith('.html'))
-if (!distHtml) {
-  console.error('dist/ no contiene ningun HTML.')
+const distHtml = 'index.html'
+if (!existsSync(join(DIST, distHtml))) {
+  console.error('dist/ no contiene index.html. Ejecuta primero npm run build.')
   process.exit(1)
 }
 
@@ -61,7 +61,7 @@ html = html.replace(/<link[^>]*rel="icon"[^>]*href="([^"]+)"[^>]*>/g, (match, hr
 
 html = html.replace(
   '</head>',
-  '  <meta name="generator" content="MUSICA EPICA - build autonomo (npm run build)" />\n  </head>',
+  '  <meta name="generator" content="MUSICA EPICA - build autonomo" />\n  </head>',
 )
 
 // Comentario de cabecera propio: el del HTML de desarrollo no tiene sentido aqui.
@@ -69,7 +69,7 @@ html = html.replace(
   /<!--[\s\S]*?-->/,
   '<!--\n' +
     '  MUSICA EPICA - build autonomo.\n' +
-    '  Archivo generado por "npm run build": contiene toda la aplicacion\n' +
+    '  Archivo generado por scripts/build-standalone.mjs: contiene toda la aplicacion\n' +
     '  (HTML + CSS + JavaScript) y no depende de Node, Vite ni servidores\n' +
     '  especiales. Se puede abrir con doble clic, con "Open with Live Server"\n' +
     '  o con cualquier servidor estatico.\n' +
@@ -78,8 +78,7 @@ html = html.replace(
 )
 
 writeFileSync(TARGET, html, 'utf8')
-// Copia tambien dentro de dist/ para servir la web con cualquier servidor estatico.
-writeFileSync(join(DIST, 'index.html'), html, 'utf8')
+// dist/ conserva el build con assets cacheables que publica Netlify.
 
 const kb = (Buffer.byteLength(html) / 1024).toFixed(0)
 console.log(`> index.html autonomo generado (${kb} kB, sin dependencias externas)`)

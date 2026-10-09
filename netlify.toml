@@ -13,3 +13,15 @@
   VITE_API_URL = "http://localhost:7000"
 
 # Navigation uses hashes (#/playlists): no catch-all rewrite or API proxy needed.
+# public-html-plugin.mjs reads Netlify CONTEXT: previews get noindex in HTML
+# and dist/_headers; production remains indexable. public/404.html is a real 404.
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Content-Type = "text/plain; charset=utf-8"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Content-Type = "application/xml; charset=utf-8"

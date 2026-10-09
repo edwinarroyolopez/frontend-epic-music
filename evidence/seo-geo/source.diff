@@ -1,0 +1,1266 @@
+diff --git a/.gitignore b/.gitignore
+index d0142f1..1b504cd 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -1,6 +1,8 @@
+ node_modules
+ dist
+ dist-ssr
++# Optional generated standalone output (source is dev.html + src/).
++/index.html
+ *.local
+ .vite
+ 
+diff --git a/README.md b/README.md
+index 7483576..3d419ea 100644
+--- a/README.md
++++ b/README.md
+@@ -78,6 +78,21 @@ El código de la aplicación está en `src/` y su entrada HTML es `dev.html`.
+ Conserva `dev.html` al limpiar archivos generados: sin él, Vite falla con
+ `UNRESOLVED_ENTRY: Cannot resolve entry module dev.html`.
+ 
++### SEO y contenido público
++
++`dev.html` contiene el head canónico/social y JSON-LD. Vite pre-renderiza solo
++la landing pública (`src/prerender.jsx`), reutilizando Landing y sus traducciones;
++React reemplaza ese HTML al iniciar la aplicación. No se renderizan sesiones ni
++datos de la API durante el build. `public/robots.txt` y `public/sitemap.xml` solo
++describen la raíz pública. El generador autónomo conserva este contenido y deja
++intacto el build con assets de `dist/`.
++
++Verificación: `npm run test:seo`, `node scripts/check-seo-contexts.mjs` y
++`npm run test:seo:browser` (Playwright/axe externos; configuración y resultados
++en [CHECKS_SEO_GEO.md](CHECKS_SEO_GEO.md)). El [plan](PLAN_SEO_GEO.md) documenta
++la auditoría y las fuentes. Al cambiar de dominio, actualizar canonical/OG/JSON-LD
++en `dev.html`, robots, sitemap y constantes de los scripts de verificación.
++
+ ## Producción: Netlify + Railway
+ 
+ `netlify.toml` configura automáticamente:
+diff --git a/dev.html b/dev.html
+index 0049ad8..6327b8e 100644
+--- a/dev.html
++++ b/dev.html
+@@ -8,11 +8,65 @@
+     <meta charset="UTF-8" />
+     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <meta name="description" content="Recuerda una letra. Descubre la canción, explora nuevas afinidades y guarda tus hallazgos en playlists propias con Música Épica." />
++    <meta name="description" content="¿Recuerdas parte de una canción? Encuéntrala con ayuda de IA, descubre recomendaciones y guarda tus hallazgos en playlists con Música Épica." />
+     <meta name="theme-color" content="#1A141D" />
+-    <title>MUSICA EPICA</title>
++    <title>Música Épica | Encuentra canciones por su letra y descubre música</title>
++    <link rel="canonical" href="https://musica-epica-ed.netlify.app/" />
++    <meta name="robots" content="index, follow, max-image-preview:large" />
++    <meta property="og:type" content="website" />
++    <meta property="og:site_name" content="Música Épica" />
++    <meta property="og:title" content="Música Épica | Recuerda una letra. Descubre la canción." />
++    <meta property="og:description" content="Recuerda una letra. Descubre la canción. Explora nuevas afinidades musicales con Música Épica." />
++    <meta property="og:url" content="https://musica-epica-ed.netlify.app/" />
++    <meta property="og:image" content="https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png" />
++    <meta property="og:image:secure_url" content="https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png" />
++    <meta property="og:image:type" content="image/png" />
++    <meta property="og:image:width" content="1731" />
++    <meta property="og:image:height" content="909" />
++    <meta property="og:image:alt" content="Música Épica: vinilo y tarjetas ilustrativas de búsqueda por letra, descubrimientos y playlists en tonos vino y dorado." />
++    <meta name="twitter:card" content="summary_large_image" />
++    <meta name="twitter:title" content="Música Épica | Recuerda una letra. Descubre la canción." />
++    <meta name="twitter:description" content="Recuerda una letra. Descubre la canción. Explora nuevas afinidades musicales con Música Épica." />
++    <meta name="twitter:image" content="https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png" />
++    <meta name="twitter:image:alt" content="Música Épica: vinilo y tarjetas ilustrativas de búsqueda por letra, descubrimientos y playlists en tonos vino y dorado." />
++    <script type="application/ld+json">
++      {
++        "@context": "https://schema.org",
++        "@graph": [
++          {
++            "@type": "WebSite",
++            "@id": "https://musica-epica-ed.netlify.app/#website",
++            "name": "Música Épica",
++            "url": "https://musica-epica-ed.netlify.app/",
++            "description": "Encuentra canciones por fragmentos de letra con ayuda de IA y descubre recomendaciones musicales.",
++            "inLanguage": "es",
++            "image": "https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png",
++            "about": { "@id": "https://musica-epica-ed.netlify.app/#application" }
++          },
++          {
++            "@type": "WebApplication",
++            "@id": "https://musica-epica-ed.netlify.app/#application",
++            "name": "Música Épica",
++            "url": "https://musica-epica-ed.netlify.app/",
++            "description": "Aplicación web para encontrar canciones por fragmentos de letra con ayuda de IA, explorar recomendaciones y guardar canciones en playlists privadas con una cuenta.",
++            "inLanguage": "es",
++            "image": "https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png",
++            "applicationCategory": "MultimediaApplication",
++            "operatingSystem": "Web",
++            "browserRequirements": "Requiere JavaScript para las funciones de la aplicación.",
++            "isPartOf": { "@id": "https://musica-epica-ed.netlify.app/#website" }
++          }
++        ]
++      }
++    </script>
+   </head>
+   <body>
++    <noscript><style>
++      .landing button { pointer-events: none; }
++      .landing-motion, .landing-studio__steps, .landing-hero__actions button { display: none; }
++      .landing .landing-feature__body[hidden] { display: block; }
++      .landing *, .landing *::before, .landing *::after { animation: none !important; transition: none !important; }
++    </style></noscript>
+     <div id="root"></div>
+     <script type="module" src="/src/main.jsx"></script>
+   </body>
+diff --git a/netlify.toml b/netlify.toml
+index 710d4c2..c446d2c 100644
+--- a/netlify.toml
++++ b/netlify.toml
+@@ -13,3 +13,15 @@
+   VITE_API_URL = "http://localhost:7000"
+ 
+ # Navigation uses hashes (#/playlists): no catch-all rewrite or API proxy needed.
++# public-html-plugin.mjs reads Netlify CONTEXT: previews get noindex in HTML
++# and dist/_headers; production remains indexable. public/404.html is a real 404.
++
++[[headers]]
++  for = "/robots.txt"
++  [headers.values]
++    Content-Type = "text/plain; charset=utf-8"
++
++[[headers]]
++  for = "/sitemap.xml"
++  [headers.values]
++    Content-Type = "application/xml; charset=utf-8"
+diff --git a/package.json b/package.json
+index fc3ace0..4d6c458 100644
+--- a/package.json
++++ b/package.json
+@@ -8,6 +8,8 @@
+     "build": "vite build",
+     "lint": "oxlint",
+     "test": "node --test test/*.test.js",
++    "test:seo": "npm run build && node scripts/build-standalone.mjs && python3 scripts/check-seo.py --head-only dev.html && python3 scripts/check-seo.py && python3 scripts/test-seo.py",
++    "test:seo:browser": "node scripts/check-seo-browser.mjs",
+     "preview": "vite preview",
+     "dev:front": "vite"
+   },
+diff --git a/scripts/build-standalone.mjs b/scripts/build-standalone.mjs
+index 6960da6..27a9eb1 100644
+--- a/scripts/build-standalone.mjs
++++ b/scripts/build-standalone.mjs
+@@ -7,10 +7,10 @@
+  * Server", cualquier servidor estatico) sin necesidad de Node, Vite ni un
+  * servidor con transformaciones.
+  *
+- * Se ejecuta automaticamente con "npm run build".
++ * Paso opcional: node scripts/build-standalone.mjs (después de npm run build).
+  */
+ 
+-import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
++import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+ import { dirname, join } from 'node:path'
+ import { fileURLToPath } from 'node:url'
+ 
+@@ -23,9 +23,9 @@ if (!existsSync(DIST)) {
+   process.exit(1)
+ }
+ 
+-const distHtml = readdirSync(DIST).find((file) => file.endsWith('.html'))
+-if (!distHtml) {
+-  console.error('dist/ no contiene ningun HTML.')
++const distHtml = 'index.html'
++if (!existsSync(join(DIST, distHtml))) {
++  console.error('dist/ no contiene index.html. Ejecuta primero npm run build.')
+   process.exit(1)
+ }
+ 
+@@ -61,7 +61,7 @@ html = html.replace(/<link[^>]*rel="icon"[^>]*href="([^"]+)"[^>]*>/g, (match, hr
+ 
+ html = html.replace(
+   '</head>',
+-  '  <meta name="generator" content="MUSICA EPICA - build autonomo (npm run build)" />\n  </head>',
++  '  <meta name="generator" content="MUSICA EPICA - build autonomo" />\n  </head>',
+ )
+ 
+ // Comentario de cabecera propio: el del HTML de desarrollo no tiene sentido aqui.
+@@ -69,7 +69,7 @@ html = html.replace(
+   /<!--[\s\S]*?-->/,
+   '<!--\n' +
+     '  MUSICA EPICA - build autonomo.\n' +
+-    '  Archivo generado por "npm run build": contiene toda la aplicacion\n' +
++    '  Archivo generado por scripts/build-standalone.mjs: contiene toda la aplicacion\n' +
+     '  (HTML + CSS + JavaScript) y no depende de Node, Vite ni servidores\n' +
+     '  especiales. Se puede abrir con doble clic, con "Open with Live Server"\n' +
+     '  o con cualquier servidor estatico.\n' +
+@@ -78,8 +78,7 @@ html = html.replace(
+ )
+ 
+ writeFileSync(TARGET, html, 'utf8')
+-// Copia tambien dentro de dist/ para servir la web con cualquier servidor estatico.
+-writeFileSync(join(DIST, 'index.html'), html, 'utf8')
++// dist/ conserva el build con assets cacheables que publica Netlify.
+ 
+ const kb = (Buffer.byteLength(html) / 1024).toFixed(0)
+ console.log(`> index.html autonomo generado (${kb} kB, sin dependencias externas)`)
+diff --git a/src/components/Brand.jsx b/src/components/Brand.jsx
+index af0fcd8..81a6b1e 100644
+--- a/src/components/Brand.jsx
++++ b/src/components/Brand.jsx
+@@ -13,13 +13,13 @@ export function Brand({ onClick, size = 'md' }) {
+       type="button"
+       className={`brand brand--${size}`}
+       onClick={onClick}
+-      aria-label={t('header.brandHome')}
++      aria-label={`${t('app.name')} — ${t('header.brandHome')}`}
+     >
+       <span className="brand__mark" aria-hidden="true">
+         <Disc3 size={size === 'sm' ? 20 : 24} strokeWidth={1.8} />
+       </span>
+       <span className="brand__text">
+-        <span className="brand__name">MUSICA</span>
++        <span className="brand__name">MUSICA{' '}</span>
+         <span className="brand__name brand__name--accent">EPICA</span>
+       </span>
+     </button>
+diff --git a/src/pages/Landing.jsx b/src/pages/Landing.jsx
+index 4064738..0b486c9 100644
+--- a/src/pages/Landing.jsx
++++ b/src/pages/Landing.jsx
+@@ -6,7 +6,7 @@ import '../styles/landing.css'
+ const steps = ['remember', 'discover', 'keep']
+ const icons = [Search, Sparkles, ListMusic]
+ 
+-export function Landing() {
++export function Landing({ staticView = false }) {
+   const { t } = usePreferences()
+   const [step, setStep] = useState(0)
+   const [paused, setPaused] = useState(false)
+@@ -23,7 +23,7 @@ export function Landing() {
+         <p className="landing-hero__description">{t('landing.description')}</p>
+         <div className="landing-hero__actions">
+           <a href="#/registro" className="btn btn--primary landing-cta">{t('landing.start')}<ArrowUpRight size={18} aria-hidden="true" /></a>
+-          <button type="button" className="landing-text-link" onClick={explore}>{t('landing.explore')}<ArrowDown size={15} aria-hidden="true" /></button>
++          <button type="button" disabled={staticView} className="landing-text-link" onClick={explore}>{t('landing.explore')}<ArrowDown size={15} aria-hidden="true" /></button>
+         </div>
+         <p className="landing-hero__note"><Headphones size={15} aria-hidden="true" />{t('landing.heroNote')}</p>
+       </div>
+@@ -31,7 +31,7 @@ export function Landing() {
+       <div className={`landing-studio${paused ? ' is-paused' : ''}`}>
+         <div className="landing-studio__top">
+           <span><AudioLines size={16} aria-hidden="true" />{t('landing.studioLabel')}</span>
+-          <button type="button" className="landing-motion" aria-label={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} title={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} onClick={() => setPaused(value => !value)}>
++          <button type="button" disabled={staticView} className="landing-motion" aria-label={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} title={t(paused ? 'landing.resumeMotion' : 'landing.pauseMotion')} onClick={() => setPaused(value => !value)}>
+             {paused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}
+           </button>
+         </div>
+@@ -61,7 +61,7 @@ export function Landing() {
+           </div>
+         </div>
+         <div className="landing-studio__steps" role="group" aria-label={t('landing.previewControls')}>
+-          {steps.map((name, index) => <button key={name} type="button" aria-pressed={step === index} onClick={() => setStep(index)}><span>0{index + 1}</span>{t(`landing.${name}`)}</button>)}
++          {steps.map((name, index) => <button key={name} type="button" disabled={staticView} aria-pressed={step === index} onClick={() => setStep(index)}><span>0{index + 1}</span>{t(`landing.${name}`)}</button>)}
+         </div>
+         <p className="landing-studio__caption">{t('landing.previewNote')}</p>
+       </div>
+@@ -84,13 +84,26 @@ export function Landing() {
+         {steps.map((name, index) => {
+           const Icon = icons[index]
+           return <div key={name} className={`landing-feature${step === index ? ' is-active' : ''}`}>
+-            <h3><button type="button" aria-expanded={step === index} aria-controls={`landing-feature-${name}`} onClick={() => setStep(index)}><span className="landing-feature__number">0{index + 1}</span><span>{t(`landing.${name}Title`)}</span>{step === index ? <Minus size={17} aria-hidden="true" /> : <Plus size={17} aria-hidden="true" />}</button></h3>
++            <h3><button type="button" disabled={staticView} aria-expanded={staticView || step === index} aria-controls={`landing-feature-${name}`} onClick={() => setStep(index)}><span className="landing-feature__number">0{index + 1}</span><span>{t(`landing.${name}Title`)}</span>{step === index ? <Minus size={17} aria-hidden="true" /> : <Plus size={17} aria-hidden="true" />}</button></h3>
+             <div id={`landing-feature-${name}`} hidden={step !== index} className="landing-feature__body"><p>{t(`landing.${name}Description`)}</p><span className="landing-feature__detail"><Icon size={15} aria-hidden="true" />{t(`landing.${name}Detail`)}</span></div>
+           </div>
+         })}
+       </div>
+     </section>
+ 
++    <section className="landing-faq" aria-labelledby="landing-faq-title">
++      <h2 id="landing-faq-title">{t('landing.faqTitle')}</h2>
++      <p>{t('landing.faqIntro')}</p>
++      <div className="landing-faq__questions">
++        {['Phrase', 'Identify', 'Related', 'Analysis', 'Personality', 'Save', 'Links'].map(topic =>
++          <details key={topic}>
++            <summary>{t(`landing.faq${topic}Q`)}</summary>
++            <p>{t(`landing.faq${topic}A`)}</p>
++          </details>,
++        )}
++      </div>
++    </section>
++
+     <section className="landing-invitation" aria-labelledby="landing-invitation-title">
+       <div className="landing-invitation__ornament" aria-hidden="true"><Disc3 strokeWidth={.3} /></div>
+       <p className="landing-eyebrow">{t('landing.invitationEyebrow')}</p>
+diff --git a/src/styles/landing.css b/src/styles/landing.css
+index 38c8f41..b671cd1 100644
+--- a/src/styles/landing.css
++++ b/src/styles/landing.css
+@@ -1,5 +1,14 @@
+ /* An editorial entrance: the existing plum / wine / gold palette, with air. */
+ .landing { --landing-gold: var(--color-secondary); padding-bottom: 56px; }
++.landing-nojs { padding: 16px; margin-top: 20px; border: 1px solid var(--color-border); border-radius: 12px; color: var(--color-text-soft); line-height: 1.7; }
++.landing-faq { padding-bottom: 48px; }
++.landing .landing-faq h2 { font-size: clamp(1.5rem, 2.5vw, 2rem); }
++.landing-faq > p { max-width: 80ch; margin-top: 16px; color: var(--color-text-soft); font-size: .9375rem; line-height: 1.8; }
++.landing-faq__questions { margin-top: 24px; border-top: 1px solid var(--color-border); }
++.landing-faq details { border-bottom: 1px solid var(--color-border); }
++.landing-faq summary { padding: 16px 0; min-height: 48px; cursor: pointer; font-size: .9375rem; font-weight: 500; }
++.landing-faq summary::marker { color: var(--color-secondary); }
++.landing-faq details p { max-width: 85ch; padding: 0 0 20px 18px; color: var(--color-text-soft); font-size: .875rem; line-height: 1.8; }
+ .landing button, .landing a { -webkit-tap-highlight-color: transparent; }
+ .landing [hidden] { display: none; }
+ .landing-eyebrow { display: flex; align-items: center; gap: 12px; color: var(--landing-gold); font-size: .6875rem; font-weight: 550; letter-spacing: .19em; text-transform: uppercase; }
+diff --git a/src/translations/en.js b/src/translations/en.js
+index 8be4a90..7362ee7 100644
+--- a/src/translations/en.js
++++ b/src/translations/en.js
+@@ -19,6 +19,22 @@ export const en = {
+     invitationEyebrow: 'Your collection begins with you', invitationTitle: 'Your next favorite', invitationAccent: 'could start with a lyric.',
+     invitationDescription: 'Create your account and make room for the music you have yet to discover.',
+     createAccount: 'Create my account', haveAccount: 'I already have an account', navigation: 'The experience', footerNote: 'A lyric. A discovery. Something that stays.', footerDetail: 'AI-powered music discovery. At your own pace.',
++    faqTitle: 'A guide to discovering music',
++    faqIntro: 'Música Épica helps you find a song from a lyric fragment and explore AI recommendations. Identifications and suggestions can be inaccurate; they are not catalog verification.',
++    faqPhraseQ: 'How can I find a song if I only remember a phrase?',
++    faqPhraseA: 'Enter the fragment you remember in your account’s search tool. Add the artist or genre as clues if you know them; you do not need the title. Review the suggestion before saving it.',
++    faqIdentifyQ: 'How does Música Épica identify songs?',
++    faqIdentifyA: 'AI suggests a title and artist from the text and clues you provide. It can be wrong. If the suggestion does not fit, the re-identification option tries to match the fragment against available lyrics; it may not find a unique match.',
++    faqRelatedQ: 'Can I discover related or similar songs?',
++    faqRelatedA: 'Yes. Starting from a song, you can explore recommendations and reasons suggested by AI. These are not guaranteed matches: external links open searches on each platform.',
++    faqAnalysisQ: 'What does analyzing my taste or playlist mean?',
++    faqAnalysisA: 'Creating new playlist analyses is marked “Coming soon” in the current interface. The planned analysis is an interpretation of an independent selection or your own internal playlist: it uses available music metadata and, when previously authorized lyric analyses exist, their estimated emotions. It does not listen to audio or measure BPM.',
++    faqPersonalityQ: 'Does the analysis scientifically describe my personality?',
++    faqPersonalityA: 'No. It is an interpretive musical portrait, not a diagnosis or psychometric test. It does not determine your personality, mental health, psychological abilities or personal experiences.',
++    faqSaveQ: 'Can I save songs and searches?',
++    faqSaveA: 'Yes, you need an account and must sign in. You can organize songs into private playlists and revisit discoveries in your history. Playlists do not store the lyric fragments used in searches.',
++    faqLinksQ: 'Can I paste Spotify or YouTube links?',
++    faqLinksA: 'Not from the current interface yet: access to new playlist analyses is marked “Coming soon”. Spotify reading integration is pending and its content is not sent to AI analysis. YouTube integration is limited to a metadata preview, subject to server configuration; it does not support dynamic radios, importing or AI analysis of its content. Pasting a link does not guarantee access to a playlist.',
+   },
+   reidentify: {
+     recommendationsNotice: 'Recommendations remain AI suggestions without catalog verification. Links open searches on each platform.',
+diff --git a/src/translations/es.js b/src/translations/es.js
+index 20dec9e..507ba44 100644
+--- a/src/translations/es.js
++++ b/src/translations/es.js
+@@ -19,6 +19,22 @@ export const es = {
+     invitationEyebrow: 'Tu colección empieza contigo', invitationTitle: 'La próxima favorita', invitationAccent: 'puede empezar con un verso.',
+     invitationDescription: 'Crea tu cuenta y dale un lugar a la música que todavía te falta descubrir.',
+     createAccount: 'Crear mi cuenta', haveAccount: 'Ya tengo una cuenta', navigation: 'La experiencia', footerNote: 'Un fragmento. Un descubrimiento. Algo que se queda.', footerDetail: 'Descubrimiento musical con IA. A tu ritmo.',
++    faqTitle: 'Una guía para descubrir música',
++    faqIntro: 'Música Épica te ayuda a buscar una canción por un fragmento de letra y a explorar recomendaciones con IA. Las identificaciones y sugerencias pueden ser inexactas; no equivalen a una verificación de catálogo.',
++    faqPhraseQ: '¿Cómo encuentro una canción si solo recuerdo una frase?',
++    faqPhraseA: 'Escribe el fragmento que recuerdas en el buscador de tu cuenta. Si conoces el artista o el género, añádelos como pistas; no necesitas saber el título. Revisa la propuesta antes de guardarla.',
++    faqIdentifyQ: '¿Cómo identifica canciones Música Épica?',
++    faqIdentifyA: 'La IA propone un título y un artista a partir del texto y las pistas que aportas. Puede equivocarse. Si la propuesta no encaja, la opción de volver a identificar intenta contrastar el fragmento con letras disponibles; puede no encontrar una coincidencia única.',
++    faqRelatedQ: '¿Puedo descubrir canciones relacionadas o parecidas?',
++    faqRelatedA: 'Sí. A partir de una canción puedes explorar recomendaciones y los motivos sugeridos por la IA. No son coincidencias garantizadas: los enlaces externos abren búsquedas en cada plataforma.',
++    faqAnalysisQ: '¿Qué significa analizar mis gustos o mi playlist?',
++    faqAnalysisA: 'Crear nuevos análisis de playlists está marcado como «Próximamente» en la interfaz actual. El análisis previsto es una interpretación de una selección independiente o una playlist interna propia: usa datos musicales disponibles y, cuando existen análisis autorizados previos de letras, sus emociones estimadas. No escucha audio ni mide BPM.',
++    faqPersonalityQ: '¿El análisis describe científicamente mi personalidad?',
++    faqPersonalityA: 'No. Es una interpretación musical orientativa: no es un diagnóstico ni un test psicométrico. No determina tu personalidad, salud mental, capacidades psicológicas o experiencias personales.',
++    faqSaveQ: '¿Puedo guardar canciones y consultas?',
++    faqSaveA: 'Sí, necesitas una cuenta e iniciar sesión. Puedes organizar canciones en playlists privadas y volver a tus descubrimientos en el historial. Las playlists no almacenan los fragmentos de letras usados en la búsqueda.',
++    faqLinksQ: '¿Puedo pegar enlaces de Spotify o YouTube?',
++    faqLinksA: 'Todavía no desde la interfaz actual: el acceso a nuevos análisis de playlists figura como «Próximamente». La lectura de Spotify está pendiente y su contenido no se envía al análisis IA. La integración de YouTube está limitada a una vista previa de metadatos, condicionada a la configuración del servidor; no admite radios dinámicas, importación ni análisis IA de su contenido. Pegar un enlace no garantiza acceso a una playlist.',
+   },
+   reidentify: {
+     recommendationsNotice: 'Las recomendaciones siguen siendo sugerencias de IA sin verificación de catálogo. Los enlaces abren búsquedas en cada plataforma.',
+diff --git a/vite.config.js b/vite.config.js
+index b260372..425a161 100644
+--- a/vite.config.js
++++ b/vite.config.js
+@@ -1,6 +1,7 @@
+ import { fileURLToPath, URL } from 'node:url'
+ import react from '@vitejs/plugin-react'
+ import { defineConfig, loadEnv } from 'vite'
++import { publicHtmlPlugin } from './scripts/public-html-plugin.mjs'
+ 
+ const resolvePath = (path) => fileURLToPath(new URL(path, import.meta.url))
+ 
+@@ -15,8 +16,11 @@ export default defineConfig(({ mode }) => {
+   const apiUrl = env.VITE_API_URL || 'http://localhost:7000'
+ 
+   return {
++    // Hash routing needs no SPA fallback: unknown HTTP paths must be 404.
++    appType: 'mpa',
+     plugins: [
+       react(),
++      publicHtmlPlugin(resolvePath('.')),
+       {
+         name: 'musica-epica:static-index',
+         apply: 'build',
+@@ -32,7 +36,8 @@ export default defineConfig(({ mode }) => {
+         configureServer(server) {
+           // "/" e "/index.html" muestran la app de desarrollo (no el build).
+           server.middlewares.use((req, _res, next) => {
+-            if (req.url === '/' || req.url === '/index.html') req.url = '/dev.html'
++            const url = new URL(req.url, 'http://localhost')
++            if (url.pathname === '/' || url.pathname === '/index.html') req.url = `/dev.html${url.search}`
+             next()
+           })
+         },
+diff --git a/CHECKS_SEO_GEO.md b/CHECKS_SEO_GEO.md
+new file mode 100644
+index 0000000..7ea1540
+--- /dev/null
++++ b/CHECKS_SEO_GEO.md
+@@ -0,0 +1,101 @@
++# Checks SEO / GEO
++
++Fecha: 2026-10-09 UTC. **Implementación local verificada; no se ha desplegado.**
++Base de todas las rutas de evidencia: `evidence/seo-geo/`. Navegador: Chrome 147.0.7727.116, Playwright Core; axe 4.14.0; Lighthouse 12.8.2. Sin nuevas dependencias de la aplicación ni cambios en package-lock.
++
++## Matriz por loop
++
++| Loop | Estado | Prueba / resultado | Evidencia y archivos |
++|---|---|---|---|
++| 0 — inventario | **PASS** | Frontend Git limpio al inicio; fuentes oficiales revisadas; HEAD/GET públicos y origen inspeccionados | `PLAN_SEO_GEO.md`, `public-http.json`, `production.html` |
++| 1 — head | **PASS local** | Title/description/canonical/robots, 11 OG y 5 Twitter; imagen exacta y dimensiones; sin duplicados; fuente, build, standalone y HTTP | `dev.html`, `head-checks.json`, `html-checks.json`; `npm run test:seo` |
++| 2 — HTML inicial | **PASS local** | H1 único, texto real y enlaces de registro antes de JS; mismo contenido FAQ después de montar React. Chromium con/sin JS a 390/1366; CTA conserva formulario | `src/prerender.jsx`, `scripts/public-html-plugin.mjs`, `local-http.html`, `browser-checks.json`, `js-es-390.png`, `nojs-es-1366.png` |
++| 3 — rastreo | **PASS local** | `/` 200; robots text/plain 200; sitemap text/xml 200 y XML parseable con una URL sin hash/lastmod; paths inexistentes y `/playlists` 404 | `public/`, `netlify.toml`, `browser-checks.json` |
++| 3 — contextos | **PASS local / BLOCKED remoto** | Builds reales con CONTEXT production, deploy-preview, branch-deploy: solo previews tienen meta noindex + `_headers`. Sin permiso para crear deploys remotos | `context-checks.json`; `node scripts/check-seo-contexts.mjs` |
++| 4 — schema | **PASS local** | JSON-LD del HTTP parseado; WebSite/WebApplication enlazados por @id; sin ofertas, ratings, identidad legal ni datos de cuentas | `dev.html`, `local-http.html`; checks Python. Validación interactiva externa: **MANUAL PENDIENTE** |
++| 5 — GEO | **PASS local** | 7 respuestas ES/EN; texto presente en HTML, details/summary nativos; inferencias y límites. Nuevos análisis y entrada de enlaces indicados como «Próximamente» | `Landing.jsx`, `translations/{es,en}.js`; `browser-checks.json` y referencias funcionales del plan |
++| 6 — regresión | **PASS local** | 37 tests Node (35 existentes + 2 SEO), 8 pruebas HTML/antirregresión; lint 0 errores/0 advertencias; diff --check limpio | `regression-checks.json`, `test/seo.test.js`, `scripts/test-seo.py` |
++| 6 — UX / accesibilidad | **PASS local** | 15 vistas: no-JS ES y JS ES/EN × 320/390/768/1366/1440. Sin overflow. Details con Enter; lang correcto; idioma persiste; tema claro y controles del vinilo operativos. 5 escaneos axe WCAG 2 A/AA y 2.1 A/AA sin infracciones | `browser-checks.json`, `js-en-light-1366.png`; no-JS verificado por semántica, teclado y capturas (axe requiere timers JS) |
++| 6 — rendimiento | **PASS laboratorio local** | Lighthouse móvil 99/100/100 y escritorio 100/100/100 (performance/accesibilidad/SEO). LCP ≈1.81 s/0.40 s; CLS 0; TBT 0. Imagen OG no descargada por la landing | `performance.json`. No representa CWV de campo, INP, ranking ni velocidad de producción |
++| 7 — HTTP/social | **PASS local** | Mismo HTML inicial para Facebook, Twitterbot, OAI-SearchBot, Googlebot y Bingbot; exactitud de imagen y metadatos verificada sin JS | `browser-checks.json`, `html-checks.json`; validador social real **MANUAL PENDIENTE** |
++| 7 — autenticación | **PASS contrato local / MANUAL PENDIENTE cuenta real** | Registro y login por formularios, restauración `/auth/me`, logout y 5 guards pasan con API simulada. Sesiones/datos de usuario nunca pasan por el renderer | `browser-checks.json`, `registration-390.png`; no se creó una cuenta ni se enviaron credenciales de prueba a Railway |
++| 7 — producción | **BLOCKED actualización** | El sitio existente sigue entregando HTML de 829 bytes, root vacío y sin nuevo head; robots/sitemap aún 404. Falta publicación autorizada, por tanto aceptación A/C/G en vivo no está satisfecha | `production.html`, `production-facebook.html`, `production-searchbot.html`, `public-http.json` |
++
++## Criterios A–I
++
++| Criterio | Estado y alcance |
++|---|---|
++| A: head completo en GET / | PASS local (4173 build, 4174 Vite, 4175 autónomo); FAIL en producción actual hasta desplegar |
++| B: imagen pública comprobada | PASS real Cloudinary: GET/HEAD 200, PNG por firma y Content-Type, **1731×909**, **1.9043:1**, **1,929,146 bytes**. URL exacta sin cambios; `social-image.png` + `public-http.json` |
++| C: contenido sin JS | PASS local; FAIL en producción actual hasta desplegar |
++| D: canonical/sitemap públicos | PASS local: solo `https://musica-epica-ed.netlify.app/`; @id de schema puede usar fragmentos, no son páginas del sitemap |
++| E: privacidad/auth | PASS contratos locales + rechazo HTTP real 401 sin sesión; login con cuenta real MANUAL PENDIENTE |
++| F: claims verificables | PASS; creación de análisis deshabilitada en UI; Spotify/YouTube no configurados en API pública consultada, import=false y analysis=false |
++| G: Netlify/build coherentes | PASS cadena local; BLOCKED paridad remota del nuevo artefacto hasta publicar |
++| H: contenido y datos veraces | PASS inspección del renderer público, HTML/JSON-LD y diff. Ninguna respuesta API, token o sesión renderizados; ejemplos ilustrativos de la landing ya existentes, sin letras de terceros añadidas |
++| I: evidencia reproducible | PASS: scripts, JSON, HTML, capturas, hashes de artefactos y `source.diff` |
++
++Imagen: marca y mensaje principal legibles en inspección visual; los textos secundarios de las tarjetas son pequeños al reducirla. Peso relativamente alto pero inferior a 5 MB, sin impacto de descarga en la landing. La ilustración suministrada anuncia análisis de playlists, mientras la interfaz lo marca «Próximamente»: desfase editorial documentado, URL conservada por requisito. Su lectura visual no demuestra una tarjeta efectiva de WhatsApp/Facebook.
++
++## Producción: lo que sí se comprobó
++
++- Host documentado y GET/HEAD final: `https://musica-epica-ed.netlify.app/`, 200 sin redirect a dominio propio. No se accedió a Domain management; no se afirma inexistencia de alias externos.
++- Cloudinary: imagen pública sin cookies/sesión; dimensiones IHDR calculadas desde los bytes, no inferidas de un nombre.
++- Railway: `/auth/providers` 200, email habilitado y Apple/Google/Spotify deshabilitados. `/playlist-personality/providers` 200, Spotify/YouTube `not_configured`. `/auth/me`, `/playlists`, `/search-history`, `/playlist-personality/history` devuelven **401 sin token**. CORS permite el host canónico. Solo se guardan estados y flags públicos, nunca cuerpos privados: `api-boundaries.json`.
++- `git status --short` del backend vacío al finalizar; sus funciones de negocio no se modificaron.
++
++## Comandos para reproducir
++
++Desde `frontend-epic-music/`, Node 22 y Python 3:
++
++```sh
++npm run test:seo
++node scripts/check-seo-contexts.mjs
++npm run lint
++npm test
++git diff --check
++python3 scripts/audit-seo.py
++```
++
++Las herramientas de navegador se instalaron/usaron fuera del proyecto. Para reproducir en otro equipo, instalar Playwright Core y axe-core en una carpeta temporal y establecer sus rutas absolutas; usar Chrome disponible:
++
++```sh
++PW_MODULE=/tmp/opencode/epic-seo-tools/node_modules/playwright-core/index.mjs AXE_PATH=/tmp/opencode/epic-ux-tools/node_modules/axe-core/axe.min.js npm run test:seo:browser
++LH_MODULE=/tmp/opencode/epic-ux-tools/node_modules/lighthouse/core/index.js CHROME_LAUNCHER_MODULE=/tmp/opencode/epic-ux-tools/node_modules/chrome-launcher/dist/index.js node scripts/check-seo-performance.mjs
++node scripts/record-seo-review.mjs
++```
++
++El navegador inicia/cierra servidores locales en 4173/4174/4175; Lighthouse usa 4176. `CHROME_PATH` permite cambiar el ejecutable. Los builds de contexto se aíslan en `/tmp/opencode`, sin sobrescribir `dist`. `index.html` autónomo se genera en la raíz, ignorado por Git, y se comprueba servido por HTTP; `dist/index.html` conserva assets cacheables. Las evidencias no se copian a `dist`.
++
++## Correcciones durante QA
++
++- El runner HTTP inicialmente se bloqueaba por lanzar un proceso síncrono que consultaba su propio servidor Node. Se cambió a ejecución asíncrona; HTTP y navegador pasan.
++- axe no puede completar su evaluación con timers desactivados en un contexto sin JS. Se mantuvo JS realmente desactivado y se verificaron teclado, contenido, headings, overflow y capturas; axe se limita a contextos con JS.
++- El selector de idioma usa `role=radio`, no button: se corrigió el selector de prueba.
++- Lighthouse detectó un nombre accesible del logo que no incluía el texto visible, y el texto de los spans se concatenaba sin espacio. Se corrigieron ambos en `Brand.jsx` y en el shell público; nueva comprobación WCAG 2.1 A y Lighthouse sin ese error.
++- Se corrigió el runner Lighthouse para pasar la configuración desktop real, y se registra `formFactor` para no atribuir métricas móviles a escritorio.
++
++Quedan oportunidades de rendimiento del bundle compartido (aprox. 67 KiB de JS no usado en la landing y CSS bloqueante). El nuevo JS gzip pasa de **127.71 kB a 129.34 kB**; CSS de **13.78 kB a 13.90 kB**; HTML indexable ≈**23.49 kB / 5.56 kB gzip**. No se añadieron fuentes, trackers o librerías de runtime. Son tamaños de build, no tráfico orgánico.
++
++## Acciones externas exactas del propietario
++
++1. **Publicación — MANUAL PENDIENTE.** Revisar el diff y la rama de despliegue configurada en Netlify. En Domain management confirmar el dominio primario: si hay uno propio vigente, corroborar su GET 200 y actualizar todas las URLs enumeradas en README antes del build. Publicar mediante el flujo autorizado del proyecto: build `npm run build`, publish `dist`, Node 22. No publicar la raíz del repo ni la carpeta de evidencias.
++2. **Paridad después de publicar.** Ejecutar `python3 scripts/audit-seo.py` y `python3 scripts/check-seo.py https://musica-epica-ed.netlify.app/`. Comprobar `/robots.txt` 200 text/plain, `/sitemap.xml` 200 XML y una ruta inexistente 404. El HTML GET debe contener H1, FAQ y schema, además del head. Comparar el head/body público con `dist/index.html` (Netlify puede modificar formato). Abrir la raíz a 390 y 1366 px, probar registro/login/reingreso con cuenta de prueba autorizada.
++3. **Previews.** Abrir un deploy preview y un branch deploy autorizados: `curl -I URL_PREVIEW` debe mostrar `X-Robots-Tag: noindex, follow`; su HTML debe incluir noindex. Producción debe conservar index y carecer de ese header. La configuración se probó localmente; no se atribuye este resultado a Netlify remoto.
++4. **Facebook / WhatsApp — MANUAL PENDIENTE.** Abrir https://developers.facebook.com/tools/debug/ con cuenta autorizada, introducir la URL raíz canónica, pulsar Debug y **Scrape Again** tras publicar. Revisar URL canónica, título, descripción, imagen exacta y dimensiones; repetir si queda caché antigua. En WhatsApp crear un mensaje nuevo con la raíz canónica y esperar la tarjeta antes de enviarlo. Guardar capturas con fecha. Una tarjeta anterior puede permanecer cacheada; no modificar la URL de imagen para forzarla sin decisión del propietario.
++5. **Google Search Console — MANUAL PENDIENTE.** Añadir propiedad **Prefijo de URL** `https://musica-epica-ed.netlify.app/` (el usuario no controla el DNS de `netlify.app`). Elegir archivo HTML de verificación, colocarlo en `public/`, desplegar y verificar su URL. Alternativamente, usar la meta proporcionada por Google en dev.html y comprobarla en GET. En Sitemaps enviar `sitemap.xml`. En Inspección de URLs probar la raíz publicada, revisar HTML rastreado/renderizado, canonical y permisos; solicitar indexación. No enviar hashes. Para un dominio propio controlado puede usarse propiedad Dominio y TXT DNS, solo por el propietario.
++6. **Bing Webmaster Tools — MANUAL PENDIENTE.** Añadir el mismo sitio en https://www.bing.com/webmasters/ o importar la propiedad verificada de Search Console. Si se usa BingSiteAuth.xml, incorporarlo en `public/`, desplegar, verificar y enviar el sitemap completo. Usar URL Inspection para `/`.
++7. **Datos estructurados — MANUAL PENDIENTE externo.** Probar URL publicada o código de `dist/index.html` en https://validator.schema.org/; comprobar los dos nodos y sus relaciones. En https://search.google.com/test/rich-results no esperar elegibilidad de SoftwareApplication: no hay precio/review/aggregateRating verificables. No añadirlos para eliminar avisos. No se añadió FAQPage ni se promete FAQ rich result.
++
++OAI-SearchBot se permite para descubrimiento solicitado. GPTBot controla entrenamiento, no búsqueda: no se añadió una regla específica ni se cambió su acceso efectivo por defecto. robots no protege datos privados ni puede distinguir hashes; la autorización real sigue en la API. No se conectaron Search Console/Bing, no se solicitó indexación y no se garantizan rankings, tráfico o citas de IA.
++
++## Diff entregado
++
++- Head y schema: `dev.html`.
++- Renderer público y Vite: `src/prerender.jsx`, `scripts/public-html-plugin.mjs`, `vite.config.js`.
++- FAQ/estilos/traducciones y accesibilidad de marca: `Landing.jsx`, `landing.css`, `translations/es.js`, `translations/en.js`, `Brand.jsx`.
++- Rastreo/hosting: `public/robots.txt`, `public/sitemap.xml`, `public/404.html`, `netlify.toml`.
++- Build autónomo y comandos: `scripts/build-standalone.mjs`, `.gitignore`, `package.json`, README.
++- QA reproducible: scripts SEO, `test/seo.test.js`, plan, esta matriz y evidencias. `source.diff` incluye archivos nuevos de texto además de los cambios rastreados; `regression-checks.json` registra hashes/tamaños de los artefactos y resultados.
++
++**Gate final: PASS local; publicación y validaciones externas pendientes.** El estado del sitio público previo al deploy sigue siendo distinto del artefacto local.
+diff --git a/PLAN_SEO_GEO.md b/PLAN_SEO_GEO.md
+new file mode 100644
+index 0000000..8dd69e3
+--- /dev/null
++++ b/PLAN_SEO_GEO.md
+@@ -0,0 +1,56 @@
++# Plan SEO / GEO — 2026-10-09
++
++## Auditoría inicial (loop 0)
++
++Repositorio Git real: `frontend-epic-music/`, limpio al inicio. Backend separado, solo inspección.
++Evidencia reproducible: `python3 scripts/audit-seo.py` → `evidence/seo-geo/public-http.json` y HTML originales.
++
++| Prioridad | Hallazgo / impacto | Evidencia | Cambio mínimo / aceptación |
++|---|---|---|---|
++| P0 | HTML público vacío: exige JS para comprender el producto | `dev.html:16`; GET producción 829 bytes, `<div id="root"></div>` | Pre-render público de Landing; H1/texto y CTA en GET sin JS |
++| P0 | Sin canonical, OG, Twitter | `dev.html`, `production.html` | Head estático único; igualdad semántica en dist/autónomo/HTTP |
++| P0 | robots y sitemap devuelven 404 | `public/` solo favicon; auditoría HTTP | Archivos públicos con solo `/`, MIME y XML comprobados |
++| P0 | Host documentado responde 200 sin redirección | README:101; HEAD/GET Netlify | Canonical `https://musica-epica-ed.netlify.app/`. No hay dominio propio corroborado; revisar Domain management al publicar |
++| P0 | Imagen social válida, relativamente pesada | GET/HEAD 200 PNG; bytes IHDR 1731×909, 1.9043:1, 1,929,146 bytes | URL exacta y dimensiones reales; solo head, sin descarga visible |
++| P1 | Sin JSON-LD ni respuestas sobre límites reales | Landing, traducciones, provider gate backend | WebSite/WebApplication sin ratings/ofertas; FAQ visible sin prometer rich results |
++| P1 | Standalone elige cualquier HTML y sobrescribe dist/index | `scripts/build-standalone.mjs:26,82`; no está en npm build | Elegir index explícitamente; conservar metadatos y validar ambos modos |
++| P1 | Previews sin política local explícita | `netlify.toml` | `CONTEXT` controla noindex + X-Robots-Tag solo previews |
++| P2 | ES/EN por localStorage, sin URLs por idioma | PreferencesContext, traducciones | Conservar preferencia/lang; sin hreflang ficticio |
++
++La navegación es hash y las páginas privadas no se montan sin sesión (`App.jsx:32,100`). No se migran rutas ni se toca autorización. El gate del backend confirma Spotify sin lectura y sin análisis; YouTube tiene preview condicionado a configuración, sin importación ni análisis IA. No se ha confirmado su configuración en producción.
++
++Hallazgo adicional al verificar UX: `Home.jsx:22`, `Playlists.jsx:61` y `PlaylistAnalysisHistory.jsx:33` deshabilitan crear análisis y muestran «Próximamente»; `PlaylistPersonality.jsx` no está montado. La FAQ debe empezar por esta indisponibilidad (incluida la entrada de enlaces), aunque exista soporte en backend. JSON-LD anuncia solo descubrimiento y guardado actuales. La imagen social obligatoria contiene una ilustración de análisis; conservarla por instrucción, con este desfase editorial documentado.
++
++Verificación posterior de QA en producción: el GET público `/playlist-personality/providers` confirmó Spotify y YouTube sin configurar, sin importación ni análisis IA. Ver `evidence/seo-geo/api-boundaries.json`; no se llamó a proveedores ni a endpoints de generación.
++
++## Loops y gates
++
++1. **Head**: etiquetas estáticas en dev.html; build + standalone + inspección automatizada y HTTP.
++2. **HTML público**: render estático de Landing en compilación y desarrollo con React/Vite existentes; createRoot reemplaza el shell. Nunca renderizar App, sesiones o respuestas API. Gate: no-JS y navegador con JS, sin H1 duplicado.
++3. **Rastreo**: robots/sitemap de public, 404 real, previews noindex. Gate: parseo XML, GET/MIME y contextos producción/preview.
++4. **Schema**: WebSite y WebApplication enlazados. Gate: JSON desde HTTP y propiedades verificables; rich result de software no prometido (faltan reseñas/precios sustentados).
++5. **GEO**: FAQ ES/EN compacta y reutilizada en HTML inicial; inferencias, cuenta, letras y límites de proveedores. Gate: equivalencia con texto visible, lectura teclado.
++6. **Calidad**: build/lint/tests; tamaños, idioma, consola, viewport 320/390/768/1366/1440; autenticación con API simulada claramente identificada.
++7. **Entrega**: matriz de evidencias, snapshots HTTP, diff/check; instrucciones exactas de publicación y validadores externos.
++
++## Fuentes oficiales revisadas antes de implementar
++
++- [JavaScript SEO](https://developers.google.com/search/docs/crawling-indexing/javascript/javascript-seo-basics): pre-render útil también para bots sin JS; canonical HTML y códigos HTTP reales.
++- [Guía para desarrolladores](https://developers.google.com/search/docs/fundamentals/get-started-developers): enlaces HTML, texto útil y sitemap; robots no es autorización.
++- [Software](https://developers.google.com/search/docs/appearance/structured-data/software-app): rich result requiere precio y review/aggregateRating; no inventarlos.
++- [FAQ](https://developers.google.com/search/blog/2023/08/howto-faq-changes): rich results limitados a sitios gubernamentales/sanitarios autorizados.
++- [OpenAI bots](https://developers.openai.com/api/docs/bots): OAI-SearchBot descubrimiento; GPTBot entrenamiento, políticas independientes. Mantener acceso por defecto a GPTBot, sin nueva decisión de entrenamiento.
++- [OGP](https://ogp.me/): propiedades en head, imagen/alt/dimensiones verificadas.
++- [Netlify routing](https://docs.netlify.com/manage/routing/redirects/redirect-options/): 404.html y ausencia de catch-all 200.
++- [Netlify entorno](https://docs.netlify.com/build/configure-builds/environment-variables/): CONTEXT production/deploy-preview/branch-deploy; URL y DEPLOY_PRIME_URL son distintos.
++- [Schema.org WebApplication](https://schema.org/WebApplication): metadatos descriptivos de aplicación web.
++
++## Intenciones editoriales (hipótesis, sin volúmenes ni rankings)
++
++| Consultas | Intención / competencia estimada sin estudio SERP | Uso |
++|---|---|---|
++| buscar canción por letra; encontrar canción con fragmento; no recuerdo el nombre | Resolver identificación; competencia presumiblemente alta por catálogos/buscadores establecidos | Title, descripción, respuesta práctica |
++| descubrir canciones similares; descubrir música con IA | Exploración; alta presumible por servicios musicales | Landing y FAQ, aclarar inferencias |
++| analizar playlist musical / gustos; playlist y emociones | Informativa/exploratoria; competencia no medida, mezcla con psicología | FAQ sobre interpretación, letras y límites, sin diagnóstico |
++
++No añadir llms.txt: por ahora duplicaría la landing. Es convención emergente, no requisito ni garantía de citación. Una futura `/en/` necesita HTML inglés propio, canonical y verificación HTTP antes de hreflang.
+diff --git a/public/404.html b/public/404.html
+new file mode 100644
+index 0000000..92186b5
+--- /dev/null
++++ b/public/404.html
+@@ -0,0 +1,11 @@
++<!doctype html>
++<html lang="es">
++  <head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1" />
++    <meta name="robots" content="noindex, follow" />
++    <title>Página no encontrada | Música Épica</title>
++    <style>body{margin:0;padding:10vh 24px;background:#1A141D;color:#F5EEF4;font:1rem/1.7 system-ui}main{max-width:640px;margin:auto}h1{font-size:2rem}a{color:#D5B979}</style>
++  </head>
++  <body><main><h1>Página no encontrada</h1><p>Esta dirección no existe.</p><a href="/">Volver a Música Épica</a></main></body>
++</html>
+diff --git a/public/robots.txt b/public/robots.txt
+new file mode 100644
+index 0000000..91a4080
+--- /dev/null
++++ b/public/robots.txt
+@@ -0,0 +1,7 @@
++User-agent: *
++Allow: /
++
++User-agent: OAI-SearchBot
++Allow: /
++
++Sitemap: https://musica-epica-ed.netlify.app/sitemap.xml
+diff --git a/public/sitemap.xml b/public/sitemap.xml
+new file mode 100644
+index 0000000..afcd4ac
+--- /dev/null
++++ b/public/sitemap.xml
+@@ -0,0 +1,4 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
++  <url><loc>https://musica-epica-ed.netlify.app/</loc></url>
++</urlset>
+diff --git a/scripts/audit-seo.py b/scripts/audit-seo.py
+new file mode 100644
+index 0000000..a7162b1
+--- /dev/null
++++ b/scripts/audit-seo.py
+@@ -0,0 +1,70 @@
++"""Read-only HTTP audit without credentials; private probes record status only."""
++import hashlib
++import json
++from pathlib import Path
++import struct
++import urllib.request
++import urllib.error
++
++OUT = Path(__file__).resolve().parents[1] / 'evidence/seo-geo'
++OUT.mkdir(parents=True, exist_ok=True)
++SITE = 'https://musica-epica-ed.netlify.app/'
++IMAGE = 'https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png'
++results = []
++for name, url, method, agent in [
++    ('production', SITE, 'GET', 'SEO-audit'),
++    ('production-head', SITE, 'HEAD', 'SEO-audit'),
++    ('production-facebook', SITE, 'GET', 'facebookexternalhit/1.1'),
++    ('production-searchbot', SITE, 'GET', 'OAI-SearchBot/1.4'),
++    ('production-robots', SITE + 'robots.txt', 'GET', 'SEO-audit'),
++    ('production-sitemap', SITE + 'sitemap.xml', 'GET', 'SEO-audit'),
++    ('production-missing', SITE + 'seo-audit-nonexistent-20261009', 'GET', 'SEO-audit'),
++    ('social-image', IMAGE, 'GET', 'SEO-audit'),
++    ('social-image-head', IMAGE, 'HEAD', 'SEO-audit'),
++]:
++    request = urllib.request.Request(url, method=method, headers={'User-Agent': agent})
++    try:
++        try:
++            response = urllib.request.urlopen(request, timeout=30)
++        except urllib.error.HTTPError as error:
++            response = error
++        body = response.read()
++        row = dict(name=name, url=url, finalUrl=response.url, method=method,
++                   agent=agent, status=response.status, headers=dict(response.headers),
++                   bytes=len(body), sha256=hashlib.sha256(body).hexdigest())
++        if name == 'social-image' and body[:8] == b'\x89PNG\r\n\x1a\n':
++            width, height = struct.unpack('>II', body[16:24])
++            row.update(width=width, height=height, ratio=width / height)
++            (OUT / 'social-image.png').write_bytes(body)
++        elif method == 'GET':
++            (OUT / f'{name}.html').write_bytes(body)
++        results.append(row)
++        print(name, response.status, len(body), row.get('width', ''), row.get('height', ''))
++    except Exception as error:
++        results.append(dict(name=name, url=url, error=str(error)))
++(OUT / 'public-http.json').write_text(json.dumps(results, ensure_ascii=False, indent=2) + '\n')
++
++api_results = []
++API = 'https://backend-epic-music-production.up.railway.app'
++for path in ['/auth/providers', '/playlist-personality/providers', '/auth/me', '/playlists', '/search-history', '/playlist-personality/history']:
++    try:
++        request = urllib.request.Request(API + path, headers={'Origin': SITE.rstrip('/'), 'User-Agent': 'SEO-audit'})
++        try:
++            response = urllib.request.urlopen(request, timeout=30)
++        except urllib.error.HTTPError as error:
++            response = error
++        row = dict(url=API + path, status=response.status, date=response.headers.get('Date'),
++                   allowOrigin=response.headers.get('Access-Control-Allow-Origin'))
++        # Only public capability flags; never store account/history response bodies.
++        if path.endswith('/providers') and response.status == 200:
++            data = json.loads(response.read())
++            if path == '/auth/providers':
++                row['capabilities'] = {key: data.get(key) for key in ['email', 'apple', 'google', 'spotify']}
++            else:
++                row['capabilities'] = {provider: {key: value.get(key) for key in ['status', 'metadata_access', 'import', 'analysis']} for provider, value in data['data'].items()}
++        response.close()
++        api_results.append(row)
++        print(path, row['status'])
++    except Exception as error:
++        api_results.append(dict(url=API + path, error=str(error)))
++(OUT / 'api-boundaries.json').write_text(json.dumps(api_results, ensure_ascii=False, indent=2) + '\n')
+diff --git a/scripts/check-seo-browser.mjs b/scripts/check-seo-browser.mjs
+new file mode 100644
+index 0000000..9546643
+--- /dev/null
++++ b/scripts/check-seo-browser.mjs
+@@ -0,0 +1,206 @@
++// Optional QA tools live outside the application dependency tree.
++// PW_MODULE=/path/to/playwright-core/index.mjs AXE_PATH=/path/to/axe.min.js npm run test:seo:browser
++import assert from 'node:assert/strict'
++import { readFile, writeFile, mkdir } from 'node:fs/promises'
++import { fileURLToPath } from 'node:url'
++import { createServer as httpServer } from 'node:http'
++import { preview, createServer } from 'vite'
++import { execFile } from 'node:child_process'
++import { promisify } from 'node:util'
++
++const root = fileURLToPath(new URL('../', import.meta.url))
++const out = new URL('../evidence/seo-geo/', import.meta.url)
++await mkdir(out, { recursive: true })
++const { chromium } = await import(process.env.PW_MODULE || 'playwright-core')
++const axe = await readFile(process.env.AXE_PATH, 'utf8')
++const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || '/usr/bin/google-chrome', headless: true, args: ['--no-sandbox'] })
++const server = await preview({ root, preview: { host: '127.0.0.1', port: 4173, strictPort: true } })
++const dev = await createServer({ root, server: { host: '127.0.0.1', port: 4174, strictPort: true } })
++await dev.listen()
++const standaloneHtml = await readFile(new URL('../index.html', import.meta.url))
++const standalone = httpServer((_req, res) => { res.setHeader('Content-Type', 'text/html; charset=utf-8'); res.end(standaloneHtml) })
++await new Promise(resolve => standalone.listen(4175, '127.0.0.1', resolve))
++const base = 'http://127.0.0.1:4173/'
++const results = { browser: browser.version(), http: [], views: [], flows: [], scope: 'Local build; authentication API responses are fixtures, not a live account.' }
++const image = 'https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png'
++
++async function capture(page, name) {
++  await page.evaluate(() => { document.activeElement?.blur(); window.scrollTo(0, 0) })
++  await page.screenshot({ path: fileURLToPath(new URL(name + '.png', out)), fullPage: true, animations: 'disabled' })
++}
++
++async function auditA11y(page) {
++  await page.evaluate(axe)
++  const { violations } = await page.evaluate(() => window.axe.run(document, { runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'] } }))
++  return violations.map(v => ({ id: v.id, impact: v.impact, nodes: v.nodes.map(n => ({ target: n.target, summary: n.failureSummary })) }))
++}
++
++function observe(page) {
++  const errors = [], failed = [], requests = []
++  page.on('pageerror', e => errors.push(e.message))
++  page.on('console', msg => { if (msg.type() === 'error') errors.push(msg.text()) })
++  page.on('request', r => requests.push(r.url()))
++  page.on('requestfailed', r => failed.push({ url: r.url(), error: r.failure()?.errorText }))
++  page.on('response', r => { if (r.status() >= 400) failed.push({ url: r.url(), status: r.status() }) })
++  return { errors, failed, requests }
++}
++
++try {
++  for (const path of ['', 'robots.txt', 'sitemap.xml', 'seo-unknown-path', 'playlists']) {
++    const response = await fetch(base + path)
++    const body = await response.text()
++    const type = response.headers.get('content-type')
++    assert.equal(response.status, ['seo-unknown-path', 'playlists'].includes(path) ? 404 : 200)
++    if (path === 'robots.txt') assert.match(type, /text\/plain/)
++    if (path === 'sitemap.xml') assert.match(type, /(?:text|application)\/xml/)
++    if (!path) await writeFile(new URL('local-http.html', out), body)
++    results.http.push({ url: base + path, status: response.status, type, bytes: Buffer.byteLength(body) })
++  }
++  for (const agent of ['facebookexternalhit/1.1', 'Twitterbot/1.0', 'OAI-SearchBot/1.4', 'Googlebot', 'bingbot']) {
++    const response = await fetch(base, { headers: { 'User-Agent': agent } })
++    assert.equal(await response.text(), await readFile(new URL('local-http.html', out), 'utf8'))
++    results.http.push({ agent, status: response.status, sameHTML: true })
++  }
++  const htmlCheck = await promisify(execFile)('python3', ['scripts/check-seo.py', 'dist/index.html', 'index.html', base, 'http://127.0.0.1:4174/', 'http://127.0.0.1:4174/?utm_source=qa', 'http://127.0.0.1:4175/'], { cwd: root })
++  console.log(htmlCheck.stdout)
++
++  let initialFaq
++  for (const javaScriptEnabled of [false, true]) {
++    for (const language of javaScriptEnabled ? ['es', 'en'] : ['es']) {
++      for (const width of [320, 390, 768, 1366, 1440]) {
++        const context = await browser.newContext({ javaScriptEnabled, viewport: { width, height: 900 }, reducedMotion: 'reduce' })
++        if (language === 'en') await context.addInitScript(() => localStorage.setItem('me:language', JSON.stringify('en')))
++        await context.addInitScript(() => {
++          window.__shifts = 0
++          new PerformanceObserver(list => { for (const e of list.getEntries()) if (!e.hadRecentInput) window.__shifts += e.value }).observe({ type: 'layout-shift', buffered: true })
++        })
++        const page = await context.newPage()
++        const log = observe(page)
++        await page.goto(base)
++        await page.locator('.landing-faq').waitFor()
++        if (javaScriptEnabled) await page.waitForFunction(lang => document.documentElement.lang === lang && !document.querySelector('.landing-motion')?.disabled, language)
++        assert.equal(await page.locator('h1').count(), 1)
++        assert.equal(await page.locator('html').getAttribute('lang'), language)
++        assert.equal(await page.locator('.landing-faq details').count(), 7)
++        const faq = await page.locator('.landing-faq').textContent()
++        if (!javaScriptEnabled) initialFaq = faq
++        else if (language === 'es') assert.equal(faq, initialFaq)
++        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `overflow ${width}/${language}/${javaScriptEnabled}`)
++        const summary = page.locator('.landing-faq summary').first()
++        await summary.focus()
++        await page.keyboard.press('Enter')
++        assert.equal(await page.locator('.landing-faq details').first().getAttribute('open'), '')
++        await page.keyboard.press('Enter')
++        const name = `${javaScriptEnabled ? 'js' : 'nojs'}-${language}-${width}`
++        if ([390, 1366].includes(width)) await capture(page, name)
++        // axe relies on page timers; with JS disabled use the native keyboard,
++        // heading, overflow and visual checks above instead of re-enabling JS.
++        const axeRun = javaScriptEnabled && [390, 1366].includes(width)
++        const violations = axeRun ? await auditA11y(page) : []
++        const cls = javaScriptEnabled ? await page.evaluate(() => window.__shifts) : null
++        results.views.push({ name, h1: await page.locator('h1').innerText(), axeRun, violations, cls, errors: log.errors, failed: log.failed, socialImageDownloaded: log.requests.includes(image) })
++        assert.deepEqual(violations, [], `a11y ${name}`)
++        assert.deepEqual(log.errors, [], `console ${name}`)
++        assert.deepEqual(log.failed, [], `network ${name}`)
++        assert.equal(log.requests.includes(image), false)
++        await context.close()
++      }
++    }
++  }
++
++  // Browser contracts for authentication, never send fixture credentials to a real API.
++  const context = await browser.newContext({ viewport: { width: 390, height: 844 }, reducedMotion: 'reduce' })
++  const calls = []
++  const user = { id: 'qa-account', name: 'QA Fixture', username: 'qa_fixture', email: 'qa@example.invalid', active: true, createdAt: '2026-01-01T00:00:00Z' }
++  await context.route('**/auth/**', async route => {
++    const path = new URL(route.request().url()).pathname
++    calls.push({ path, method: route.request().method() })
++    const body = path.endsWith('/providers') ? { email: true } : path.endsWith('/me') ? { user } : { token: 'qa-fixture-token-not-a-real-jwt', user }
++    await route.fulfill({ contentType: 'application/json', body: JSON.stringify(body) })
++  })
++  const page = await context.newPage()
++  const log = observe(page)
++  await page.goto(base)
++  await page.locator('.landing-hero a').click()
++  await page.locator('#auth-name').waitFor()
++  assert.ok(page.url().endsWith('#/registro'))
++  await capture(page, 'registration-390')
++  // Fill/submit actual registration form against fixtures.
++  for (const [id, value] of Object.entries({ 'auth-name': 'QA Fixture', 'auth-username': 'qa_fixture', 'auth-email': 'qa@example.invalid', 'auth-phone': '0000000000', 'auth-password': 'fixture-password' })) await page.locator('#' + id).fill(value)
++  await page.locator('form button[type=submit]').click()
++  await page.locator('.home').waitFor()
++  assert.equal(await page.locator('.landing').count(), 0)
++  assert.equal(await page.locator('#home-tab-1').isDisabled(), true)
++  await page.reload()
++  await page.locator('.home').waitFor()
++  assert.ok(calls.some(c => c.path.endsWith('/me')))
++  await page.getByRole('button', { name: 'Abrir menú de perfil', exact: true }).click()
++  await page.getByRole('menuitem', { name: 'Cerrar sesión', exact: true }).click()
++  await page.locator('.landing').waitFor()
++  assert.equal(await page.evaluate(() => localStorage.getItem('me:token')), null)
++  for (const path of ['playlists', 'historial', 'analisis', 'perfil', 'cuenta']) {
++    await page.goto(base + '#/' + path)
++    await page.waitForURL('**/#/login')
++    await page.locator('#auth-email').waitFor()
++    assert.equal(await page.locator('.landing-faq').count(), 0)
++  }
++  // A fresh root login has no private return path.
++  await page.goto(base)
++  await page.getByRole('button', { name: 'Iniciar sesión', exact: true }).click()
++  await page.locator('#auth-email').fill('qa@example.invalid')
++  await page.locator('#auth-password').fill('fixture-password')
++  await page.locator('form button[type=submit]').click()
++  await page.locator('.home').waitFor()
++  await page.reload()
++  await page.locator('.home').waitFor()
++  results.flows.push({ registration: 'PASS (fixture API)', login: 'PASS (fixture API)', reentry: 'PASS (fixture API)', logout: 'PASS', guards: 5, analysisDisabled: true, calls, errors: log.errors, failed: log.failed })
++  assert.deepEqual(log.errors, [])
++  assert.deepEqual(log.failed, [])
++  await context.close()
++
++  // UI language switch, persisted preference, theme and unchanged illustration controls.
++  const preferences = await browser.newContext({ viewport: { width: 1366, height: 900 } })
++  const prefPage = await preferences.newPage()
++  await prefPage.goto(base)
++  await prefPage.getByRole('button', { name: 'Ajustes', exact: true }).click()
++  await prefPage.getByRole('radio', { name: 'English', exact: true }).click()
++  await prefPage.locator('.brand').click()
++  await prefPage.locator('.landing-faq').waitFor()
++  assert.equal(await prefPage.locator('html').getAttribute('lang'), 'en')
++  await prefPage.reload()
++  await prefPage.waitForFunction(() => document.documentElement.lang === 'en')
++  await prefPage.locator('.landing-studio__steps button').nth(1).click()
++  assert.equal(await prefPage.locator('.landing-studio__steps button').nth(1).getAttribute('aria-pressed'), 'true')
++  await prefPage.getByRole('button', { name: 'Pause animation', exact: true }).click()
++  assert.match(await prefPage.locator('.landing-studio').getAttribute('class'), /is-paused/)
++  await prefPage.evaluate(() => localStorage.setItem('me:theme', JSON.stringify('light')))
++  await prefPage.reload()
++  await prefPage.waitForFunction(() => document.documentElement.dataset.theme === 'light')
++  await capture(prefPage, 'js-en-light-1366')
++  assert.deepEqual(await auditA11y(prefPage), [])
++  results.flows.push({ languageSwitchAndReload: 'PASS', lightTheme: 'PASS', illustrationAndPause: 'PASS' })
++  await preferences.close()
++
++  for (const url of ['http://127.0.0.1:4174/', 'http://127.0.0.1:4175/']) {
++    const page = await browser.newPage()
++    const log = observe(page)
++    await page.goto(url)
++    await page.waitForFunction(() => document.querySelector('.landing-motion')?.disabled === false)
++    assert.equal(await page.locator('h1').count(), 1)
++    assert.deepEqual(log.errors, [])
++    results.flows.push({ url, landing: 'PASS', errors: log.errors })
++    await page.close()
++  }
++  results.status = 'PASS'
++} catch (error) {
++  results.status = 'FAIL'
++  results.error = error.stack
++  throw error
++} finally {
++  await writeFile(new URL('browser-checks.json', out), JSON.stringify(results, null, 2) + '\n')
++  await browser.close()
++  await dev.close()
++  await new Promise(resolve => server.httpServer.close(resolve))
++  await new Promise(resolve => standalone.close(resolve))
++}
++console.log(`PASS: ${results.views.length} responsive/language/JS views; HTTP, a11y and fixture-auth flows. See evidence/seo-geo/browser-checks.json`)
+diff --git a/scripts/check-seo-contexts.mjs b/scripts/check-seo-contexts.mjs
+new file mode 100644
+index 0000000..591bfbb
+--- /dev/null
++++ b/scripts/check-seo-contexts.mjs
+@@ -0,0 +1,22 @@
++import assert from 'node:assert/strict'
++import { mkdtemp, readFile, writeFile } from 'node:fs/promises'
++import { execFile } from 'node:child_process'
++import { promisify } from 'node:util'
++import { fileURLToPath } from 'node:url'
++
++const root = fileURLToPath(new URL('../', import.meta.url))
++const run = promisify(execFile)
++const results = []
++for (const context of ['production', 'deploy-preview', 'branch-deploy']) {
++  const dir = await mkdtemp('/tmp/opencode/epic-seo-context-')
++  const { stdout } = await run('npm', ['run', 'build', '--', '--outDir', dir], { cwd: root, env: { ...process.env, CONTEXT: context } })
++  const html = await readFile(`${dir}/index.html`, 'utf8')
++  const headers = await readFile(`${dir}/_headers`, 'utf8').catch(() => '')
++  assert.ok(html.includes(context === 'production' ? 'content="index, follow, max-image-preview:large"' : 'content="noindex, follow"'))
++  assert.equal(headers, context === 'production' ? '' : '/*\n  X-Robots-Tag: noindex, follow\n')
++  assert.ok(html.includes('href="https://musica-epica-ed.netlify.app/"'))
++  await run('python3', ['scripts/check-seo.py', ...(context === 'production' ? [] : ['--preview']), `${dir}/index.html`], { cwd: root })
++  results.push({ context, status: 'PASS', robots: context === 'production' ? 'index, follow, max-image-preview:large' : 'noindex, follow', headers, stdout })
++  console.log('PASS', context)
++}
++await writeFile(new URL('../evidence/seo-geo/context-checks.json', import.meta.url), JSON.stringify(results, null, 2) + '\n')
+diff --git a/scripts/check-seo-performance.mjs b/scripts/check-seo-performance.mjs
+new file mode 100644
+index 0000000..9703659
+--- /dev/null
++++ b/scripts/check-seo-performance.mjs
+@@ -0,0 +1,29 @@
++// LH_MODULE=/path/to/lighthouse/core/index.js CHROME_LAUNCHER_MODULE=/path/to/chrome-launcher/dist/index.js node scripts/check-seo-performance.mjs
++import { writeFile } from 'node:fs/promises'
++import { preview } from 'vite'
++import { pathToFileURL } from 'node:url'
++
++const { default: lighthouse } = await import(process.env.LH_MODULE || 'lighthouse')
++const { default: desktopConfig } = await import(process.env.LH_MODULE ? new URL('./config/desktop-config.js', pathToFileURL(process.env.LH_MODULE)).href : 'lighthouse/core/config/desktop-config.js')
++const { launch } = await import(process.env.CHROME_LAUNCHER_MODULE || 'chrome-launcher')
++const server = await preview({ preview: { port: 4176, host: '127.0.0.1', strictPort: true } })
++const chrome = await launch({ chromePath: process.env.CHROME_PATH || '/usr/bin/google-chrome', chromeFlags: ['--headless', '--no-sandbox'] })
++const results = []
++try {
++  for (const preset of ['mobile', 'desktop']) {
++    const { lhr } = await lighthouse('http://127.0.0.1:4176/', {
++      port: chrome.port, onlyCategories: ['performance', 'accessibility', 'seo'],
++    }, preset === 'desktop' ? desktopConfig : undefined)
++    const ids = ['first-contentful-paint', 'largest-contentful-paint', 'total-blocking-time', 'cumulative-layout-shift', 'speed-index', 'total-byte-weight', 'render-blocking-resources', 'unused-javascript', 'font-display']
++    results.push({ preset, fetchTime: lhr.fetchTime, lighthouseVersion: lhr.lighthouseVersion, formFactor: lhr.configSettings.formFactor,
++      scores: Object.fromEntries(Object.entries(lhr.categories).map(([id, c]) => [id, c.score])),
++      audits: Object.fromEntries(ids.filter(id => lhr.audits[id]).map(id => [id, { score: lhr.audits[id].score, numericValue: lhr.audits[id].numericValue, displayValue: lhr.audits[id].displayValue }])),
++      failedAudits: Object.values(lhr.audits).filter(a => a.score !== null && a.score < 1).map(a => ({ id: a.id, title: a.title, score: a.score, displayValue: a.displayValue })),
++      warnings: lhr.runWarnings, scope: 'Single local lab run, not field Core Web Vitals; no INP claim.' })
++    console.log(preset, JSON.stringify(results.at(-1).scores))
++  }
++  await writeFile(new URL('../evidence/seo-geo/performance.json', import.meta.url), JSON.stringify(results, null, 2) + '\n')
++} finally {
++  await chrome.kill()
++  await new Promise(resolve => server.httpServer.close(resolve))
++}
+diff --git a/scripts/check-seo.py b/scripts/check-seo.py
+new file mode 100644
+index 0000000..311757c
+--- /dev/null
++++ b/scripts/check-seo.py
+@@ -0,0 +1,96 @@
++"""Validate source HTML, generated files and HTTP without executing JavaScript."""
++from html.parser import HTMLParser
++import json
++from pathlib import Path
++import sys
++import urllib.request
++import xml.etree.ElementTree as ET
++
++ROOT = Path(__file__).resolve().parents[1]
++SITE = 'https://musica-epica-ed.netlify.app/'
++IMAGE = 'https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png'
++
++
++class Document(HTMLParser):
++    def __init__(self, html):
++        super().__init__()
++        self.tags = []
++        self.feed(html)
++
++    def handle_starttag(self, tag, attrs):
++        self.tags.append((tag, dict(attrs)))
++
++    def one(self, tag, **attrs):
++        found = [a for t, a in self.tags if t == tag and all(a.get(k) == v for k, v in attrs.items())]
++        assert len(found) == 1, (tag, attrs, len(found))
++        return found[0]
++
++
++def check(html, full=True, preview=False):
++    doc = Document(html)
++    doc.one('html', lang='es')
++    doc.one('title')
++    assert 'Música Épica | Encuentra canciones por su letra y descubre música</title>' in html
++    assert len(doc.one('meta', name='description')['content']) > 80
++    doc.one('meta', name='viewport')
++    assert doc.one('link', rel='canonical')['href'] == SITE
++    robots = doc.one('meta', name='robots')['content']
++    assert robots == ('noindex, follow' if preview else 'index, follow, max-image-preview:large')
++    expected = {'og:type': 'website', 'og:site_name': 'Música Épica', 'og:url': SITE,
++                'og:image': IMAGE, 'og:image:secure_url': IMAGE, 'og:image:type': 'image/png',
++                'og:image:width': '1731', 'og:image:height': '909', 'twitter:card': 'summary_large_image',
++                'twitter:image': IMAGE}
++    for name in ['og:title', 'og:description', 'og:image:alt', 'twitter:title', 'twitter:description', 'twitter:image:alt', *expected]:
++        value = doc.one('meta', **{'property' if name.startswith('og:') else 'name': name})['content']
++        assert value and (name not in expected or value == expected[name]), name
++    assert not any('hreflang' in a for _, a in doc.tags)
++    assert not any(t == 'img' and a.get('src') == IMAGE for t, a in doc.tags)
++    if full:
++        doc.one('h1', id='landing-title')
++        doc.one('main')
++        assert any(t == 'a' and a.get('href') == '#/registro' for t, a in doc.tags)
++        for text in ['buscar una canción', 'no es un diagnóstico', 'Spotify', 'YouTube', 'JavaScript']:
++            assert text in html, text
++        for path in ['playlists', 'historial', 'analisis', 'perfil', 'cuenta']:
++            assert f'href="#/{path}' not in html
++        doc.one('script', type='application/ld+json')
++        start = html.index('>', html.index('<script type="application/ld+json"')) + 1
++        schema = json.loads(html[start:html.index('</script>', start)])
++        assert schema['@context'] == 'https://schema.org'
++        graph = schema['@graph']
++        assert [item['@type'] for item in graph] == ['WebSite', 'WebApplication']
++        assert all(item['url'] == SITE and item['inLanguage'] == 'es' for item in graph)
++        assert graph[0]['about']['@id'] == graph[1]['@id']
++        assert graph[1]['isPartOf']['@id'] == graph[0]['@id']
++        for forbidden in ['aggregateRating', 'review', 'offers', 'email', 'accessToken', 'samantha@']:
++            assert forbidden not in json.dumps(schema)
++    return {a.get('name', a.get('property')): a['content'] for t, a in doc.tags if t == 'meta' and 'content' in a}
++
++
++if __name__ == '__main__':
++    full = '--head-only' not in sys.argv
++    preview = '--preview' in sys.argv
++    targets = [v for v in sys.argv[1:] if not v.startswith('--')]
++    results = {}
++    for target in targets or (['dist/index.html', 'index.html'] if full else ['dev.html', 'dist/index.html', 'index.html']):
++        if target.startswith('http'):
++            with urllib.request.urlopen(target) as response:
++                assert response.status == 200
++                assert response.headers.get_content_type() == 'text/html'
++                html = response.read().decode()
++        else:
++            html = (ROOT / target).read_text()
++        results[target] = check(html, full, preview)
++        print('PASS', target)
++    if full:
++        for folder in ['public', 'dist']:
++            xml = ET.parse(ROOT / folder / 'sitemap.xml')
++            assert [e.text for e in xml.findall('.//{*}loc')] == [SITE]
++            assert not xml.findall('.//{*}lastmod')
++            robots = (ROOT / folder / 'robots.txt').read_text()
++            assert 'Sitemap: ' + SITE + 'sitemap.xml' in robots
++            assert 'GPTBot' not in robots
++            assert 'Disallow: /' not in robots
++    out = ROOT / 'evidence/seo-geo'
++    out.mkdir(parents=True, exist_ok=True)
++    (out / ('head-checks.json' if not full else 'html-checks.json')).write_text(json.dumps(results, ensure_ascii=False, indent=2) + '\n')
+diff --git a/scripts/public-html-plugin.mjs b/scripts/public-html-plugin.mjs
+new file mode 100644
+index 0000000..cdf8b55
+--- /dev/null
++++ b/scripts/public-html-plugin.mjs
+@@ -0,0 +1,37 @@
++import { createServer } from 'vite'
++import react from '@vitejs/plugin-react'
++
++export function isPreview(context) {
++  return ['deploy-preview', 'branch-deploy', 'dev'].includes(context)
++}
++
++export function publicHtmlPlugin(root, context = process.env.CONTEXT) {
++  return {
++    name: 'musica-epica:public-html',
++    transformIndexHtml: {
++      order: 'pre',
++      async handler(html) {
++        // A separate, middleware-only Vite loader compiles existing JSX at build
++        // time. No SSR runtime, dependency or private application entry is shipped.
++        const renderer = await createServer({
++          root, configFile: false, plugins: [react()], appType: 'custom',
++          server: { middlewareMode: true, hmr: false, watch: null },
++        })
++        try {
++          const { renderPublicLanding } = await renderer.ssrLoadModule('/src/prerender.jsx')
++          const rendered = html.replace('<div id="root"></div>', () => `<div id="root">${renderPublicLanding()}</div>`)
++          return isPreview(context)
++            ? rendered.replace('content="index, follow, max-image-preview:large"', 'content="noindex, follow"')
++            : rendered
++        } finally {
++          await renderer.close()
++        }
++      },
++    },
++    generateBundle() {
++      if (isPreview(context)) {
++        this.emitFile({ type: 'asset', fileName: '_headers', source: '/*\n  X-Robots-Tag: noindex, follow\n' })
++      }
++    },
++  }
++}
+diff --git a/scripts/record-seo-review.mjs b/scripts/record-seo-review.mjs
+new file mode 100644
+index 0000000..ce8b610
+--- /dev/null
++++ b/scripts/record-seo-review.mjs
+@@ -0,0 +1,34 @@
++// Final, reproducible regression log and source diff (evidence excluded).
++import { execFile } from 'node:child_process'
++import { promisify } from 'node:util'
++import { readFile, writeFile, readdir } from 'node:fs/promises'
++import { createHash } from 'node:crypto'
++import { gzipSync } from 'node:zlib'
++import { fileURLToPath } from 'node:url'
++
++const root = fileURLToPath(new URL('../', import.meta.url))
++const out = new URL('../evidence/seo-geo/', import.meta.url)
++const run = promisify(execFile)
++const checks = []
++for (const [command, args] of [['npm', ['run', 'lint']], ['npm', ['test']], ['git', ['diff', '--check']]]) {
++  const { stdout, stderr } = await run(command, args, { cwd: root })
++  checks.push({ command: [command, ...args].join(' '), exitCode: 0, stdout, stderr })
++  console.log('PASS', checks.at(-1).command)
++}
++const tracked = await run('git', ['diff', '--', '.', ':!evidence'], { cwd: root })
++const untracked = (await run('git', ['ls-files', '--others', '--exclude-standard'], { cwd: root })).stdout.trim().split('\n').filter(path => path && !path.startsWith('evidence/'))
++let patch = tracked.stdout
++for (const path of untracked) {
++  try { patch += (await run('git', ['diff', '--no-index', '--', '/dev/null', path], { cwd: root })).stdout }
++  catch (error) { if (error.code !== 1) throw error; patch += error.stdout }
++}
++const files = ['dist/index.html', 'index.html', ...(await readdir(new URL('../dist/assets/', import.meta.url))).map(name => `dist/assets/${name}`)]
++const artifacts = []
++for (const path of files) {
++  const bytes = await readFile(new URL('../' + path, import.meta.url))
++  artifacts.push({ path, bytes: bytes.length, gzipBytes: gzipSync(bytes).length, sha256: createHash('sha256').update(bytes).digest('hex') })
++}
++const backendStatus = (await run('git', ['status', '--short'], { cwd: new URL('../../backend-epic-music/', import.meta.url) })).stdout
++await writeFile(new URL('source.diff', out), patch)
++await writeFile(new URL('regression-checks.json', out), JSON.stringify({ checks, artifacts, backendStatus }, null, 2) + '\n')
++console.log('Recorded source.diff and regression-checks.json')
+diff --git a/scripts/test-seo.py b/scripts/test-seo.py
+new file mode 100644
+index 0000000..8682118
+--- /dev/null
++++ b/scripts/test-seo.py
+@@ -0,0 +1,48 @@
++"""Regression checks that ensure the HTML validator rejects broken SEO output."""
++import importlib.util
++from pathlib import Path
++import unittest
++
++spec = importlib.util.spec_from_file_location('seo', Path(__file__).with_name('check-seo.py'))
++seo = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(seo)
++
++
++class SEORegression(unittest.TestCase):
++    @classmethod
++    def setUpClass(cls):
++        cls.html = (seo.ROOT / 'dist/index.html').read_text()
++
++    def test_build_valid(self):
++        seo.check(self.html)
++
++    def test_duplicate_canonical_rejected(self):
++        with self.assertRaises(AssertionError):
++            seo.check(self.html.replace('</head>', f'<link rel="canonical" href="{seo.SITE}" /></head>'))
++
++    def test_image_typo_rejected(self):
++        with self.assertRaises(AssertionError):
++            seo.check(self.html.replace('descrubre', 'descubre'))
++
++    def test_private_link_rejected(self):
++        with self.assertRaises(AssertionError):
++            seo.check(self.html.replace('</main>', '<a href="#/playlists/private">Private</a></main>'))
++
++    def test_production_noindex_rejected(self):
++        with self.assertRaises(AssertionError):
++            seo.check(self.html.replace('index, follow, max-image-preview:large', 'noindex, follow'))
++
++    def test_preview_noindex_accepted(self):
++        seo.check(self.html.replace('index, follow, max-image-preview:large', 'noindex, follow'), preview=True)
++
++    def test_empty_shell_rejected(self):
++        with self.assertRaises(AssertionError):
++            seo.check(self.html.replace('id="landing-title"', 'id="missing-title"'))
++
++    def test_invented_rating_rejected(self):
++        with self.assertRaises(AssertionError):
++            seo.check(self.html.replace('"applicationCategory":', '"aggregateRating": {"ratingValue":5}, "applicationCategory":'))
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/src/prerender.jsx b/src/prerender.jsx
+new file mode 100644
+index 0000000..02660fa
+--- /dev/null
++++ b/src/prerender.jsx
+@@ -0,0 +1,32 @@
++import { renderToStaticMarkup } from 'react-dom/server'
++import { Disc3, LogIn, Settings } from 'lucide-react'
++import { PreferencesProvider } from './context/PreferencesContext.jsx'
++import { Landing } from './pages/Landing.jsx'
++import { Footer } from './components/Footer.jsx'
++
++// Build-time public entry only. No App, UserProvider, API calls or session data.
++// createRoot replaces this shell with the normal authenticated/localized app.
++export function renderPublicLanding() {
++  if (typeof window !== 'undefined') throw new Error('Public rendering must run without a browser/session')
++  return renderToStaticMarkup(<PreferencesProvider>
++    <div className="app">
++      <a className="skip-link" href="#main">Saltar al contenido principal</a>
++      <header className="header header--public"><div className="header__inner">
++        <a className="brand brand--md" href="#/" aria-label="MUSICA EPICA — Ir al inicio">
++          <span className="brand__mark" aria-hidden="true"><Disc3 size={24} strokeWidth={1.8} /></span>
++          <span className="brand__text"><span className="brand__name">MUSICA{' '}</span><span className="brand__name brand__name--accent">EPICA</span></span>
++        </a>
++        <nav className="header__nav header__public-nav" aria-label="Música Épica"><a className="header__link" href="#/" aria-current="page">La experiencia</a></nav>
++        <div className="header__actions">
++          <a className="header__settings header__link" href="#/ajustes" aria-label="Ajustes"><Settings size={18} aria-hidden="true" /></a>
++          <a className="btn btn--primary header__login" href="#/login"><LogIn size={16} aria-hidden="true" /><span>Iniciar sesión</span></a>
++        </div>
++      </div></header>
++      <main className="app__main" id="main" tabIndex={-1}>
++        <noscript><p className="landing-nojs">Puedes leer cómo funciona Música Épica aquí. Para crear una cuenta, iniciar sesión o buscar canciones, activa JavaScript y vuelve a abrir el enlace correspondiente.</p></noscript>
++        <Landing staticView />
++      </main>
++      <Footer publicView />
++    </div>
++  </PreferencesProvider>)
++}
+diff --git a/test/seo.test.js b/test/seo.test.js
+new file mode 100644
+index 0000000..3f79807
+--- /dev/null
++++ b/test/seo.test.js
+@@ -0,0 +1,26 @@
++import assert from 'node:assert/strict'
++import test from 'node:test'
++import { readFileSync } from 'node:fs'
++import { isPreview } from '../scripts/public-html-plugin.mjs'
++import es from '../src/translations/es.js'
++import en from '../src/translations/en.js'
++
++test('only non-production Netlify contexts request noindex', () => {
++  for (const context of ['deploy-preview', 'branch-deploy', 'dev']) assert.equal(isPreview(context), true)
++  for (const context of [undefined, '', 'production']) assert.equal(isPreview(context), false)
++})
++
++test('public guidance is complete in both languages and reflects disabled analysis entry points', () => {
++  for (const topic of ['Phrase', 'Identify', 'Related', 'Analysis', 'Personality', 'Save', 'Links']) {
++    for (const locale of [es, en]) {
++      assert.ok(locale.landing[`faq${topic}Q`].length > 15)
++      assert.ok(locale.landing[`faq${topic}A`].length > 50)
++    }
++  }
++  assert.match(es.landing.faqAnalysisA, /Próximamente/)
++  assert.match(es.landing.faqLinksA, /Próximamente/)
++  assert.match(en.landing.faqAnalysisA, /Coming soon/)
++  assert.match(en.landing.faqLinksA, /Coming soon/)
++  const publicEntry = readFileSync(new URL('../src/prerender.jsx', import.meta.url), 'utf8')
++  assert.doesNotMatch(publicEntry, /import .*?(?:App|UserContext|services\/)/)
++})

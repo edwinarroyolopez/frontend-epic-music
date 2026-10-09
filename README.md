@@ -78,6 +78,21 @@ El código de la aplicación está en `src/` y su entrada HTML es `dev.html`.
 Conserva `dev.html` al limpiar archivos generados: sin él, Vite falla con
 `UNRESOLVED_ENTRY: Cannot resolve entry module dev.html`.
 
+### SEO y contenido público
+
+`dev.html` contiene el head canónico/social y JSON-LD. Vite pre-renderiza solo
+la landing pública (`src/prerender.jsx`), reutilizando Landing y sus traducciones;
+React reemplaza ese HTML al iniciar la aplicación. No se renderizan sesiones ni
+datos de la API durante el build. `public/robots.txt` y `public/sitemap.xml` solo
+describen la raíz pública. El generador autónomo conserva este contenido y deja
+intacto el build con assets de `dist/`.
+
+Verificación: `npm run test:seo`, `node scripts/check-seo-contexts.mjs` y
+`npm run test:seo:browser` (Playwright/axe externos; configuración y resultados
+en [CHECKS_SEO_GEO.md](CHECKS_SEO_GEO.md)). El [plan](PLAN_SEO_GEO.md) documenta
+la auditoría y las fuentes. Al cambiar de dominio, actualizar canonical/OG/JSON-LD
+en `dev.html`, robots, sitemap y constantes de los scripts de verificación.
+
 ## Producción: Netlify + Railway
 
 `netlify.toml` configura automáticamente:

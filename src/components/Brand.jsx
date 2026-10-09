@@ -13,13 +13,13 @@ export function Brand({ onClick, size = 'md' }) {
       type="button"
       className={`brand brand--${size}`}
       onClick={onClick}
-      aria-label={t('header.brandHome')}
+      aria-label={`${t('app.name')} — ${t('header.brandHome')}`}
     >
       <span className="brand__mark" aria-hidden="true">
         <Disc3 size={size === 'sm' ? 20 : 24} strokeWidth={1.8} />
       </span>
       <span className="brand__text">
-        <span className="brand__name">MUSICA</span>
+        <span className="brand__name">MUSICA{' '}</span>
         <span className="brand__name brand__name--accent">EPICA</span>
       </span>
     </button>

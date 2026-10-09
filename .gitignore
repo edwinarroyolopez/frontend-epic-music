@@ -1,6 +1,8 @@
 node_modules
 dist
 dist-ssr
+# Optional generated standalone output (source is dev.html + src/).
+/index.html
 *.local
 .vite
 
