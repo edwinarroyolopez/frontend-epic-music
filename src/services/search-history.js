@@ -17,7 +17,7 @@ const safeSong = value => value?.title && value?.artist ? {
   ...(typeof value.edition === 'string' && { edition: text(value.edition) }),
   title: text(value.title), artist: text(value.artist), genre: text(value.genre), album: text(value.album),
   reason: text(value.reason, 2000), releaseYear: Number.isInteger(value.releaseYear) ? value.releaseYear : null,
-  catalogVerified: false,
+  catalogVerified: value.catalogVerified === true,
 } : null
 export function historySnapshot({ id, createdAt = new Date().toISOString(), body, result, error }) {
   const input = safeInput(result?.input || error?.input || { original: body, resolved: body })
@@ -56,6 +56,15 @@ export function saveGuestSearch({ requestId, ...value }) {
   const entries = readGuestHistory().filter(e => e.id !== requestId)
   writeGuestHistory([entry, ...entries].slice(0, 50))
   return { status: 'local_saved', id: requestId, requestId }
+}
+export function replaceGuestHistorySong(id, song) {
+  if (getToken()) throw storageError()
+  const entries = readGuestHistory()
+  const entry = entries.find(value => value.id === id)
+  if (!entry?.result?.found || !safeSong(song)) throw storageError()
+  entry.song = safeSong(song)
+  entry.result.song = entry.song
+  writeGuestHistory(entries)
 }
 export const historyApi = {
   async list(cursor, options = {}) { return (await request(`/search-history?limit=20${cursor ? `&cursor=${encodeURIComponent(cursor)}` : ''}`, { ...options, auth: true })).data },

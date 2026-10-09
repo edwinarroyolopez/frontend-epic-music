@@ -1,0 +1,30 @@
+.home-tabs { display: flex; gap: .5rem; margin-block: 1rem; }
+.home-tabs .btn { flex: 1; white-space: normal; min-width: 0; }
+.home-tabs .home-tab--coming-soon { flex-wrap: wrap; gap: .35rem .6rem; cursor: not-allowed; }
+.home-tab__badge { font-size: .75rem; padding: .15rem .5rem; border: 1px solid currentColor; border-radius: 999px; }
+.home [hidden] { display: none !important; }
+.personality { text-align: left; min-width: 0; }
+.personality h2 { font-size: 1.2rem; }
+.personality label { display: flex; flex-direction: column; gap: .35rem; min-width: 0; }
+.personality input, .personality select, .personality textarea { width: 100%; min-width: 0; box-sizing: border-box; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--color-control-border); background: var(--color-surface); color: var(--color-text); font: inherit; font-size: 16px; }
+.personality textarea { resize: vertical; }
+.personality .btn { white-space: normal; overflow-wrap: anywhere; }
+.personality-fields { border: 0; padding: 0; margin: 0; min-width: 0; }
+.personality label { font-size: var(--fs-sm); }
+.personality details > summary { min-height: 44px; padding-block: 10px; cursor: pointer; }
+.personality-editor { list-style: none; padding: 0; display: grid; gap: .75rem; max-height: 28rem; overflow-y: auto; }
+.personality-editor li { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; padding: .5rem; border: 1px solid var(--color-border); border-radius: .5rem; }
+.personality-editor li > span { grid-column: 1 / -1; }
+.personality .personality-consent { flex-direction: row; align-items: flex-start; }
+.personality-consent input { width: 1.4rem; height: 1.4rem; flex-shrink: 0; accent-color: var(--color-secondary); margin-top: .2rem; }
+.personality .personality-consent { min-height: 44px; cursor: pointer; }
+.personality-report { overflow-wrap: anywhere; }
+.personality-provider-items { max-height: 28rem; overflow-y: auto; overflow-wrap: anywhere; padding-inline-start: 1.5rem; }
+.personality-provider-items li { margin-block: .6rem; }
+.personality [hidden] { display: none !important; }
+.personality-report section { display: grid; gap: .65rem; }
+.personality-report h3 { font-size: 1.05rem; color: var(--color-text); }
+.personality-report h4 { font-size: 1rem; }
+.personality-report li { margin-block: .5rem; }
+@media (min-width: 768px) { .personality-editor li { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 360px) { .personality-editor li { grid-template-columns: minmax(0, 1fr); } }

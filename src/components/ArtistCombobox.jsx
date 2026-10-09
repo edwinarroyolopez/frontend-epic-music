@@ -47,19 +47,21 @@ export function ArtistCombobox({ value, onChange }) {
     }
     if (event.key === 'Enter' && expanded && active >= 0) { event.preventDefault(); choose(items[active].canonicalName) }
   }
-  return <div className="artist-combobox">
+  return <div className="artist-combobox discovery-field">
     <label htmlFor={`${id}-input`}>{t('discovery.artist')}</label>
-    <input ref={input} id={`${id}-input`} role="combobox" aria-autocomplete="list" autoComplete="off"
-      aria-expanded={expanded} aria-controls={`${id}-list`} aria-describedby={`${id}-help`}
-      aria-activedescendant={expanded && active >= 0 ? `${id}-option-${active}` : undefined}
-      maxLength={200} value={value} onKeyDown={keyDown} onFocus={() => { setOpen(true); refresh() }} onBlur={() => setOpen(false)}
-      onChange={event => { onChange(event.target.value); setOpen(true); setActive(-1) }} />
-    {expanded && <ul id={`${id}-list`} role="listbox" aria-label={t('intelligence.suggestions')} className="artist-options">
-      {items.map((artist, index) => <li key={artist.id} id={`${id}-option-${index}`} role="option" aria-selected={index === active}
-        onPointerDown={event => event.preventDefault()} onClick={() => choose(artist.canonicalName)}>
-        {artist.canonicalName}<small>{t(artist.validationStatus === 'curated' ? 'intelligence.curated' : 'intelligence.inferred')}</small>
-      </li>)}
-    </ul>}
+    <div className="artist-combobox__control">
+      <input ref={input} id={`${id}-input`} role="combobox" aria-autocomplete="list" autoComplete="off"
+        aria-expanded={expanded} aria-controls={`${id}-list`} aria-describedby={`${id}-help`}
+        aria-activedescendant={expanded && active >= 0 ? `${id}-option-${active}` : undefined}
+        maxLength={200} value={value} onKeyDown={keyDown} onFocus={() => { setOpen(true); refresh() }} onBlur={() => setOpen(false)}
+        onChange={event => { onChange(event.target.value); setOpen(true); setActive(-1) }} />
+      {expanded && <ul id={`${id}-list`} role="listbox" aria-label={t('intelligence.suggestions')} className="artist-options">
+        {items.map((artist, index) => <li key={artist.id} id={`${id}-option-${index}`} role="option" aria-selected={index === active}
+          onPointerDown={event => event.preventDefault()} onClick={() => choose(artist.canonicalName)}>
+          {artist.canonicalName}<small>{t(artist.validationStatus === 'curated' ? 'intelligence.curated' : 'intelligence.inferred')}</small>
+        </li>)}
+      </ul>}
+    </div>
     <p id={`${id}-help`} className="text-muted text-sm" role="status" aria-live="polite">
       {open && current && ['loading', 'empty', 'error'].includes(state.status)
         ? t(`intelligence.${state.status}`) : t('intelligence.keyboard')}

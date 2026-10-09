@@ -17,6 +17,11 @@ export function useSearchHistory({ local, id }) {
   }, [api, id, query])
   const reload = useCallback(() => setQuery(q => ({ cursor: null, revision: q.revision + 1 })), [])
   useEffect(() => {
+    const refresh = event => { if (!local && event.detail?.saved && (!id || id === event.detail.historyId)) reload() }
+    window.addEventListener('song:reidentified', refresh)
+    return () => window.removeEventListener('song:reidentified', refresh)
+  }, [id, local, reload])
+  useEffect(() => {
     if (!local) return
     const refresh = event => { if (!event.key || event.key === GUEST_HISTORY_KEY) reload() }
     window.addEventListener('history:updated', refresh); window.addEventListener('storage', refresh)

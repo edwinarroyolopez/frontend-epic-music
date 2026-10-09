@@ -7,11 +7,11 @@ import { AuthError, getProviders, loginWithEmail, readAppleReturn, registerWithE
 import { AppleMusicIcon } from '../components/BrandIcons.jsx'
 import { Button, Input } from '../components/ui/index.js'
 
-export function Login({ onSignedIn }) {
+export function Login({ onSignedIn, initialMode = 'login' }) {
   const { t, language } = usePreferences()
-  const { signInDemo, adoptUser } = useUser()
+  const { adoptUser } = useUser()
   const snackbar = useSnackbar()
-  const [modo, setModo] = useState('login')
+  const [modo, setModo] = useState(initialMode)
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
   const [password, setPassword] = useState('')
@@ -75,11 +75,6 @@ export function Login({ onSignedIn }) {
   const pendienteDe = (proveedor) => {
     setError(null)
     setPendiente(proveedor)
-  }
-
-  const demo = () => {
-    signInDemo()
-    onSignedIn?.()
   }
 
   const isRegister = modo === 'registro'
@@ -171,8 +166,6 @@ export function Login({ onSignedIn }) {
           <ShieldAlert size={15} aria-hidden="true" />
           <span>{t(`login.pendiente_${pendiente}`)}</span>
         </div>}
-        <div className="login__divider" aria-hidden="true" />
-        <Button variant="ghost" block onClick={demo}>{t('login.demoMode')}</Button>
         <p className="login__legal">{t('login.providersNote')}</p>
       </section>
     </div>

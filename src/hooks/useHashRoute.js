@@ -26,8 +26,10 @@ export function useHashRoute() {
 
   const navigate = useCallback((to) => {
     const next = to.startsWith('/') ? to : `/${to}`
-    if (readHash() === next) return
-    window.location.hash = next
+    if (readHash() !== next) window.location.hash = next
+    // Keep navigation in the same React update as login/logout. Waiting only
+    // for hashchange can let an old private route redirect a signed-out user.
+    setPath(next)
   }, [])
 
   return [path, navigate]

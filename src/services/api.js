@@ -4,13 +4,14 @@ import { getToken, setToken } from './auth.js'
 export const ARTISTS_UPDATED_EVENT = 'artists:updated'
 
 export class ApiError extends Error {
-  constructor(message, { code = 'UNKNOWN', status = 0, history, input } = {}) {
+  constructor(message, { code = 'UNKNOWN', status = 0, history, input, retryAfter = 0 } = {}) {
     super(message)
     this.name = 'ApiError'
     this.code = code
     this.status = status
     this.history = history
     this.input = input
+    this.retryAfter = retryAfter
   }
 }
 const statusCodes = { 400: 'VALIDATION_ERROR', 401: 'UNAUTHORIZED', 403: 'ACCOUNT_DISABLED', 404: 'NOT_FOUND', 409: 'CONFLICT', 413: 'VALIDATION_ERROR', 422: 'VALIDATION_ERROR', 429: 'RATE_LIMITED', 502: 'PROVIDER_ERROR', 503: 'UNAVAILABLE' }
@@ -48,7 +49,8 @@ export async function request(path, { method = 'GET', body, auth = false, signal
     if (!response.ok || payload.success === false) {
       throw new ApiError(typeof payload.error === 'string' ? payload.error : payload.error?.message || payload.message || 'API error', {
         code: payload.error?.code || payload.code || statusCodes[response.status] || 'UNKNOWN', status: response.status,
-        history: payload.history, input: payload.input,
+         history: payload.history, input: payload.input,
+         retryAfter: Math.min(300, Math.max(0, Number(response.headers.get('Retry-After')) || 0)),
       })
     }
     // A response from an earlier login must never populate the next account's UI.

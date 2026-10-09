@@ -12,7 +12,7 @@ import { ProfileMenuTrigger } from './ProfileMenu.jsx'
  */
 export function Header({ path, onNavigate, onSearchClick }) {
   const { t } = usePreferences()
-  const { user, isAuthenticated, signOut } = useUser()
+  const { user, isAuthenticated, sessionChecking, signOut } = useUser()
   // El menu se marca como abierto "en" una ruta concreta: al navegar se
   // cierra solo, sin necesidad de un efecto.
   const [openForPath, setOpenForPath] = useState(null)
@@ -30,11 +30,11 @@ export function Header({ path, onNavigate, onSearchClick }) {
   }, [menuOpen])
 
   return (
-    <header className="header" ref={headerRef}>
+    <header className={`header${!isAuthenticated ? ' header--public' : ''}`} ref={headerRef}>
       <div className="header__inner">
         <Brand onClick={() => onNavigate('/')} />
 
-        <nav className="header__nav" aria-label={t('app.name')}>
+        {isAuthenticated ? <nav className="header__nav" aria-label={t('app.name')}>
           <button
             type="button"
             className={`header__link${path === '/' ? ' is-active' : ''}`}
@@ -47,18 +47,20 @@ export function Header({ path, onNavigate, onSearchClick }) {
           </button>
           <button type="button" className={`header__link${path === '/historial' ? ' is-active' : ''}`} aria-current={path === '/historial' ? 'page' : undefined} onClick={() => onNavigate('/historial')}>{t('history.title')}</button>
           <button type="button" className={`header__link${path === '/playlists' ? ' is-active' : ''}`} aria-label={t('playlists.title')} aria-current={path === '/playlists' ? 'page' : undefined} onClick={() => onNavigate('/playlists')}>Playlists</button>
-        </nav>
+        </nav> : <nav className="header__nav header__public-nav" aria-label={t('app.name')}>
+          <a className="header__link" href="#/" aria-current={path === '/' ? 'page' : undefined}>{t('landing.navigation')}</a>
+        </nav>}
 
         <div className="header__actions">
           <button type="button" className={`header__settings header__link${path === '/ajustes' ? ' is-active' : ''}`} aria-label={t('settings.title')} title={t('settings.title')} aria-current={path === '/ajustes' ? 'page' : undefined} onClick={() => onNavigate('/ajustes')}><Settings size={18} aria-hidden="true" /></button>
-          {isAuthenticated ? (
+          {sessionChecking ? <span className="header__session-pending" aria-hidden="true" /> : isAuthenticated ? (
             <ProfileMenuTrigger
               user={user}
               open={menuOpen}
               onToggle={() => setOpenForPath(menuOpen ? null : path)}
               onClose={() => setOpenForPath(null)}
               onNavigate={onNavigate}
-              onSignOut={signOut}
+              onSignOut={() => { setOpenForPath(null); signOut(); onNavigate('/') }}
             />
           ) : (
             <button type="button" className="btn btn--primary header__login" aria-label={t('nav.login')} title={t('nav.login')} onClick={() => onNavigate('/login')}>

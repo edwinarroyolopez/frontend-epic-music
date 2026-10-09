@@ -69,9 +69,8 @@ export async function readPhotoFile(file) {
 }
 
 /**
- * Sesion del usuario. En esta version es local (localStorage): cuando exista
- * autenticacion real y un endpoint de perfil, este mismo contexto es el punto
- * unico a sustituir.
+ * La sesión se restaura con /auth/me. Los datos locales de usuario por sí solos,
+ * incluidas las antiguas sesiones demo, no habilitan las funciones privadas.
  */
 export function UserProvider({
   children
@@ -101,7 +100,6 @@ export function UserProvider({
 
 
     // Sin JWT no existe una sesión real.
-    // Exceptuamos demo si quieres conservarlo.
 
     if (!token) return;
 
@@ -230,21 +228,6 @@ export function UserProvider({
 
 
   // ===============================================
-  // DEMO
-  // ===============================================
-
-  const signInDemo =
-    useCallback(() => {
-      logoutRemoto();
-      setUser({
-        ...DEFAULT_USER,
-        isAuthenticated: true
-      });
-
-    }, [setUser]);
-
-
-  // ===============================================
   // PERFIL
   // ===============================================
 
@@ -322,13 +305,11 @@ export function UserProvider({
           readUser(user),
 
         isAuthenticated:
-          Boolean(user && (user.provider === 'demo' || getToken())),
+          Boolean(user && user.provider !== 'demo' && user.active !== false && getToken() && !sessionChecking),
 
         canUsePlaylists: Boolean(user && user.provider !== 'demo' && user.active !== false && getToken() && !sessionChecking),
 
         sessionChecking,
-
-        signInDemo,
 
         signOut,
 
@@ -344,7 +325,6 @@ export function UserProvider({
       [
         user,
         sessionChecking,
-        signInDemo,
         signOut,
         adoptUser,
         updateProfile,

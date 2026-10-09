@@ -1,9 +1,10 @@
 /* Pantalla principal: buscador, resultados, cancion y recomendaciones. */
 
-.artist-combobox { position: relative; min-width: 0; }
+.artist-combobox { min-width: 0; }
+.artist-combobox__control { position: relative; }
 .artist-combobox label { display: block; }
 .artist-combobox input { width: 100%; }
-.artist-options { position: absolute; top: 4.8em; left: 0; right: 0; z-index: 20; max-height: 16rem; overflow-y: auto; list-style: none; padding: 4px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--shadow-md); }
+.artist-options { position: absolute; top: calc(100% + var(--space-1)); left: 0; right: 0; z-index: 20; max-height: 16rem; overflow-y: auto; list-style: none; padding: 4px; border: 1px solid var(--color-border-strong); border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--shadow-md); }
 .artist-options li { padding: 10px; cursor: pointer; overflow-wrap: anywhere; min-height: 44px; }
 .artist-options li[aria-selected="true"], .artist-options li:hover { background: var(--color-surface-2); outline: 2px solid var(--color-primary); outline-offset: -2px; }
 .artist-options small { display: block; color: var(--color-text-muted); }

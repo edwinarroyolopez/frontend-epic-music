@@ -13,17 +13,19 @@ export function SearchBar({ onSearch, status, onCancel, input }) {
     event.preventDefault()
     if (!loading) onSearch({ lyrics, ...(artist.trim() && { artist }), ...(genre.trim() && { genre }) })
   }}>
-    <label htmlFor="lyrics">{t('discovery.lyrics')}</label>
-    <textarea id="lyrics" rows={3} minLength={15} maxLength={12000} required value={lyrics}
-      onChange={e => setLyrics(e.target.value)} aria-describedby="lyrics-hint" />
-    <p id="lyrics-hint" className="text-muted text-sm">{t('discovery.hint')}</p>
-    <details className="discovery-hints">
-      <summary>{t('discovery.optionalHints')}<span>{[artist.trim(), genre.trim()].filter(Boolean).join(' · ') || t('discovery.hintsSummary')}</span></summary>
-      <div className="discovery-fields">
-        <ArtistCombobox value={artist} onChange={setArtist} />
-        <label>{t('discovery.genre')}<input maxLength={200} value={genre} onChange={e => setGenre(e.target.value)} /></label>
+    <div className="discovery-field">
+      <label htmlFor="lyrics">{t('discovery.lyrics')}</label>
+      <textarea id="lyrics" rows={3} minLength={15} maxLength={12000} required value={lyrics}
+        onChange={e => setLyrics(e.target.value)} aria-describedby="lyrics-hint" />
+      <p id="lyrics-hint" className="text-muted text-sm">{t('discovery.hint')}</p>
+    </div>
+    <div className="discovery-fields">
+      <ArtistCombobox value={artist} onChange={setArtist} />
+      <div className="discovery-field">
+        <label htmlFor="genre">{t('discovery.genre')}</label>
+        <input id="genre" maxLength={200} value={genre} onChange={e => setGenre(e.target.value)} />
       </div>
-    </details>
+    </div>
     <InputResolution input={input} onChoose={(field, value) => {
       if (field === 'artist') setArtist(value)
       else setGenre(value)

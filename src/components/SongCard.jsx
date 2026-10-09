@@ -5,7 +5,7 @@ import { SongLinks } from './SongLinks.jsx'
 import { LyricsPanel } from './LyricsPanel.jsx'
 import { SongLyricsModal } from './SongLyricsModal.jsx'
 
-export function SongCard({ song, isSelected = false, onSelect, showLyrics = false, lyricsOnClick = false, context, children }) {
+export function SongCard({ song, isSelected = false, onSelect, showLyrics = false, lyricsOnClick = false, context, identityAction, onAdd, children }) {
   const { t } = usePreferences()
   const [lyricsOpen, setLyricsOpen] = useState(false)
   return <><article className={`song-card${showLyrics ? ' song-card--source' : ''}${isSelected ? ' is-selected' : ''}${lyricsOnClick ? ' song-card--clickable' : ''}`}>
@@ -21,11 +21,14 @@ export function SongCard({ song, isSelected = false, onSelect, showLyrics = fals
       {onSelect && <label className="song-selection"><input type="checkbox" checked={isSelected} onChange={onSelect}
         aria-label={t('discovery.selectSong', { title: song.title, artist: song.artist })} /><span>{t('discovery.select')}</span></label>}
       </div>
+      {song.catalogVerified && <p className="text-sm text-muted">{t('reidentify.verified')}</p>}
       {song.reason ? <details className="song-card__details"><summary>{t('discovery.details')}</summary>
         <p className="text-muted text-sm">{[song.genre, song.album, song.releaseYear].filter(Boolean).join(' · ')}</p>
         <p className="song-reason">{song.reason}</p>
       </details> : <p className="song-card__metadata text-muted text-sm">{[song.genre, song.album, song.releaseYear].filter(Boolean).join(' · ')}</p>}
       <SongLinks song={song} />
+      {identityAction}
+      {onAdd && <button type="button" className="btn btn--secondary" onClick={onAdd}>{t('historySongs.add')}</button>}
       {showLyrics && <LyricsPanel song={song} />}
       {children}
     </div>

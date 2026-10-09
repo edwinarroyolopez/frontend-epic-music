@@ -9,6 +9,10 @@ import { DataTable } from '../components/DataTable.jsx'
 import { Modal } from '../components/Modal.jsx'
 import { ConfirmDeleteModal } from '../components/ConfirmDeleteModal.jsx'
 import { guestHistoryApi, historyApi } from '../services/search-history.js'
+import { toSongInput } from '../services/playlists.js'
+import { SelectedSong } from '../components/SelectedSong.jsx'
+import { SongSelectionToolbar } from '../components/SongSelectionToolbar.jsx'
+import { SavePlaylistModal } from '../components/SavePlaylistModal.jsx'
 
 export function SearchHistory({ path, onNavigate }) {
   const { canUsePlaylists: account, user, sessionChecking } = useUser()
@@ -47,7 +51,7 @@ function HistoryView({ local, id, onNavigate }) {
     {!id && query.nextCursor && <button className="btn btn--secondary" disabled={query.loading} onClick={query.more}>{t('history.more')}</button>}
     {entry && <>
       <button className="btn btn--secondary" disabled={entry.status === 'pending'} onClick={() => setDeleteTarget(entry)}>{t('history.delete')}</button>
-      <HistoryEntry entry={entry} />
+      <HistoryEntry key={entry.id} entry={entry} local={local} onNavigate={onNavigate} />
     </>}
     {preview && <HistoryPreview key={preview.id} id={preview.id} title={label(preview)} local={local} onClose={() => setPreview(null)} onNavigate={onNavigate} />}
     {deleteTarget && <ConfirmDeleteModal key={deleteTarget.id} title={t('history.delete')} description={t('history.confirmDelete', { name: label(deleteTarget) })}
@@ -67,8 +71,16 @@ function HistoryFeedback({ query }) {
     <button className="btn btn--secondary" onClick={query.reload}>{t('states.retry')}</button></div>
 }
 
-function HistoryEntry({ entry }) {
+function HistoryEntry({ entry, local, onNavigate }) {
   const { t, language } = usePreferences()
+  const { canUsePlaylists } = useUser()
+  const [selected, setSelected] = useState([])
+  const [saving, setSaving] = useState(null)
+  const [corrected, setCorrected] = useState(null)
+  const origin = corrected || entry.result?.song
+  const songs = entry.result?.found ? [toSongInput(origin, 'identified'), ...entry.result.recommendations.map(song => toSongInput(song, 'recommendation'))] : []
+  const toggle = index => setSelected(values => values.includes(index) ? values.filter(value => value !== index) : [...values, index])
+  const save = songs => canUsePlaylists ? setSaving(songs) : onNavigate('/login')
   return <div className="stack stack--3">
     <div className="card card--padded stack stack--2">
       <time dateTime={entry.createdAt}>{new Date(entry.createdAt).toLocaleString(language, { dateStyle: 'medium', timeStyle: 'short' })}</time>
@@ -79,11 +91,16 @@ function HistoryEntry({ entry }) {
     <InputResolution input={entry.input} />
     {entry.errorCode && <p>{t(`history.${entry.errorCode === 'INTERRUPTED' ? 'interrupted' : ['TIMEOUT', 'NETWORK_ERROR'].includes(entry.errorCode) ? 'clientError' : 'providerError'}`)}</p>}
     {entry.result?.found && <>
-      <p className="notice">{t('discovery.notice')}</p>
-      <h2>{t('discovery.origin')}</h2><SongCard song={entry.result.song} showLyrics />
+      <p className="notice">{t(origin.catalogVerified ? 'reidentify.recommendationsNotice' : 'discovery.notice')}</p>
+      <SongSelectionToolbar count={selected.length} onAll={() => setSelected(songs.map((_, index) => index))}
+        onClear={() => setSelected([])} onSave={() => save(songs.filter((_, index) => selected.includes(index)))} />
+      <SelectedSong song={origin} historyId={entry.id} local={local} onResolved={setCorrected}
+        isSelected={selected.includes(0)} onSelect={() => toggle(0)} onAdd={() => save([songs[0]])} />
       <h2>{t('recommendations.title')} ({entry.result.recommendations.length})</h2>
-      <ul className="recommendations__grid">{entry.result.recommendations.map((song, index) => <li key={index}><SongCard song={song} lyricsOnClick /></li>)}</ul>
+      <ul className="recommendations__grid">{entry.result.recommendations.map((song, index) => <li key={index}><SongCard song={song} lyricsOnClick
+        isSelected={selected.includes(index + 1)} onSelect={() => toggle(index + 1)} onAdd={() => save([songs[index + 1]])} /></li>)}</ul>
     </>}
+    {saving && canUsePlaylists && <SavePlaylistModal songs={saving} onClose={() => setSaving(null)} />}
   </div>
 }
 
@@ -93,6 +110,6 @@ function HistoryPreview({ id, title, local, onClose, onNavigate }) {
   return <Modal open title={title} onClose={onClose} size="wide" initialFocus="dialog"
     footer={<button className="btn btn--secondary" onClick={() => { onClose(); onNavigate(`/historial/${id}`) }}>{t('table.openDetail')}</button>}>
     <HistoryFeedback query={query} />
-    {query.entry && <HistoryEntry entry={query.entry} />}
+    {query.entry && <HistoryEntry entry={query.entry} local={local} onNavigate={onNavigate} />}
   </Modal>
 }

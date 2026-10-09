@@ -58,6 +58,7 @@ function PlaylistView({ id, onNavigate }) {
         <p className="text-muted text-sm">{t('playlists.songCount', { count: playlist.songCount })}</p>
       </div>
       <div className="row row--wrap resource-toolbar">
+        <button className="btn btn--secondary" disabled>{t('personality.fromPlaylist')} · {t('personality.comingSoon')}</button>
         <button className="btn btn--secondary" disabled={action.busy} onClick={() => setModal('edit')}>{t('playlists.edit')}</button>
         <button className="btn btn--danger" disabled={action.busy} onClick={() => setDeleteTarget({ kind: 'playlist', id, name: playlist.name })}>{t('playlists.delete')}</button>
         <button className="btn btn--primary" onClick={() => onNavigate('/')}>{t('playlists.discover')}</button>

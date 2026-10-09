@@ -6,6 +6,25 @@ separado en **http://localhost:7000**.
 
 ## Puesta en marcha
 
+### Entrada pública y acceso
+
+- Sin sesión, `#/` muestra `Landing.jsx`: portada editorial con vinilo ilustrado,
+  vista previa interactiva de recordar/descubrir/guardar y explicación desplegable.
+  Es una demostración visual local: no consulta música, historial ni playlists.
+- `#/registro` abre directamente el registro; `#/login`, el acceso con correo.
+  `#/ajustes` sigue disponible para tema e idioma antes de iniciar sesión.
+- La búsqueda, historial (incluidos detalles y análisis), playlists, perfil y cuenta
+  requieren sesión real. Las vistas privadas no se montan durante la restauración
+  ni al entrar sin credenciales; las rutas directas llevan al login y conservan
+  el destino durante ese flujo. Cerrar sesión regresa a la landing.
+- No hay entrada demo. Datos demo de versiones anteriores en localStorage no
+  autorizan el acceso. El hook de búsqueda también bloquea solicitudes sin sesión.
+- Se conserva la paleta existente en oscuro, claro y personalizado, y ES/EN.
+  La animación del vinilo se puede pausar; `prefers-reduced-motion` desactiva el
+  movimiento. La vista previa no reproduce audio ni realiza búsquedas.
+
+### Desarrollo local
+
 Requiere Node.js 22.12+ (o 20.19+) y npm. Desde este repositorio:
 
 ```bash
@@ -234,17 +253,28 @@ privacidad y regresiones.
 snapshot completo (origen + recomendaciones) y eliminar entradas. Ver un resultado
 histórico no llama a IA ni sustituye la búsqueda/selección actual en App.
 
+- En el detalle de una búsqueda, cada tarjeta permite **Añadir a playlist**.
+  Las casillas y **Guardar selección** reúnen origen y recomendaciones en una
+  playlist nueva o existente. La tabla del historial permite consultar y eliminar
+  búsquedas; la selección y el guardado se realizan en su detalle.
+- **Volver a identificar**, en el origen de la búsqueda y del historial, contrasta
+  el fragmento con letras de LRCLIB antes de corregir título/artista. La corrección
+  actualiza la referencia usada por enlaces, letras, guardado e historial. Si la
+  letra está abierta, se vuelve a consultar con la identidad corregida.
+- El fragmento se reutiliza desde memoria (hasta 20 búsquedas de la sesión), nunca
+  desde almacenamiento persistente. Tras recargar o abrir un historial antiguo se
+  pide pegarlo de nuevo. Una coincidencia no confirmada conserva el título anterior;
+  un fallo de guardado se informa aunque la corrección esté visible en pantalla.
+
 - Cuenta real: GET/DELETE `/search-history`, JWT y Mongo privado; nunca se copia
   al historial invitado. Cambiar/cerrar sesión desmonta la vista y cancela lecturas;
   resultados privados en memoria y formulario se limpian al cambiar identidad.
-- Invitado/demo: `me:guest-search-history:v1` en localStorage de este navegador;
-  etiquetado local/no sincronizado, hasta50 entradas y90 días. No se migra al login.
-  Cuenta: hasta200 entradas completadas y90 días. Ambos guardan solo metadatos
-  permitidos, sin letra, digest, JWT ni credenciales en el historial.
-- Historial muestra found/not_found/error; errores de red/timeout del invitado
-  se describen como respuesta desconocida, no como canción inexistente.
-  Cancelación no crea entrada local; una búsqueda autenticada ya aceptada puede
-  terminar en el servidor. No hay promesa de reejecutar letras no conservadas.
+- Cuenta: hasta200 entradas completadas y90 días, con metadatos permitidos,
+  sin letra, digest, JWT ni credenciales en el historial. El adaptador de historial
+  invitado permanece para compatibilidad con datos antiguos, pero las rutas ya no
+  lo exponen ni generan nuevas búsquedas de invitado.
+- Historial muestra found/not_found/error. Una búsqueda autenticada ya aceptada
+  puede terminar en el servidor después de cancelar en el navegador.
 - El doble envío se bloquea en memoria; UUID deduplica retry autenticado en Mongo
   y las entradas locales. No hay retry automático de llamadas IA.
 - Fallo de Mongo o almacenamiento local muestra aviso explícito; resultado musical
@@ -336,7 +366,8 @@ El acceso con correo es real: `/auth/signup`, `/auth/login`, `/auth/me` y JWT
 guardado por auth.js. `/auth/providers` declara si el backend puede emitir JWT.
 Cuando email:false, el formulario muestra un aviso de configuración y desactiva
 el envío; AUTH_UNAVAILABLE también tiene mensaje es/en. OAuth sigue no disponible.
-Modo demo permite explorar; no permite leer ni persistir playlists.
+`isAuthenticated` exige usuario activo, JWT y restauración de sesión finalizada.
+El antiguo modo demo no habilita acceso a las funciones privadas.
 Los cambios locales del perfil siguen teniendo su alcance original.
 
 ## Pruebas
@@ -351,6 +382,12 @@ El recorrido completo se ejecuta desde `../backend-epic-music` con
 `npm run test:e2e`: Chromium + ambos proyectos reales + Mongo efímero. Solo se
 inyecta el proveedor IA con datos sintéticos; no se consultan proveedores pagados.
 Ver `../ai/06_ACCEPTANCE.md` para comandos y resultados.
+
+Landing y control de acceso (desde `../backend-epic-music`):
+`node --test scripts/landing-ux.mjs`. Prueba Chromium con API simulada, cero
+consultas de datos para visitantes, acceso directo a rutas privadas, sesiones
+caducadas, regreso tras login, logout, teclado, pausa de animación, ES/EN,
+tres temas, anchos 320/768/1440 y auditoría axe. Requiere el puerto 5173 libre.
 
 ## Robustez
 
