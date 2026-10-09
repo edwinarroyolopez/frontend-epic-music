@@ -1,6 +1,6 @@
 import { test, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
-import { request, searchSongs } from '../src/services/api.js'
+import { request, searchSongs, suggestArtists, ARTISTS_UPDATED_EVENT } from '../src/services/api.js'
 import { playlistsApi, toSongInput } from '../src/services/playlists.js'
 import { es } from '../src/translations/es.js'
 import { en } from '../src/translations/en.js'
@@ -104,5 +104,40 @@ test('HTTP codes, malformed JSON, network failure, timeout and caller cancellati
   await assert.rejects(promise, { name: 'AbortError' })
 })
 test('new translation namespaces have matching keys in es/en', () => {
-  for (const key of ['discovery', 'playlists', 'apiErrors']) assert.deepEqual(Object.keys(es[key]).sort(), Object.keys(en[key]).sort())
+  for (const key of ['discovery', 'playlists', 'apiErrors', 'intelligence']) assert.deepEqual(Object.keys(es[key]).sort(), Object.keys(en[key]).sort())
+})
+test('search optional JWT, public suggestions and persistence error metadata are distinct', async () => {
+  store.set('me:token', 'test-only')
+  globalThis.fetch = async (url, options) => {
+    if (url.includes('/artists/suggest')) {
+      assert.equal(options.headers.Authorization, undefined)
+      assert.ok(url.includes('q=AC%2FDC'))
+      return Response.json({ success: true, data: { artists: [] } })
+    }
+    assert.equal(options.headers.Authorization, 'Bearer test-only')
+    return Response.json({ success: false, error: 'fixture', code: 'PROVIDER_ERROR', history: { status: 'saved', id: 'fixture' } }, { status: 502 })
+  }
+  assert.deepEqual(await suggestArtists('AC/DC'), [])
+  await assert.rejects(searchSongs({ lyrics: 'fixture' }), error => error.code === 'PROVIDER_ERROR' && error.history.status === 'saved')
+})
+test('an earlier account response is discarded even if the HTTP transport ignores cancellation', async () => {
+  store.set('me:token', 'account-a-fixture')
+  let respond
+  globalThis.fetch = () => new Promise(resolve => { respond = resolve })
+  const pending = request('/search-history', { auth: true })
+  store.set('me:token', 'account-b-fixture')
+  respond(Response.json({ success: true, data: { entries: [{ id: 'a-private-fixture' }] } }))
+  await assert.rejects(pending, { name: 'AbortError' })
+})
+test('only confirmed artist writes invalidate suggestions after a successful search', async () => {
+  let updates = 0
+  const listener = () => { updates++ }
+  window.addEventListener(ARTISTS_UPDATED_EVENT, listener)
+  try {
+    for (const [found, status] of [[true, 'saved'], [true, 'unavailable'], [false, 'unchanged']]) {
+      globalThis.fetch = async () => Response.json({ success: true, data: { found, song: found ? { title: 'Fixture', artist: 'Fixture Artist' } : null, directory: { status } } })
+      await searchSongs({ lyrics: 'Synthetic fixture for directory update' })
+    }
+    assert.equal(updates, 1)
+  } finally { window.removeEventListener(ARTISTS_UPDATED_EVENT, listener) }
 })

@@ -46,6 +46,13 @@
   align-items: center;
   gap: var(--space-1);
   flex: 1;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .header__inner { height: auto; min-height: var(--header-height); flex-wrap: wrap; padding-block: 8px; gap: 8px; }
+  .header__nav { order: 3; flex-basis: 100%; justify-content: center; }
+  .header__actions { margin-left: auto; }
 }
 
 .header__link {

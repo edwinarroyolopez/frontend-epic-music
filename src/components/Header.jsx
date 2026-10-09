@@ -35,6 +35,7 @@ export function Header({ path, onNavigate, onSearchClick }) {
         <Brand onClick={() => onNavigate('/')} />
 
         <nav className="header__nav" aria-label={t('app.name')}>
+          <button type="button" className={`header__link${path === '/historial' ? ' is-active' : ''}`} aria-current={path === '/historial' ? 'page' : undefined} onClick={() => onNavigate('/historial')}>{t('history.title')}</button>
           <button type="button" className={`header__link${path === '/playlists' ? ' is-active' : ''}`} aria-current={path === '/playlists' ? 'page' : undefined} onClick={() => onNavigate('/playlists')}>{t('playlists.title')}</button>
           <button
             type="button"

@@ -37,6 +37,7 @@ export const API_CONFIG = {
   baseUrl: mismoOrigen ? '' : configurada,
   timeout: Number(env.VITE_API_TIMEOUT ?? 20000),
   aiTimeout: Number(env.VITE_AI_TIMEOUT ?? 240000),
+  lyricsTimeout: Number(env.VITE_LYRICS_TIMEOUT ?? 25000),
 }
 
 export const API_ENDPOINTS = {

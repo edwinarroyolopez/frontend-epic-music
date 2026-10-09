@@ -325,7 +325,6 @@ export async function registerWithEmail({
     }
   );
 
-
   if (!data.token) {
 
     throw new AuthError(
@@ -337,9 +336,7 @@ export async function registerWithEmail({
 
   }
 
-
   setToken(data.token);
-
 
   return normalizeUser(
     data.user

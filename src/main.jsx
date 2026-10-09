@@ -12,6 +12,7 @@ import './styles/discover.css'
 import './styles/pages.css'
 import './components/ui/ui.css'
 import './styles/playlists.css'
+import './styles/data-table.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

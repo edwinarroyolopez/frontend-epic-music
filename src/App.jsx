@@ -11,6 +11,7 @@ import { Profile } from './pages/Profile.jsx'
 import { Settings } from './pages/Settings.jsx'
 import { Playlists } from './pages/Playlists.jsx'
 import { useSongSearch } from './hooks/useSongSearch.js'
+import { SearchHistory } from './pages/SearchHistory.jsx'
 
 const ROUTES = [
   { path: '/', element: Home },
@@ -19,6 +20,7 @@ const ROUTES = [
   { path: '/ajustes', element: Settings },
   { path: '/login', element: Login },
   { path: '/playlists', element: Playlists },
+  { path: '/historial', element: SearchHistory },
 ]
 
 // Ajustes es publica (idioma y tema deben poder cambiarse antes de entrar);
@@ -43,7 +45,8 @@ export function App() {
   // al ir a Perfil, Tu cuenta o Ajustes y volver al buscador.
   const search = useSongSearch()
 
-  const route = path.startsWith('/playlists/') ? ROUTES.find(r => r.path === '/playlists') : matchRoute(path, ROUTES)
+  const parent = ['/playlists', '/historial'].find(prefix => path.startsWith(`${prefix}/`))
+  const route = parent ? ROUTES.find(r => r.path === parent) : matchRoute(path, ROUTES)
   const Page = route?.element ?? Home
 
   // Rutas privadas: sin sesion se vuelve a la pantalla de acceso.

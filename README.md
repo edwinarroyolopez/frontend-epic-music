@@ -111,11 +111,11 @@ frontend-epic-music/
     │                          SearchBar, SearchResults, SelectedSong, SongCard,
     │                          RecommendationList, ThemeSelector, LanguageSelector,
     │                          CustomThemeEditor, StateMessage, ErrorBoundary, Footer
-    ├── pages/                 Home, Playlists, Profile, Account, Settings, Login
+    ├── pages/                 Home, SearchHistory, Playlists, Profile, Account, Settings, Login
     ├── context/               PreferencesContext (idiema/tema), UserContext (sesion)
-    ├── hooks/                 useHashRoute, useSongSearch, usePlaylists,
+    ├── hooks/                 useHashRoute, useSongSearch, useSearchHistory, usePlaylists,
     │                          useLocalStorage
-    ├── services/              api.js, playlists.js, auth.js, config.js
+    ├── services/              api.js, search-history.js, playlists.js, auth.js, config.js
     ├── translations/          es.js, en.js, index.js
     ├── themes/                tokens.css, dark.css, light.css, custom.css
     ├── styles/                global.css, layout.css, discover.css, pages.css
@@ -145,7 +145,8 @@ frontend-epic-music/
 `playlists.js`. `auth.js` mantiene signup/login/me. Los componentes no llaman fetch.
 
 El formulario envía **solo al pulsar buscar** `POST /search-songs` con
-`{lyrics,artist?,genre?}`. Consume `{success:true,data:{found,song,recommendations,...}}`.
+`{lyrics,artist?,genre?,searchId}` (UUID por acción). Adjunta JWT si hay sesión real.
+Consume `{success:true,data:{found,song,recommendations,...}}`.
 Una identificación completa contiene origen y 11 recomendaciones; found:false
 no crea tarjetas. Se muestran únicamente metadatos recibidos, sin porcentajes ni
 IDs de catálogo. La IA puede equivocarse: toda sugerencia se indica no verificada.
@@ -158,6 +159,79 @@ proceden del backend. Demo e invitados no hacen peticiones privadas.
 
 Contratos completos y límites: `../ai/02_CONTRACTS.md`. Mongo conserva el orden,
 deduplica título+artista y aísla por propietario JWT. Nunca almacena letras.
+
+### Autocompletado y resolución de pistas
+
+`ArtistCombobox` consulta el directorio global público con debounce250ms y
+AbortController, sin llamar a IA. Flechas/Enter/Escape/Tab, listbox/active-descendant,
+foco y mouse/touch. Si no hay sugerencias o falla la red, se puede seguir escribiendo.
+`InputResolution` muestra correcciones aplicadas y candidatos ambiguos seleccionables;
+elegir una pista no reenvía automáticamente la búsqueda. ES/EN y variables de tema.
+
+Después de cada búsqueda identificada con guardado de artista confirmado, el
+autocompletado invalida su respuesta anterior y consulta de nuevo la misma cadena:
+un «sin sugerencias» anterior no oculta al artista recién guardado. Al recuperar
+el foco también revalida, para ver artistas añadidos por otros visitantes.
+Seleccionar una opción permite usar el nombre canónico sin lanzar IA. Si falla
+el guardado del artista, se muestra un aviso explícito junto al resultado musical.
+
+### Canciones, letras y componentes compartidos
+
+- `SongLinks.jsx`: YouTube, Spotify y Apple Music en todas las tarjetas (origen,
+  recomendaciones y canciones guardadas). Son búsquedas codificadas por título y
+  artista; destinos derivados localmente, pestaña nueva con noopener/noreferrer.
+- `LyricsPanel.jsx`: «Ver letra completa» en canción identificada, también en su
+  ficha guardada. Consulta `GET /songs/lyrics` (LRCLIB) solo al abrir; loading,
+  no disponible/instrumental/error/retry y cancelación al cerrar. No persiste la
+  letra completa en localStorage, playlists o historial; puede no existir en la fuente.
+- `SongLyricsModal.jsx`: al pulsar una recomendación (tarjeta o título), consulta
+  automáticamente su letra. Funciona también con canciones recomendadas guardadas;
+  Enter/Space abre, Escape cierra y restaura foco. Los checks y enlaces tienen
+  acciones independientes. Modal soporta capas anidadas de preview→letra.
+- `EmotionMetrics.jsx`: el mismo GET devuelve letra+3 emociones, mostradas con
+  barras accesibles y porcentajes relativos (suma100), estimados por IA sobre texto,
+  no audio. Fallo de análisis no oculta letra y permite reintentar; sin evidencia
+  suficiente no se muestran métricas inventadas. Muestreo de letras largas indicado.
+  `VITE_LYRICS_TIMEOUT` permite configurar la espera del request (default25000ms).
+- `DataTable.jsx`: misma tabla en Historial y Mis playlists; filtro que tolera
+  tildes, orden por columnas, conteo, fechas localizadas y acciones Eye/Trash2.
+  En historial se filtran/ordenan solo las entradas cargadas; se mantiene Cargar más.
+  En móvil las filas se adaptan con etiquetas y botones accesibles.
+- `Modal.jsx`: base común para preview/edición/confirmación, portal, fondo inert,
+  foco inicial/trampa/restauración, Escape, scroll interno y ancho de preview.
+- `ConfirmDeleteModal.jsx`: confirmación reutilizada para playlist, canción de
+  playlist e historial (local o cuenta). Cancelar no borra; doble clic no duplica
+  operaciones; errores dejan el modal abierto para reintentar.
+- Los ojos abren previews sin cambiar ruta o selección. Se conservan enlaces al
+  detalle completo. Cambiar sesión desmonta previews y elimina datos privados.
+
+Ver `../ai/MUSIC_DETAILS_TABLES_EVIDENCE.md` para verificación de navegador,
+privacidad y regresiones.
+
+### Historial
+
+`#/historial` y `#/historial/:id` permiten listar con paginación, actualizar, ver
+snapshot completo (origen + recomendaciones) y eliminar entradas. Ver un resultado
+histórico no llama a IA ni sustituye la búsqueda/selección actual en App.
+
+- Cuenta real: GET/DELETE `/search-history`, JWT y Mongo privado; nunca se copia
+  al historial invitado. Cambiar/cerrar sesión desmonta la vista y cancela lecturas;
+  resultados privados en memoria y formulario se limpian al cambiar identidad.
+- Invitado/demo: `me:guest-search-history:v1` en localStorage de este navegador;
+  etiquetado local/no sincronizado, hasta50 entradas y90 días. No se migra al login.
+  Cuenta: hasta200 entradas completadas y90 días. Ambos guardan solo metadatos
+  permitidos, sin letra, digest, JWT ni credenciales en el historial.
+- Historial muestra found/not_found/error; errores de red/timeout del invitado
+  se describen como respuesta desconocida, no como canción inexistente.
+  Cancelación no crea entrada local; una búsqueda autenticada ya aceptada puede
+  terminar en el servidor. No hay promesa de reejecutar letras no conservadas.
+- El doble envío se bloquea en memoria; UUID deduplica retry autenticado en Mongo
+  y las entradas locales. No hay retry automático de llamadas IA.
+- Fallo de Mongo o almacenamiento local muestra aviso explícito; resultado musical
+  y11 recomendaciones siguen consultables en la búsqueda actual.
+
+Contrato: `../ai/SEARCH_INTELLIGENCE_MASTER_PLAN.md`; pruebas y aceptación local:
+`../ai/SEARCH_INTELLIGENCE_EVIDENCE.md` (complementan los documentos anteriores).
 
 Configuración opcional (`.env`; estos son los valores por defecto):
 

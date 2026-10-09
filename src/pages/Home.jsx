@@ -16,9 +16,15 @@ export function Home({ search, onNavigate }) {
     <section className="hero">
       <p className="hero__eyebrow"><Headphones size={15} aria-hidden="true" />{t('app.name')}</p>
       <h1 className="hero__title">{t('app.tagline')}</h1>
-      <SearchBar onSearch={search.run} status={search.status} onCancel={search.cancel} />
+      <SearchBar key={search.formScope} onSearch={search.run} status={search.status} onCancel={search.cancel} input={search.result?.input || search.error?.input} />
     </section>
     <SearchResults status={search.status} error={search.error} />
+    {search.result?.directory?.status === 'unavailable' && <p className="notice" role="status">{t('intelligence.saveUnavailable')}</p>}
+    {search.status === 'cancelled' && <p role="status">{t('history.cancelled')}</p>}
+    {search.history && <div className="notice" role="status">
+      <p>{t(`history.${search.history.status}`)}</p>
+      {['saved', 'local_saved'].includes(search.history.status) && <a href={`#/historial/${search.history.id}`}>{t('history.view')}</a>}
+    </div>}
     {search.result?.found && <>
       <p className="notice">{t('discovery.notice')}</p>
       {search.result.recommendations.length !== 11 && <p role="status">{t('discovery.partial')}</p>}
