@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = 'https://musica-epica-ed.netlify.app/'
-IMAGE = 'https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png'
+IMAGE = 'https://res.cloudinary.com/qbrotguz/image/upload/c_pad,w_1200,h_630,b_rgb:1a141d/f_jpg,q_80/v1791588468/musica-epica-descrubre-tu-cancion.jpg'
 
 
 class Document(HTMLParser):
@@ -37,8 +37,8 @@ def check(html, full=True, preview=False):
     robots = doc.one('meta', name='robots')['content']
     assert robots == ('noindex, follow' if preview else 'index, follow, max-image-preview:large')
     expected = {'og:type': 'website', 'og:site_name': 'Música Épica', 'og:url': SITE,
-                'og:image': IMAGE, 'og:image:secure_url': IMAGE, 'og:image:type': 'image/png',
-                'og:image:width': '1731', 'og:image:height': '909', 'twitter:card': 'summary_large_image',
+                'og:image': IMAGE, 'og:image:secure_url': IMAGE, 'og:image:type': 'image/jpeg',
+                'og:image:width': '1200', 'og:image:height': '630', 'twitter:card': 'summary_large_image',
                 'twitter:image': IMAGE}
     for name in ['og:title', 'og:description', 'og:image:alt', 'twitter:title', 'twitter:description', 'twitter:image:alt', *expected]:
         value = doc.one('meta', **{'property' if name.startswith('og:') else 'name': name})['content']

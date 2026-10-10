@@ -22,7 +22,7 @@ const standalone = httpServer((_req, res) => { res.setHeader('Content-Type', 'te
 await new Promise(resolve => standalone.listen(4175, '127.0.0.1', resolve))
 const base = 'http://127.0.0.1:4173/'
 const results = { browser: browser.version(), http: [], views: [], flows: [], scope: 'Local build; authentication API responses are fixtures, not a live account.' }
-const image = 'https://res.cloudinary.com/qbrotguz/image/upload/v1791588468/musica-epica-descrubre-tu-cancion.png'
+const image = 'https://res.cloudinary.com/qbrotguz/image/upload/c_pad,w_1200,h_630,b_rgb:1a141d/f_jpg,q_80/v1791588468/musica-epica-descrubre-tu-cancion.jpg'
 
 async function capture(page, name) {
   await page.evaluate(() => { document.activeElement?.blur(); window.scrollTo(0, 0) })

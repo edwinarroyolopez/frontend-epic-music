@@ -1,5 +1,15 @@
 # Checks SEO / GEO
 
+## Actualización: imagen de vista previa de WhatsApp
+
+- Al revisar el sitio publicado, el HTML ya incluye `og:image` y la URL original responde 200. El PNG pesa **1,929,146 bytes**; no se ha confirmado la causa interna por la que WhatsApp omite la miniatura.
+- `dev.html` usa ahora una derivada Cloudinary de la misma imagen para Open Graph y Twitter: **JPEG, 1200×630, 101,055 bytes** (aprox. 95 % menos). `c_pad` conserva todo el diseño y `f_jpg` fija el formato independientemente del cliente. JSON-LD conserva la imagen original.
+- GET de la derivada comprobado con User-Agent de WhatsApp, Facebook y Twitter: **200**, `image/jpeg`, firma JPEG; Cloudinary informa 1200×630. Estas peticiones no equivalen a una vista previa real dentro de las aplicaciones.
+- Publicar el nuevo build en Netlify y volver a compartir en un mensaje nuevo. Si persiste la caché, probar `https://musica-epica-ed.netlify.app/?v=og-jpg-1`. El depurador de Facebook permite solicitar otro rastreo para Meta; no garantiza borrar la caché de WhatsApp ni actualizar mensajes antiguos.
+- La auditoría y las evidencias históricas siguientes describen el PNG original y el despliegue anterior. `scripts/audit-seo.py` sigue comprobando ese original; `scripts/check-seo.py` valida la derivada en los metadatos actuales.
+
+## Auditoría inicial
+
 Fecha: 2026-10-09 UTC. **Implementación local verificada; no se ha desplegado.**
 Base de todas las rutas de evidencia: `evidence/seo-geo/`. Navegador: Chrome 147.0.7727.116, Playwright Core; axe 4.14.0; Lighthouse 12.8.2. Sin nuevas dependencias de la aplicación ni cambios en package-lock.
 
