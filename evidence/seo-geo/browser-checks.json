@@ -5,7 +5,7 @@
       "url": "http://127.0.0.1:4173/",
       "status": 200,
       "type": "text/html",
-      "bytes": 23496
+      "bytes": 38207
     },
     {
       "url": "http://127.0.0.1:4173/robots.txt",
@@ -60,7 +60,7 @@
   "views": [
     {
       "name": "nojs-es-320",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": null,
@@ -70,7 +70,7 @@
     },
     {
       "name": "nojs-es-390",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": null,
@@ -80,7 +80,7 @@
     },
     {
       "name": "nojs-es-768",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": null,
@@ -90,7 +90,7 @@
     },
     {
       "name": "nojs-es-1366",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": null,
@@ -100,7 +100,7 @@
     },
     {
       "name": "nojs-es-1440",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": null,
@@ -110,7 +110,7 @@
     },
     {
       "name": "js-es-320",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": 0,
@@ -120,7 +120,7 @@
     },
     {
       "name": "js-es-390",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": true,
       "violations": [],
       "cls": 0,
@@ -130,7 +130,7 @@
     },
     {
       "name": "js-es-768",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": 0,
@@ -140,7 +140,7 @@
     },
     {
       "name": "js-es-1366",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": true,
       "violations": [],
       "cls": 0,
@@ -150,7 +150,7 @@
     },
     {
       "name": "js-es-1440",
-      "h1": "Hay canciones\nque te encuentran.",
+      "h1": "Empieza por una frase.\nDescubre todo lo que sigue.",
       "axeRun": false,
       "violations": [],
       "cls": 0,
@@ -160,7 +160,7 @@
     },
     {
       "name": "js-en-320",
-      "h1": "Some songs\nfind their way to you.",
+      "h1": "Start with a phrase.\nDiscover what comes next.",
       "axeRun": false,
       "violations": [],
       "cls": 0,
@@ -170,7 +170,7 @@
     },
     {
       "name": "js-en-390",
-      "h1": "Some songs\nfind their way to you.",
+      "h1": "Start with a phrase.\nDiscover what comes next.",
       "axeRun": true,
       "violations": [],
       "cls": 0,
@@ -180,7 +180,7 @@
     },
     {
       "name": "js-en-768",
-      "h1": "Some songs\nfind their way to you.",
+      "h1": "Start with a phrase.\nDiscover what comes next.",
       "axeRun": false,
       "violations": [],
       "cls": 0,
@@ -190,7 +190,7 @@
     },
     {
       "name": "js-en-1366",
-      "h1": "Some songs\nfind their way to you.",
+      "h1": "Start with a phrase.\nDiscover what comes next.",
       "axeRun": true,
       "violations": [],
       "cls": 0,
@@ -200,7 +200,7 @@
     },
     {
       "name": "js-en-1440",
-      "h1": "Some songs\nfind their way to you.",
+      "h1": "Start with a phrase.\nDiscover what comes next.",
       "axeRun": false,
       "violations": [],
       "cls": 0,

@@ -1,0 +1,29 @@
+{
+  "scope": "Local unthrottled Chrome, not field CWV",
+  "results": [
+    {
+      "width": 1440,
+      "lcp": 1996,
+      "cls": 0,
+      "pageHeight": 2757,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "lcp": 1940,
+      "cls": 0,
+      "pageHeight": 3512,
+      "overflow": false
+    }
+  ],
+  "bundles": [
+    {
+      "name": "dev-BofrpzeV.js",
+      "bytes": 426641
+    },
+    {
+      "name": "dev-DeqzBuLd.css",
+      "bytes": 76044
+    }
+  ]
+}

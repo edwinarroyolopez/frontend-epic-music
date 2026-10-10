@@ -1,0 +1,1292 @@
+{
+  "scope": "Local Chromium; zero real API calls; laboratory measurements, not field CWV.",
+  "motion": [
+    {
+      "width": 1440,
+      "frames": [
+        {
+          "second": 0,
+          "time": 458.30000000447035,
+          "scene": "0",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.04189, 0, 0, 1.04189, -11.3615, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.942109, -0.0316572, 0.0316572, 0.942109, 10.7979, 3.74184)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(0.999657, 0.0261715, -0.0261715, 0.999657, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.942109, -0.0316572, 0.0316572, 0.942109, 10.7979, 3.74184)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.942109, -0.0316572, 0.0316572, 0.942109, 10.7979, 3.74184)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.942109, -0.0316572, 0.0316572, 0.942109, 10.7979, 3.74184)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.942109, -0.0316572, 0.0316572, 0.942109, 10.7979, 3.74184)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.03207, 0, 0, 1.03207, -38.1665, 15.2666)",
+              "opacity": "0.408487"
+            }
+          ],
+          "animations": [
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            },
+            {
+              "time": 166.6319999999567,
+              "state": "running"
+            }
+          ]
+        },
+        {
+          "second": 3,
+          "time": 3554.4000000059605,
+          "scene": "0",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.08234, 0, 0, 1.08234, -1.87851, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.999265, -0.0053423, 0.0053423, 0.999265, -0.663545, -1.07194)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(0.871224, 0.490885, -0.490885, 0.871224, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.999265, -0.0053423, 0.0053423, 0.999265, -0.663545, -1.07194)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.999265, -0.0053423, 0.0053423, 0.999265, -0.663545, -1.07194)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.999265, -0.0053423, 0.0053423, 0.999265, -0.663545, -1.07194)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.999265, -0.0053423, 0.0053423, 0.999265, -0.663545, -1.07194)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.07658, 0, 0, 1.07658, -6.0746, 2.42983)",
+              "opacity": "0.59054"
+            }
+          ],
+          "animations": [
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            },
+            {
+              "time": 3266.5319999999565,
+              "state": "running"
+            }
+          ]
+        },
+        {
+          "second": 6,
+          "time": 6638.20000000298,
+          "scene": "0",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.13881, 0, 0, 1.13881, 12.5981, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07771, 0.0367382, -0.0367382, 1.07771, -16.6612, -7.79094)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(0.542477, 0.840071, -0.840071, 0.542477, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07771, 0.0367382, -0.0367382, 1.07771, -16.6612, -7.79094)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07771, 0.0367382, -0.0367382, 1.07771, -16.6612, -7.79094)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07771, 0.0367382, -0.0367382, 1.07771, -16.6612, -7.79094)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07771, 0.0367382, -0.0367382, 1.07771, -16.6612, -7.79094)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.13869, 0, 0, 1.13869, 38.7189, -15.4875)",
+              "opacity": "0.844646"
+            }
+          ],
+          "animations": [
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            },
+            {
+              "time": 6349.731999999957,
+              "state": "running"
+            }
+          ]
+        },
+        {
+          "second": 10,
+          "time": 10716.10000000149,
+          "scene": "1",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.08057, 0, 0, 1.08057, -2.30873, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.996781, -0.00656021, 0.00656021, 0.996781, -0.162326, -0.861427)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(-0.0679524, 0.997689, -0.997689, -0.0679524, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.996781, -0.00656021, 0.00656021, 0.996781, -0.162326, -0.861427)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.996781, -0.00656021, 0.00656021, 0.996781, -0.162326, -0.861427)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.996781, -0.00656021, 0.00656021, 0.996781, -0.162326, -0.861427)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.996781, -0.00656021, 0.00656021, 0.996781, -0.162326, -0.861427)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.07463, 0, 0, 1.07463, -7.47802, 2.9912)",
+              "opacity": "0.582578"
+            }
+          ],
+          "animations": [
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            },
+            {
+              "time": 10432.931999999957,
+              "state": "running"
+            }
+          ]
+        }
+      ],
+      "pause": "PASS",
+      "resume": "PASS",
+      "offscreen": "PASS",
+      "manualScenes": 5,
+      "video": "evidence/cinema/motion-1440.webm"
+    },
+    {
+      "width": 390,
+      "frames": [
+        {
+          "second": 0,
+          "time": 180.39999999850988,
+          "scene": "0",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.04038, 0, 0, 1.04038, -6.85627, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.939961, -0.0325777, 0.0325777, 0.939961, 6.57773, 2.29776)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(0.999986, 0.00523151, -0.00523151, 0.999986, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.939961, -0.0325777, 0.0325777, 0.939961, 6.57773, 2.29776)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.939961, -0.0325777, 0.0325777, 0.939961, 6.57773, 2.29776)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.939961, -0.0325777, 0.0325777, 0.939961, 6.57773, 2.29776)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.939961, -0.0325777, 0.0325777, 0.939961, 6.57773, 2.29776)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.03041, 0, 0, 1.03041, -23.0657, 9.22589)",
+              "opacity": "0.401688"
+            }
+          ],
+          "animations": [
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            },
+            {
+              "time": 33.30500000026076,
+              "state": "running"
+            }
+          ]
+        },
+        {
+          "second": 3,
+          "time": 3210.89999999851,
+          "scene": "0",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.07934, 0, 0, 1.07934, -1.5277, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.995051, -0.00740411, 0.00740411, 0.995051, 0.109254, -0.418896)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(0.886215, 0.463274, -0.463274, 0.886215, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.995051, -0.00740411, 0.00740411, 0.995051, 0.109254, -0.418896)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.995051, -0.00740411, 0.00740411, 0.995051, 0.109254, -0.418896)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.995051, -0.00740411, 0.00740411, 0.995051, 0.109254, -0.418896)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(0.995051, -0.00740411, 0.00740411, 0.995051, 0.109254, -0.418896)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.07328, 0, 0, 1.07328, -4.95391, 1.98148)",
+              "opacity": "0.577038"
+            }
+          ],
+          "animations": [
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 3066.505000000261,
+              "state": "running"
+            }
+          ]
+        },
+        {
+          "second": 6,
+          "time": 6249.20000000298,
+          "scene": "0",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.13356, 0, 0, 1.13356, 6.55713, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07049, 0.032563, -0.032563, 1.07049, -8.89069, -4.19872)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(0.575043, 0.818123, -0.818123, 0.575043, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07049, 0.032563, -0.032563, 1.07049, -8.89069, -4.19872)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07049, 0.032563, -0.032563, 1.07049, -8.89069, -4.19872)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07049, 0.032563, -0.032563, 1.07049, -8.89069, -4.19872)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.07049, 0.032563, -0.032563, 1.07049, -8.89069, -4.19872)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.13291, 0, 0, 1.13291, 20.2459, -8.09805)",
+              "opacity": "0.821013"
+            }
+          ],
+          "animations": [
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            },
+            {
+              "time": 6099.70500000026,
+              "state": "running"
+            }
+          ]
+        },
+        {
+          "second": 10,
+          "time": 10298,
+          "scene": "1",
+          "layers": [
+            {
+              "class": "cinema-atmosphere",
+              "transform": "matrix(1.08288, 0, 0, 1.08288, -1.02413, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.00002, -0.00497193, 0.00497193, 1.00002, -0.477817, -0.665456)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-record",
+              "transform": "matrix(-0.023482, 0.999724, -0.999724, -0.023482, 0, 0)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.00002, -0.00497193, 0.00497193, 1.00002, -0.477817, -0.665456)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.00002, -0.00497193, 0.00497193, 1.00002, -0.477817, -0.665456)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.00002, -0.00497193, 0.00497193, 1.00002, -0.477817, -0.665456)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-subject",
+              "transform": "matrix(1.00002, -0.00497193, 0.00497193, 1.00002, -0.477817, -0.665456)",
+              "opacity": "1"
+            },
+            {
+              "class": "cinema-near",
+              "transform": "matrix(1.07717, 0, 0, 1.07717, -3.31011, 1.32399)",
+              "opacity": "0.592953"
+            }
+          ],
+          "animations": [
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            },
+            {
+              "time": 10149.505000000261,
+              "state": "running"
+            }
+          ]
+        }
+      ],
+      "pause": "PASS",
+      "resume": "PASS",
+      "offscreen": "PASS",
+      "manualScenes": 5,
+      "video": "evidence/cinema/motion-390.webm"
+    }
+  ],
+  "views": [
+    {
+      "name": "320-es-dark",
+      "violations": [],
+      "lcp": 104,
+      "cls": 0,
+      "pageHeight": 3800
+    },
+    {
+      "name": "320-es-light",
+      "violations": [],
+      "lcp": 100,
+      "cls": 0,
+      "pageHeight": 3800
+    },
+    {
+      "name": "320-es-custom",
+      "violations": [],
+      "lcp": 96,
+      "cls": 0,
+      "pageHeight": 3800
+    },
+    {
+      "name": "320-en-dark",
+      "violations": [],
+      "lcp": 88,
+      "cls": 0,
+      "pageHeight": 3566
+    },
+    {
+      "name": "320-en-light",
+      "violations": [],
+      "lcp": 92,
+      "cls": 0,
+      "pageHeight": 3566
+    },
+    {
+      "name": "320-en-custom",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 3566
+    },
+    {
+      "name": "390-es-dark",
+      "violations": [],
+      "lcp": 100,
+      "cls": 0,
+      "pageHeight": 3415
+    },
+    {
+      "name": "390-es-light",
+      "violations": [],
+      "lcp": 104,
+      "cls": 0,
+      "pageHeight": 3415
+    },
+    {
+      "name": "390-es-custom",
+      "violations": [],
+      "lcp": 112,
+      "cls": 0,
+      "pageHeight": 3415
+    },
+    {
+      "name": "390-en-dark",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 3266
+    },
+    {
+      "name": "390-en-light",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 3266
+    },
+    {
+      "name": "390-en-custom",
+      "violations": [],
+      "lcp": 96,
+      "cls": 0,
+      "pageHeight": 3266
+    },
+    {
+      "name": "768-es-dark",
+      "violations": [],
+      "lcp": 104,
+      "cls": 0,
+      "pageHeight": 2611
+    },
+    {
+      "name": "768-es-light",
+      "violations": [],
+      "lcp": 104,
+      "cls": 0,
+      "pageHeight": 2611
+    },
+    {
+      "name": "768-es-custom",
+      "violations": [],
+      "lcp": 88,
+      "cls": 0,
+      "pageHeight": 2611
+    },
+    {
+      "name": "768-en-dark",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2551
+    },
+    {
+      "name": "768-en-light",
+      "violations": [],
+      "lcp": 92,
+      "cls": 0,
+      "pageHeight": 2551
+    },
+    {
+      "name": "768-en-custom",
+      "violations": [],
+      "lcp": 112,
+      "cls": 0,
+      "pageHeight": 2551
+    },
+    {
+      "name": "1024-es-dark",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2554
+    },
+    {
+      "name": "1024-es-light",
+      "violations": [],
+      "lcp": 100,
+      "cls": 0,
+      "pageHeight": 2554
+    },
+    {
+      "name": "1024-es-custom",
+      "violations": [],
+      "lcp": 112,
+      "cls": 0,
+      "pageHeight": 2554
+    },
+    {
+      "name": "1024-en-dark",
+      "violations": [],
+      "lcp": 116,
+      "cls": 0,
+      "pageHeight": 2554
+    },
+    {
+      "name": "1024-en-light",
+      "violations": [],
+      "lcp": 116,
+      "cls": 0,
+      "pageHeight": 2554
+    },
+    {
+      "name": "1024-en-custom",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2554
+    },
+    {
+      "name": "1440-es-dark",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2614
+    },
+    {
+      "name": "1440-es-light",
+      "violations": [],
+      "lcp": 120,
+      "cls": 0,
+      "pageHeight": 2614
+    },
+    {
+      "name": "1440-es-custom",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2614
+    },
+    {
+      "name": "1440-en-dark",
+      "violations": [],
+      "lcp": 124,
+      "cls": 0,
+      "pageHeight": 2614
+    },
+    {
+      "name": "1440-en-light",
+      "violations": [],
+      "lcp": 96,
+      "cls": 0,
+      "pageHeight": 2614
+    },
+    {
+      "name": "1440-en-custom",
+      "violations": [],
+      "lcp": 104,
+      "cls": 0,
+      "pageHeight": 2614
+    },
+    {
+      "name": "844-es-dark",
+      "violations": [],
+      "lcp": 100,
+      "cls": 0,
+      "pageHeight": 2556
+    },
+    {
+      "name": "844-es-light",
+      "violations": [],
+      "lcp": 100,
+      "cls": 0,
+      "pageHeight": 2556
+    },
+    {
+      "name": "844-es-custom",
+      "violations": [],
+      "lcp": 104,
+      "cls": 0,
+      "pageHeight": 2556
+    },
+    {
+      "name": "844-en-dark",
+      "violations": [],
+      "lcp": 112,
+      "cls": 0,
+      "pageHeight": 2544
+    },
+    {
+      "name": "844-en-light",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2544
+    },
+    {
+      "name": "844-en-custom",
+      "violations": [],
+      "lcp": 108,
+      "cls": 0,
+      "pageHeight": 2544
+    }
+  ],
+  "checks": [
+    "CSS zoom 200%: no horizontal overflow",
+    "nojs: poster + content + CTA visible, no automatic motion",
+    "saveData: poster + content + CTA visible, no automatic motion",
+    "slowDevice: poster + content + CTA visible, no automatic motion",
+    "failedImage: poster + content + CTA visible, no automatic motion"
+  ],
+  "errors": [],
+  "failed": [],
+  "externalRequests": [],
+  "bundles": [
+    {
+      "name": "affinity-DlckbDn-.svg",
+      "bytes": 4835
+    },
+    {
+      "name": "archive-BKoFwoG5.svg",
+      "bytes": 6089
+    },
+    {
+      "name": "atmosphere-D85Zselp.svg",
+      "bytes": 9746
+    },
+    {
+      "name": "constellation-DNWrLCSe.svg",
+      "bytes": 9491
+    },
+    {
+      "name": "dev-BNUpPurR.css",
+      "bytes": 69017
+    },
+    {
+      "name": "dev-bzpMMwBv.js",
+      "bytes": 443020
+    },
+    {
+      "name": "memory-DZw9fYL6.svg",
+      "bytes": 5034
+    },
+    {
+      "name": "poster-CcykU1Hr.svg",
+      "bytes": 13217
+    }
+  ],
+  "status": "PASS"
+}

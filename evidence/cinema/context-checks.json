@@ -1,0 +1,178 @@
+{
+  "browser": "147.0.7727.116",
+  "checks": [
+    {
+      "backgroundTab": "PASS",
+      "realDocumentHidden": true,
+      "paused": {
+        "hidden": true,
+        "running": "false",
+        "animations": [
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          },
+          {
+            "state": "paused",
+            "time": 999.9759999979605
+          }
+        ]
+      },
+      "resumed": {
+        "hidden": false,
+        "running": "true",
+        "animations": [
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          },
+          {
+            "state": "running",
+            "time": 1333.3179999965644
+          }
+        ]
+      }
+    },
+    {
+      "liveReducedMotionChange": "PASS",
+      "manualSelectionInReducedMotion": "PASS"
+    },
+    {
+      "userPauseSurvivesTabReturn": "PASS"
+    },
+    {
+      "standaloneFileProtocol": "PASS",
+      "allSceneImagesLoaded": true,
+      "errors": []
+    }
+  ],
+  "status": "PASS"
+}

@@ -1,0 +1,48 @@
+{
+  "base": "http://localhost:3000/",
+  "scope": "Actual local dev server, production optimizer in a separate process, production build, then dev reload. No live authentication requests.",
+  "checks": [
+    {
+      "stage": "before-production-process",
+      "loginFormMounted": true,
+      "interactiveScenes": true,
+      "runtime": {
+        "jsxDevCalled": true,
+        "path": "/node_modules/.vite/client-development-development/deps/react_jsx-dev-runtime.js?v=40d03b62",
+        "jsxDEV": "function"
+      }
+    },
+    {
+      "stage": "after-production-optimizer",
+      "loginFormMounted": true,
+      "interactiveScenes": true,
+      "runtime": {
+        "jsxDevCalled": true,
+        "path": "/node_modules/.vite/client-development-development/deps/react_jsx-dev-runtime.js?v=40d03b62",
+        "jsxDEV": "function"
+      }
+    },
+    {
+      "stage": "after-build-and-six-prerenders",
+      "loginFormMounted": true,
+      "interactiveScenes": true,
+      "runtime": {
+        "jsxDevCalled": true,
+        "path": "/node_modules/.vite/client-development-development/deps/react_jsx-dev-runtime.js?v=40d03b62",
+        "jsxDEV": "function"
+      }
+    }
+  ],
+  "errors": [],
+  "status": "PASS",
+  "productionOptimizer": {
+    "ready": true,
+    "cacheDir": "/home/zeroed/Coder/epic-music/frontend-epic-music/node_modules/.vite/client-development-production",
+    "isProduction": true
+  },
+  "build": {
+    "status": "PASS",
+    "stdout": "\n> musica-epica-frontend@0.1.0 build\n> vite build\n\nvite v8.3.1 building client environment for production...\ntransforming...\n✓ 1971 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/assets/affinity-DlckbDn-.svg         4.83 kB │ gzip:   0.92 kB\ndist/assets/memory-DZw9fYL6.svg           5.03 kB │ gzip:   1.14 kB\ndist/assets/archive-BKoFwoG5.svg          6.08 kB │ gzip:   1.24 kB\ndist/assets/constellation-DNWrLCSe.svg    9.49 kB │ gzip:   1.37 kB\ndist/assets/atmosphere-D85Zselp.svg       9.74 kB │ gzip:   1.51 kB\ndist/assets/poster-CcykU1Hr.svg          13.21 kB │ gzip:   2.16 kB\ndist/dev.html                            38.20 kB │ gzip:   7.27 kB\ndist/index.html                          38.20 kB │ gzip:   7.27 kB\ndist/assets/dev-BNUpPurR.css             69.01 kB │ gzip:  12.35 kB\ndist/assets/dev-bzpMMwBv.js             443.02 kB │ gzip: 133.56 kB\n\n✓ built in 439ms\n",
+    "stderr": ""
+  }
+}

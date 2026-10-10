@@ -1,0 +1,89 @@
+{
+  "version": 1,
+  "source": "scripts/generate-cinema-assets.mjs",
+  "provenance": "Original procedural vector compositions authored for Música Épica; no third-party images, lyrics, fonts or AI generation.",
+  "rights": "Original project artwork; no third-party licensing requirements. Reuse under the project’s applicable terms.",
+  "assets": [
+    {
+      "file": "src/assets/cinema/atmosphere.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 9746,
+      "sha256": "2d06a2c53b6f527a7d97357f59a0c65b27abf505068f8b8bd9443e17320dc76d",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Independent depth layer"
+    },
+    {
+      "file": "src/assets/cinema/memory.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 5034,
+      "sha256": "5f445470cd9d4ef6756390681fea9344b42ad8aee2cf49dba258ab8d80bb8b23",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Original scene composition; transparent for compositing"
+    },
+    {
+      "file": "src/assets/cinema/record.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 2794,
+      "sha256": "45e7fb17bf0d6e418f087ca830c01d3baa40d9adf99b9d5b2df9f2fe41254fd5",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Original scene composition; transparent for compositing"
+    },
+    {
+      "file": "src/assets/cinema/vinyl.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 3918,
+      "sha256": "6f56bcb29ddc65e0f0008619932a9a15c2d102136efc1a18c82245e5f022386d",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Independent depth layer"
+    },
+    {
+      "file": "src/assets/cinema/constellation.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 9491,
+      "sha256": "267a0da54e8c877f41c3871fab75c2a10ad77635114791ef2a7e36266a7e6083",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Original scene composition; transparent for compositing"
+    },
+    {
+      "file": "src/assets/cinema/affinity.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 4835,
+      "sha256": "ca6f805a22a53a3a0ba6302c915cd7630fc8e1a50e8b8115c9afb07a3074ae6d",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Original scene composition; transparent for compositing"
+    },
+    {
+      "file": "src/assets/cinema/archive.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 6089,
+      "sha256": "e8334c571010664f63915e1272abac45eda71c54126c2d00663e163a34f5ef02",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Original scene composition; transparent for compositing"
+    },
+    {
+      "file": "src/assets/cinema/glints.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 1756,
+      "sha256": "f80bcda6bdb3662702a5c726ea10a7dc82e41eeb5eb23f73061d535350bccdfd",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Independent depth layer"
+    },
+    {
+      "file": "src/assets/cinema/poster.svg",
+      "width": 1000,
+      "height": 700,
+      "bytes": 13217,
+      "sha256": "893a7cde0a4dac593a4dde7388c4f0960b404044dc2ed7ba9b607e4d358ba011",
+      "method": "Deterministic SVG paths, gradients, static drop shadows; optimized numeric geometry; no raster",
+      "use": "Early static fallback / no JavaScript"
+    }
+  ]
+}

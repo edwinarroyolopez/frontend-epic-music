@@ -10,7 +10,7 @@
  * Paso opcional: node scripts/build-standalone.mjs (después de npm run build).
  */
 
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, readFileSync, writeFileSync, readdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -49,6 +49,16 @@ function inlineAsset(htmlString, pattern, tagName) {
 
 html = inlineAsset(html, /<link[^>]*rel="stylesheet"[^>]*href="([^"]+)"[^>]*>/g, 'style')
 html = inlineAsset(html, /<script[^>]*src="([^"]+)"[^>]*><\/script>/g, 'script')
+
+// Cinematic SVGs are shared by the prerendered HTML and the client bundle.
+// Embed both references so the standalone file still works with file://.
+for (const name of readdirSync(join(DIST, 'assets')).filter(name => /\.svg$/.test(name))) {
+  const data = `data:image/svg+xml;base64,${readFileSync(join(DIST, 'assets', name)).toString('base64')}`
+  html = html.replaceAll(`./assets/${name}`, data).replaceAll(`/assets/${name}`, data)
+  // With base:'./', Vite also emits new URL("name.svg", import.meta.url).
+  // The original module lives in assets/; the embedded one lives in index.html.
+  html = html.replaceAll(`./${name}`, data).replaceAll(name, data)
+}
 
 // El favicon se incrusta como data URI: asi index.html no depende de archivos
 // vecinos y funciona tambien con el protocolo file://.

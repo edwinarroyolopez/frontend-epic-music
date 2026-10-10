@@ -1,0 +1,694 @@
+{
+  "scope": "Local UI + synthetic in-memory API. No real account, database, AI, lyrics service or external network.",
+  "base": "http://localhost:3000/",
+  "widths": [
+    {
+      "width": 390,
+      "passed": [
+        "Registration: required fields, short password, duplicate account, valid signup → workspace",
+        "Session restored after reload via /auth/me",
+        "Search → 11 recommendations → source lyrics/emotions → select 12 songs → save playlist without lyrics",
+        "Playlists: list/detail, edit, reorder and remove a song",
+        "Search history: list, detail, saved result and deletion",
+        "Playlist deletion returns to the empty list",
+        "Profile edit and account view (existing local profile behavior)",
+        "Analysis history remains navigable; new analysis still disabled",
+        "Language/theme controls survive reload while signed in",
+        "Logout, protected route, wrong password, valid login returns to requested private route",
+        "Expired session on reload clears token and guards private content"
+      ]
+    },
+    {
+      "width": 1440,
+      "passed": [
+        "Registration: required fields, short password, duplicate account, valid signup → workspace",
+        "Session restored after reload via /auth/me",
+        "Search → 11 recommendations → source lyrics/emotions → select 12 songs → save playlist without lyrics",
+        "Playlists: list/detail, edit, reorder and remove a song",
+        "Search history: list, detail, saved result and deletion",
+        "Playlist deletion returns to the empty list",
+        "Profile edit and account view (existing local profile behavior)",
+        "Analysis history remains navigable; new analysis still disabled",
+        "Language/theme controls survive reload while signed in",
+        "Logout, protected route, wrong password, valid login returns to requested private route",
+        "Expired session on reload clears token and guards private content"
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "POST",
+      "path": "/auth/signup",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "POST",
+      "path": "/auth/signup",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "POST",
+      "path": "/search-songs",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/songs/lyrics",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "POST",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "PATCH",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "PATCH",
+      "path": "/playlists/playlist-qa/songs/order",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "DELETE",
+      "path": "/playlists/playlist-qa/songs/item-1",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/search-history/history-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/search-history/history-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "DELETE",
+      "path": "/search-history/history-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "DELETE",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlist-personality/history",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "POST",
+      "path": "/auth/login",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "POST",
+      "path": "/auth/login",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 390,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "POST",
+      "path": "/auth/signup",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "POST",
+      "path": "/auth/signup",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "POST",
+      "path": "/search-songs",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/songs/lyrics",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "POST",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "PATCH",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "PATCH",
+      "path": "/playlists/playlist-qa/songs/order",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "DELETE",
+      "path": "/playlists/playlist-qa/songs/item-1",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/search-history/history-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/search-history/history-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "DELETE",
+      "path": "/search-history/history-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/search-history",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "DELETE",
+      "path": "/playlists/playlist-qa",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlist-personality/history",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "POST",
+      "path": "/auth/login",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "POST",
+      "path": "/auth/login",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/playlists",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/me",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    },
+    {
+      "width": 1440,
+      "method": "GET",
+      "path": "/auth/providers",
+      "synthetic": true
+    }
+  ],
+  "negativeCases": [
+    {
+      "phase": "duplicate-signup",
+      "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    },
+    {
+      "phase": "duplicate-signup",
+      "message": "Auth error: AuthError: Synthetic duplicate account\n    at request (http://localhost:3000/src/services/auth.js:105:9)\n    at async registerWithEmail (http://localhost:3000/src/services/auth.js:117:15)\n    at async entrar (http://localhost:3000/src/pages/Login.jsx:71:42)"
+    },
+    {
+      "phase": "invalid-login",
+      "message": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "phase": "invalid-login",
+      "message": "Auth error: AuthError: Synthetic invalid credentials\n    at request (http://localhost:3000/src/services/auth.js:105:9)\n    at async loginWithEmail (http://localhost:3000/src/services/auth.js:138:15)\n    at async entrar (http://localhost:3000/src/pages/Login.jsx:77:9)"
+    },
+    {
+      "phase": "expired-session",
+      "message": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "phase": "expired-session",
+      "message": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "phase": "duplicate-signup",
+      "message": "Failed to load resource: the server responded with a status of 409 (Conflict)"
+    },
+    {
+      "phase": "duplicate-signup",
+      "message": "Auth error: AuthError: Synthetic duplicate account\n    at request (http://localhost:3000/src/services/auth.js:105:9)\n    at async registerWithEmail (http://localhost:3000/src/services/auth.js:117:15)\n    at async entrar (http://localhost:3000/src/pages/Login.jsx:71:42)"
+    },
+    {
+      "phase": "invalid-login",
+      "message": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "phase": "invalid-login",
+      "message": "Auth error: AuthError: Synthetic invalid credentials\n    at request (http://localhost:3000/src/services/auth.js:105:9)\n    at async loginWithEmail (http://localhost:3000/src/services/auth.js:138:15)\n    at async entrar (http://localhost:3000/src/pages/Login.jsx:77:9)"
+    },
+    {
+      "phase": "expired-session",
+      "message": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    },
+    {
+      "phase": "expired-session",
+      "message": "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    }
+  ],
+  "unexpectedRequests": [],
+  "runtimeErrors": [],
+  "consoleErrors": [],
+  "status": "PASS"
+}

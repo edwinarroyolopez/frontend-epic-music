@@ -6,15 +6,22 @@ export function isPreview(context) {
 }
 
 export function publicHtmlPlugin(root, context = process.env.CONTEXT) {
+  let devServer
   return {
     name: 'musica-epica:public-html',
+    configureServer(server) {
+      devServer = server
+    },
     transformIndexHtml: {
       order: 'pre',
       async handler(html) {
-        // A separate, middleware-only Vite loader compiles existing JSX at build
-        // time. No SSR runtime, dependency or private application entry is shipped.
-        const renderer = await createServer({
+        // Development reuses its own SSR loader. Creating another client
+        // optimizer per request used to invalidate/replace React's live cache.
+        // Builds use an isolated, SSR-only loader; no SSR runtime is shipped.
+        const renderer = devServer || await createServer({
           root, configFile: false, plugins: [react()], appType: 'custom',
+          cacheDir: `${root}/node_modules/.vite/public-html`,
+          optimizeDeps: { noDiscovery: true, include: [] },
           server: { middlewareMode: true, hmr: false, watch: null },
         })
         try {
@@ -24,7 +31,7 @@ export function publicHtmlPlugin(root, context = process.env.CONTEXT) {
             ? rendered.replace('content="index, follow, max-image-preview:large"', 'content="noindex, follow"')
             : rendered
         } finally {
-          await renderer.close()
+          if (!devServer) await renderer.close()
         }
       },
     },

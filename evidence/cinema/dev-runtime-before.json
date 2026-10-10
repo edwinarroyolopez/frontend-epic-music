@@ -1,0 +1,11 @@
+{
+  "errors": [
+    "_jsxDEV is not a function"
+  ],
+  "hash": "#/login",
+  "loginVisible": false,
+  "staticLandingVisible": true,
+  "mainCallsJsxDEV": true,
+  "runtimeExportsUndefined": true,
+  "runtimeIncludesProductionCode": true
+}

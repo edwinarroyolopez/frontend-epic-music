@@ -1,0 +1,497 @@
+{
+  "scope": "Local browser, original SVG source comparison; no live API",
+  "scenes": [
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "memory",
+      "title": "El recuerdo",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "record",
+      "title": "La canción aparece",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "constellation",
+      "title": "Un hallazgo lleva a otro",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "affinity",
+      "title": "Lo que la música sugiere",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "archive",
+      "title": "Un lugar al que volver",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "paused",
+      "id": "memory",
+      "title": "El recuerdo",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "paused",
+      "id": "record",
+      "title": "La canción aparece",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "paused",
+      "id": "constellation",
+      "title": "Un hallazgo lleva a otro",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "paused",
+      "id": "affinity",
+      "title": "Lo que la música sugiere",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "paused",
+      "id": "archive",
+      "title": "Un lugar al que volver",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "reduced",
+      "id": "memory",
+      "title": "El recuerdo",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "reduced",
+      "id": "record",
+      "title": "La canción aparece",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "reduced",
+      "id": "constellation",
+      "title": "Un hallazgo lleva a otro",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "reduced",
+      "id": "affinity",
+      "title": "Lo que la música sugiere",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "es",
+      "mode": "reduced",
+      "id": "archive",
+      "title": "Un lugar al que volver",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "memory",
+      "title": "The memory",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "record",
+      "title": "The song appears",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "constellation",
+      "title": "One discovery leads to another",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "affinity",
+      "title": "What music might suggest",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "archive",
+      "title": "Somewhere to return to",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "paused",
+      "id": "memory",
+      "title": "The memory",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "paused",
+      "id": "record",
+      "title": "The song appears",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "paused",
+      "id": "constellation",
+      "title": "One discovery leads to another",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "paused",
+      "id": "affinity",
+      "title": "What music might suggest",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "paused",
+      "id": "archive",
+      "title": "Somewhere to return to",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "reduced",
+      "id": "memory",
+      "title": "The memory",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "reduced",
+      "id": "record",
+      "title": "The song appears",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "reduced",
+      "id": "constellation",
+      "title": "One discovery leads to another",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "reduced",
+      "id": "affinity",
+      "title": "What music might suggest",
+      "originalImageMatches": true
+    },
+    {
+      "width": 390,
+      "language": "en",
+      "mode": "reduced",
+      "id": "archive",
+      "title": "Somewhere to return to",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "memory",
+      "title": "El recuerdo",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "record",
+      "title": "La canción aparece",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "constellation",
+      "title": "Un hallazgo lleva a otro",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "affinity",
+      "title": "Lo que la música sugiere",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "autoplay",
+      "id": "archive",
+      "title": "Un lugar al que volver",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "paused",
+      "id": "memory",
+      "title": "El recuerdo",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "paused",
+      "id": "record",
+      "title": "La canción aparece",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "paused",
+      "id": "constellation",
+      "title": "Un hallazgo lleva a otro",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "paused",
+      "id": "affinity",
+      "title": "Lo que la música sugiere",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "paused",
+      "id": "archive",
+      "title": "Un lugar al que volver",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "reduced",
+      "id": "memory",
+      "title": "El recuerdo",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "reduced",
+      "id": "record",
+      "title": "La canción aparece",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "reduced",
+      "id": "constellation",
+      "title": "Un hallazgo lleva a otro",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "reduced",
+      "id": "affinity",
+      "title": "Lo que la música sugiere",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "es",
+      "mode": "reduced",
+      "id": "archive",
+      "title": "Un lugar al que volver",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "memory",
+      "title": "The memory",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "record",
+      "title": "The song appears",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "constellation",
+      "title": "One discovery leads to another",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "affinity",
+      "title": "What music might suggest",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "autoplay",
+      "id": "archive",
+      "title": "Somewhere to return to",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "paused",
+      "id": "memory",
+      "title": "The memory",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "paused",
+      "id": "record",
+      "title": "The song appears",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "paused",
+      "id": "constellation",
+      "title": "One discovery leads to another",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "paused",
+      "id": "affinity",
+      "title": "What music might suggest",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "paused",
+      "id": "archive",
+      "title": "Somewhere to return to",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "reduced",
+      "id": "memory",
+      "title": "The memory",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "reduced",
+      "id": "record",
+      "title": "The song appears",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "reduced",
+      "id": "constellation",
+      "title": "One discovery leads to another",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "reduced",
+      "id": "affinity",
+      "title": "What music might suggest",
+      "originalImageMatches": true
+    },
+    {
+      "width": 1440,
+      "language": "en",
+      "mode": "reduced",
+      "id": "archive",
+      "title": "Somewhere to return to",
+      "originalImageMatches": true
+    }
+  ],
+  "fallbacks": [
+    {
+      "failed": "constellation",
+      "otherShotsStillUsable": [
+        "memory",
+        "archive"
+      ],
+      "matchingFallbackAndCaption": true
+    }
+  ],
+  "errors": [],
+  "status": "PASS"
+}

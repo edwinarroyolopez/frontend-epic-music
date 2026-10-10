@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Música Épica · Evidencias cinematográficas locales</title>
+<style>body{margin:0;background:#1a141d;color:#f5eef4;font:16px/1.6 system-ui}main{max-width:1100px;margin:auto;padding:24px}h1{font-size:30px}h2{font-size:24px}a{color:#d5b979}video,img{max-width:100%;height:auto;border-radius:8px}video{background:#221a27}section{margin:32px 0}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}figure{margin:0}figcaption{font-size:14px;color:#d5b979}.mobile{max-width:390px}code{overflow-wrap:anywhere}@media(max-width:600px){.grid{grid-template-columns:1fr}}</style></head>
+<body><main>
+<h1>El viaje de una canción</h1><p>Evidencia local del rediseño de Música Épica. La experiencia es una <strong>animación de capas SVG en el navegador</strong>. Estos vídeos son grabaciones de QA de su funcionamiento real, sin audio.</p>
+<p><a href="../../LANDING_CINEMATICA_ACCEPTANCE.md">Documento de aceptación y comandos</a> · <a href="checks.json">Pruebas de movimiento y 36 vistas</a> · <a href="context-checks.json">Segundo plano y standalone</a> · <a href="release-checks.json">Tests, lint, build y SEO</a></p>
+<section><h2>Grabación de escritorio</h2><video controls preload="metadata" poster="motion-1440-0s.png" src="motion-1440.webm"></video></section>
+<section><h2>Grabación móvil · 390×844</h2><video class="mobile" controls preload="metadata" poster="motion-390-0s.png" src="motion-390.webm"></video></section>
+<section><h2>Autoplay: cuatro instantes, sin scroll</h2><div class="grid">
+<figure><a href="motion-1440-0s.png"><img src="motion-1440-0s.png" alt="Hero al comenzar" loading="lazy"></a><figcaption>0 s</figcaption></figure>
+<figure><a href="motion-1440-3s.png"><img src="motion-1440-3s.png" alt="Travelling a los tres segundos" loading="lazy"></a><figcaption>3 s</figcaption></figure>
+<figure><a href="motion-1440-6s.png"><img src="motion-1440-6s.png" alt="Capas desplazadas a los seis segundos" loading="lazy"></a><figcaption>6 s</figcaption></figure>
+<figure><a href="motion-1440-10s.png"><img src="motion-1440-10s.png" alt="Segundo plano: portada y vinilo" loading="lazy"></a><figcaption>10 s</figcaption></figure>
+</div></section>
+<section><h2>Arte original</h2><a href="assets-preview.png"><img src="assets-preview.png" alt="Las cinco composiciones originales y el póster de respaldo" loading="lazy"></a></section>
+<section><h2>Cada selector, su imagen</h2><ol>
+<li><a href="scene-390-1.png">El recuerdo · Ondas y destello</a></li>
+<li><a href="scene-390-2.png">La canción aparece · Portada y vinilo</a></li>
+<li><a href="scene-390-3.png">Un hallazgo lleva a otro · Constelación de portadas</a></li>
+<li><a href="scene-390-4.png">Lo que la música sugiere · Órbitas de afinidades</a></li>
+<li><a href="scene-390-5.png">Un lugar al que volver · Archivo de portadas</a></li>
+</ol><p><a href="scene-coherence.json">60 comprobaciones de imagen, copy y selector</a> · <a href="coherent-fallback-390.png">Respaldo coherente si falla una imagen</a></p></section>
+<section><h2>Registro, login y flujos del producto</h2><p>Recorridos completos con API sintética, sin cuentas reales: <a href="product-regressions.json">informe</a> · <a href="regression-390-registration.png">Registro y validación</a> · <a href="regression-390-search.png">Búsqueda y recomendaciones</a> · <a href="regression-390-playlist.png">Playlist</a> · <a href="regression-390-history.png">Historial</a>.</p></section>
+<section><h2>Error de desarrollo corregido</h2><p><code>_jsxDEV is not a function</code> impedía montar React y dejaba el prerender visible en <code>#/login</code>. Se aislaron las cachés y el cargador SSR.</p><p><a href="dev-runtime-before.json">Reproducción anterior</a> · <a href="dev-runtime-checks.json">Runtime estable después de optimización/build</a> · <a href="dev-runtime-login-fixed.png">Login funcionando en localhost:3000</a> · <a href="product-dev-regressions.json">Recorridos completos en desarrollo</a> · <a href="public-api-health.json">Disponibilidad pública real de la API</a></p></section>
+<section><h2>Antes / después</h2><p><a href="baseline/1440.png">Desktop anterior</a> · <a href="full-1440.png">Desktop final</a> · <a href="baseline/390.png">Móvil anterior</a> · <a href="full-390.png">Móvil final</a></p></section>
+<section><h2>Preferencias y respaldo</h2><p><a href="paused-390.png">Pausa</a> · <a href="390-es-dark.png">Reduced motion</a> · <a href="nojs.png">Sin JavaScript</a> · <a href="failedImage.png">Fallo de imagen</a> · <a href="saveData.png">Ahorro de datos</a> · <a href="zoom-200.png">Zoom CSS 200%</a></p></section>
+<p><a href="changed-files.json">Inventario exacto</a> · <a href="SHA256SUMS">SHA-256</a> · <a href="../seo-geo/performance.json">Lighthouse final</a>. Métricas de laboratorio, no CWV/INP de campo.</p>
+</main></body></html>

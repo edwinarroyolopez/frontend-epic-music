@@ -16,6 +16,9 @@ export default defineConfig(({ mode }) => {
   const apiUrl = env.VITE_API_URL || 'http://localhost:7000'
 
   return {
+    // A production-mode QA/prerender process must never overwrite the live
+    // development server's React JSX runtime in a shared optimizer cache.
+    cacheDir: resolvePath(`node_modules/.vite/client-${mode}-${process.env.NODE_ENV === 'production' ? 'production' : 'development'}`),
     // Hash routing needs no SPA fallback: unknown HTTP paths must be 404.
     appType: 'mpa',
     plugins: [

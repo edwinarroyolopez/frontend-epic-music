@@ -1,0 +1,8 @@
+{
+  "scope": "Actual read-only public API checks through the localhost:3000 development proxy. No signup, login credentials, private data or paid AI requests.",
+  "checks": [
+    { "path": "/api/auth/providers", "http": 200, "email": true, "apple": false, "google": false, "spotify": false },
+    { "path": "/api/health", "http": 200, "success": true }
+  ],
+  "limitation": "Public availability only; does not prove a real account authentication or database write. Full frontend journeys use synthetic API fixtures."
+}

@@ -1,0 +1,96 @@
+{
+  "commands": [
+    {
+      "command": "npm test",
+      "status": "PASS",
+      "stdout": "\n> musica-epica-frontend@0.1.0 test\n> node --test test/*.test.js\n\nTAP version 13\n# Subtest: public providers GET avoids JSON preflight; login still sends JSON and handles unavailable backend\nok 1 - public providers GET avoids JSON preflight; login still sends JSON and handles unavailable backend\n  ---\n  duration_ms: 24.560175\n  type: 'test'\n  ...\n# Subtest: auth configuration failures retain a translatable code and provider availability\nok 2 - auth configuration failures retain a translatable code and provider availability\n  ---\n  duration_ms: 1.172566\n  type: 'test'\n  ...\n# Subtest: exact POST body and actual search envelope; no fictitious metadata\nok 3 - exact POST body and actual search envelope; no fictitious metadata\n  ---\n  duration_ms: 1.1742\n  type: 'test'\n  ...\n# Subtest: found:false suppresses any songs and invalid envelopes fail\nok 4 - found:false suppresses any songs and invalid envelopes fail\n  ---\n  duration_ms: 1.301291\n  type: 'test'\n  ...\n# Subtest: private requests require token; expiration clears session; structured errors\nok 5 - private requests require token; expiration clears session; structured errors\n  ---\n  duration_ms: 2.342292\n  type: 'test'\n  ...\n# Subtest: HTTP codes, malformed JSON, network failure, timeout and caller cancellation\nok 6 - HTTP codes, malformed JSON, network failure, timeout and caller cancellation\n  ---\n  duration_ms: 11.926259\n  type: 'test'\n  ...\n# Subtest: new translation namespaces have matching keys in es/en\nok 7 - new translation namespaces have matching keys in es/en\n  ---\n  duration_ms: 0.463826\n  type: 'test'\n  ...\n# Subtest: search optional JWT, public suggestions and persistence error metadata are distinct\nok 8 - search optional JWT, public suggestions and persistence error metadata are distinct\n  ---\n  duration_ms: 0.899921\n  type: 'test'\n  ...\n# Subtest: an earlier account response is discarded even if the HTTP transport ignores cancellation\nok 9 - an earlier account response is discarded even if the HTTP transport ignores cancellation\n  ---\n  duration_ms: 0.533509\n  type: 'test'\n  ...\n# Subtest: only confirmed artist writes invalidate suggestions after a successful search\nok 10 - only confirmed artist writes invalidate suggestions after a successful search\n  ---\n  duration_ms: 1.071422\n  type: 'test'\n  ...\n# Subtest: links are generated from song metadata, including old saved songs, ignoring untrusted links\nok 11 - links are generated from song metadata, including old saved songs, ignoring untrusted links\n  ---\n  duration_ms: 1.631694\n  type: 'test'\n  ...\n# Subtest: lyrics requests encode metadata, never send token/input fragment, validate response and cancel\nok 12 - lyrics requests encode metadata, never send token/input fragment, validate response and cancel\n  ---\n  duration_ms: 22.802063\n  type: 'test'\n  ...\n# Subtest: complete lyrics and links are never persisted in playlist payloads or history snapshots\nok 13 - complete lyrics and links are never persisted in playlist payloads or history snapshots\n  ---\n  duration_ms: 1.57421\n  type: 'test'\n  ...\n# Subtest: shared table filters accents and sorts numeric/date values stably without mutating API rows\nok 14 - shared table filters accents and sorts numeric/date values stably without mutating API rows\n  ---\n  duration_ms: 10.041681\n  type: 'test'\n  ...\n# Subtest: same lyrics request includes three validated emotions; malformed metrics preserve the lyrics\nok 15 - same lyrics request includes three validated emotions; malformed metrics preserve the lyrics\n  ---\n  duration_ms: 2.00599\n  type: 'test'\n  ...\n# Subtest: manual editor: duplicates, invalid/malicious text, missing artist, ES/EN parity\nok 16 - manual editor: duplicates, invalid/malicious text, missing artist, ES/EN parity\n  ---\n  duration_ms: 1.86536\n  type: 'test'\n  ...\n# Subtest: local history: allowlist, exact cache, mode isolation, cap, expiration, delete, quota and corrupt data\nok 17 - local history: allowlist, exact cache, mode isolation, cap, expiration, delete, quota and corrupt data\n  ---\n  duration_ms: 12.077697\n  type: 'test'\n  ...\n# Subtest: CSV UTF-8 headers/delimiters/quoted commas/escaped quotes/CRLF and optional fields\nok 18 - CSV UTF-8 headers/delimiters/quoted commas/escaped quotes/CRLF and optional fields\n  ---\n  duration_ms: 1.929324\n  type: 'test'\n  ...\n# Subtest: partial errors retained for editing, duplicates marked, XSS never valid\nok 19 - partial errors retained for editing, duplicates marked, XSS never valid\n  ---\n  duration_ms: 0.441806\n  type: 'test'\n  ...\n# Subtest: TXT/JSON share validation, 2 and 500 rows, no silent truncation and size/empty limits\nok 20 - TXT/JSON share validation, 2 and 500 rows, no silent truncation and size/empty limits\n  ---\n  duration_ms: 5.3222\n  type: 'test'\n  ...\n# Subtest: fragment memory is bounded, isolated across sessions and never stored\nok 21 - fragment memory is bounded, isolated across sessions and never stored\n  ---\n  duration_ms: 0.960359\n  type: 'test'\n  ...\n# Subtest: guest correction persists a metadata-only replacement and playlist payload uses the corrected ID\nok 22 - guest correction persists a metadata-only replacement and playlist payload uses the corrected ID\n  ---\n  duration_ms: 15.216049\n  type: 'test'\n  ...\n# Subtest: misses and malformed corrections preserve history; account requests send owned history reference\nok 23 - misses and malformed corrections preserve history; account requests send owned history reference\n  ---\n  duration_ms: 1.851797\n  type: 'test'\n  ...\n# Subtest: guest snapshots allowlist, reload, unique request IDs, details and delete\nok 24 - guest snapshots allowlist, reload, unique request IDs, details and delete\n  ---\n  duration_ms: 2.746975\n  type: 'test'\n  ...\n# Subtest: guest cap 50, time retention, pagination, account isolation and unavailable/corrupt storage\nok 25 - guest cap 50, time retention, pagination, account isolation and unavailable/corrupt storage\n  ---\n  duration_ms: 37.873368\n  type: 'test'\n  ...\n# Subtest: not_found and client/provider errors never invent saved songs or preserve raw errors\nok 26 - not_found and client/provider errors never invent saved songs or preserve raw errors\n  ---\n  duration_ms: 0.329701\n  type: 'test'\n  ...\n# Subtest: only non-production Netlify contexts request noindex\nok 27 - only non-production Netlify contexts request noindex\n  ---\n  duration_ms: 0.439522\n  type: 'test'\n  ...\n# Subtest: public guidance is complete in both languages and reflects disabled analysis entry points\nok 28 - public guidance is complete in both languages and reflects disabled analysis entry points\n  ---\n  duration_ms: 0.35252\n  type: 'test'\n  ...\n# Subtest: 20 subscribers, aborted viewer and reopening use one backend request; ID and legacy aliases share memory\nok 29 - 20 subscribers, aborted viewer and reopening use one backend request; ID and legacy aliases share memory\n  ---\n  duration_ms: 40.372136\n  type: 'test'\n  ...\n# Subtest: different artist is never served from A; malformed ID/content fails without poisoning cache\nok 30 - different artist is never served from A; malformed ID/content fails without poisoning cache\n  ---\n  duration_ms: 1.46064\n  type: 'test'\n  ...\n# Subtest: retry is explicitly analysis-only and metadata snapshots retain references, never text\nok 31 - retry is explicitly analysis-only and metadata snapshots retain references, never text\n  ---\n  duration_ms: 1.501048\n  type: 'test'\n  ...\n# Subtest: already hydrated Song detail and restricted/negative states reuse memory\nok 32 - already hydrated Song detail and restricted/negative states reuse memory\n  ---\n  duration_ms: 0.863945\n  type: 'test'\n  ...\n# Subtest: late public response cannot populate a changed session, even when transport ignores abort\nok 33 - late public response cannot populate a changed session, even when transport ignores abort\n  ---\n  duration_ms: 0.801621\n  type: 'test'\n  ...\n# Subtest: 202 is polled to completion with shared requests and no automatic retry for transient failures\nok 34 - 202 is polled to completion with shared requests and no automatic retry for transient failures\n  ---\n  duration_ms: 1002.098888\n  type: 'test'\n  ...\n# Subtest: manual refetch bypasses a cached miss once, shares work, then refreshes ID and metadata aliases\nok 35 - manual refetch bypasses a cached miss once, shares work, then refreshes ID and metadata aliases\n  ---\n  duration_ms: 32.630911\n  type: 'test'\n  ...\n# Subtest: refetch polling never repeats the manual command and a transient failure removes stale negative aliases\nok 36 - refetch polling never repeats the manual command and a transient failure removes stale negative aliases\n  ---\n  duration_ms: 1002.798296\n  type: 'test'\n  ...\n# Subtest: transient lyrics wait for pending analysis, reuse memory and stay out of snapshots\nok 37 - transient lyrics wait for pending analysis, reuse memory and stay out of snapshots\n  ---\n  duration_ms: 1003.722852\n  type: 'test'\n  ...\n1..37\n# tests 37\n# suites 0\n# pass 37\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n# duration_ms 3149.705082\n",
+      "stderr": ""
+    },
+    {
+      "command": "npm run lint",
+      "status": "PASS",
+      "stdout": "\n> musica-epica-frontend@0.1.0 lint\n> oxlint\n\nFound 0 warnings and 0 errors.\nFinished in 64ms on 101 files with 104 rules using 20 threads.\n",
+      "stderr": ""
+    },
+    {
+      "command": "npm run test:seo",
+      "status": "PASS",
+      "stdout": "\n> musica-epica-frontend@0.1.0 test:seo\n> npm run build && node scripts/build-standalone.mjs && python3 scripts/check-seo.py --head-only dev.html && python3 scripts/check-seo.py && python3 scripts/test-seo.py\n\n\n> musica-epica-frontend@0.1.0 build\n> vite build\n\nvite v8.3.1 building client environment for production...\ntransforming...\n✓ 1971 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/assets/affinity-DlckbDn-.svg         4.83 kB │ gzip:   0.92 kB\ndist/assets/memory-DZw9fYL6.svg           5.03 kB │ gzip:   1.14 kB\ndist/assets/archive-BKoFwoG5.svg          6.08 kB │ gzip:   1.24 kB\ndist/assets/constellation-DNWrLCSe.svg    9.49 kB │ gzip:   1.37 kB\ndist/assets/atmosphere-D85Zselp.svg       9.74 kB │ gzip:   1.51 kB\ndist/assets/poster-CcykU1Hr.svg          13.21 kB │ gzip:   2.16 kB\ndist/dev.html                            38.20 kB │ gzip:   7.27 kB\ndist/index.html                          38.20 kB │ gzip:   7.27 kB\ndist/assets/dev-BNUpPurR.css             69.01 kB │ gzip:  12.35 kB\ndist/assets/dev-bzpMMwBv.js             443.02 kB │ gzip: 133.56 kB\n\n✓ built in 398ms\n> index.html autonomo generado (754 kB, sin dependencias externas)\nPASS dev.html\nPASS dist/index.html\nPASS index.html\n",
+      "stderr": "........\n----------------------------------------------------------------------\nRan 8 tests in 0.022s\n\nOK\n"
+    },
+    {
+      "command": "git diff --check",
+      "status": "PASS",
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "checks": [
+    {
+      "file": "evidence/cinema/checks.json",
+      "status": "PASS",
+      "sha256": "3641e0d528d34911e03b33f37c37ce2294f82d84216272ecf4426997fa65935f"
+    },
+    {
+      "file": "evidence/cinema/context-checks.json",
+      "status": "PASS",
+      "sha256": "f8beeb023ca5f15d23d63c920fc2f8b8263ab793f92bac49221c1550e9242242"
+    },
+    {
+      "file": "evidence/cinema/scene-coherence.json",
+      "status": "PASS",
+      "sha256": "a08b286614377049f1064011f2dc1b161f7d8f773f8df7f7a2aaadc67cea9aa0"
+    },
+    {
+      "file": "evidence/cinema/product-regressions.json",
+      "status": "PASS",
+      "sha256": "f53e3e43e73362acf738bed11c489eb39ac69a690b96034229ece31f66b63425"
+    },
+    {
+      "file": "evidence/cinema/product-dev-regressions.json",
+      "status": "PASS",
+      "sha256": "2f66db2cd212f6b56d57a7931dcd51232ce6d809de5bd9692d73acd8c9f513f7"
+    },
+    {
+      "file": "evidence/cinema/dev-runtime-checks.json",
+      "status": "PASS",
+      "sha256": "f82870df24792dfb3aa24ab3bc667e108899c8f337a6da734ddb02c607a00275"
+    },
+    {
+      "file": "evidence/seo-geo/browser-checks.json",
+      "status": "PASS",
+      "sha256": "88c3865ffd981fdd0523aee654e1544f84a2e01cb529fbd5a804878b744cc326"
+    },
+    {
+      "protectedPaths": [
+        "src/App.jsx",
+        "src/main.jsx",
+        "src/prerender.jsx",
+        "src/context",
+        "src/services",
+        "src/hooks",
+        "src/themes",
+        "src/pages/Login.jsx",
+        "src/pages/Home.jsx",
+        "src/pages/Playlists.jsx",
+        "src/pages/Profile.jsx",
+        "src/pages/Account.jsx",
+        "dev.html",
+        "netlify.toml",
+        "public/robots.txt",
+        "public/sitemap.xml",
+        "package.json",
+        "package-lock.json",
+        "test"
+      ],
+      "nonLandingTranslations": "unchanged",
+      "status": "PASS"
+    },
+    {
+      "originalAssets": 9,
+      "totalBytes": 56880,
+      "hashes": "PASS"
+    }
+  ],
+  "status": "PASS"
+}
